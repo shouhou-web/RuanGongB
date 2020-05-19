@@ -14,6 +14,7 @@ const ProfileMessage = () => import('../views/ProfileMessage.vue')
 
 const About = () => import('../views/About.vue');
 const Register = () => import('../views/Register.vue');
+const Login = () => import('../views/Login.vue');
 const Profile = () => import('../views/Profile.vue');
 //1.安装插件
 Vue.use(VueRouter)
@@ -33,33 +34,37 @@ const routes = [
       title: '首页'
     },
     children: [
-
+      {
+        path: '/',
+        // redirect重定向
+        redirect: '/discuss'
+      },
+      {
+        path: '/discuss',
+        name: 'Discuss',
+        component: Discuss,
+      },
+      {
+        path: '/course',
+        name: 'Course',
+        component: Course
+      },
+      {
+        path: '/school',
+        name: 'School',
+        component: School,
+      },
+      {
+        path: '/resource',
+        name: 'Resource',
+        component: Resource
+      },
+      {
+        path: '/exercise',
+        name: 'Exercise',
+        component: Exercise
+      },
     ]
-  },
-  {
-    path: '/discuss',
-    name: 'Discuss',
-    component: Discuss,
-  },
-  {
-    path: '/course',
-    name: 'Course',
-    component: Course
-  },
-  {
-    path: '/school',
-    name: 'School',
-    component: School,
-  },
-  {
-    path: '/resource',
-    name: 'Resource',
-    component: Resource
-  },
-  {
-    path: '/exercise',
-    name: 'Exercise',
-    component: Exercise
   },
   {
     path: '/editPost',
@@ -83,6 +88,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/profile/:UserID',
