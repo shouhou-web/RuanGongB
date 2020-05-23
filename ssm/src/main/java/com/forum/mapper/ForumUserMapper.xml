@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forum.mapper.ForumUserMapper">
+
+    <insert id="addForumUser" parameterType="ForumUser">
+        insert into ForumUser(UserID,UserName,UserPassword,Sex,ImagePath,Experience,UserLevel,UserIdentity,UserState)
+            values(#{UserID},#{UserName},#{UserPassword},#{Sex},#{ImagePath},#{Experience},#{UserLevel},#{UserIdentity},#{UserState})
+    </insert>
+
+    <delete id="deleteForumUser" parameterType="int">
+      delete from ForumUser where UserID=#{UserID}
+    </delete>
+
+    <select id="getForumUserByID" parameterType="int" resultType="ForumUser">
+        select * from ForumUser
+        where UserID=#{UserID}
+    </select>
+
+    <select id="getAllForumUser" resultType="ForumUser">
+        select * from ForumUser
+    </select>
+
+    <update id="updateForumUser" parameterType="ForumUser">
+        update ForumUser
+        set UserName=#{UserName},UserPassword=#{UserPassword},Sex=#{Sex},ImagePath=#{ImagePath}
+        where UserID=#{UserID}
+    </update>
+
+</mapper>
