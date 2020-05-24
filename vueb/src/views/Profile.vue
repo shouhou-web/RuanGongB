@@ -10,9 +10,12 @@ export default {
   name: "Profile",
   computed: {
     userID() {
-      return this.$route.params.UserID;
+      return this.$route.query.id;
     }
   },
-  components: {}
+  components: {},
+  created() {
+    console.log(this.$route.query.id);
+  }
 };
 </script>

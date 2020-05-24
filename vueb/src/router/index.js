@@ -10,6 +10,7 @@ const Resource = () => import('../views/Home/Resource.vue');
 const Exercise = () => import('../views/Home/Exercise.vue');
 
 const EditPost = () => import('../views/EditPost.vue')
+const Post = () => import('../views/Post.vue')
 const ProfileMessage = () => import('../views/ProfileMessage.vue')
 
 const About = () => import('../views/About.vue');
@@ -67,6 +68,11 @@ const routes = [
     ]
   },
   {
+    path: '/post/:PostID',
+    name: 'Post',
+    component: Post
+  },
+  {
     path: '/editPost',
     name: 'EditPost',
     component: EditPost
@@ -95,7 +101,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/profile/:UserID',
+    path: '/profile',
     name: 'Profile',
     component: Profile
   }

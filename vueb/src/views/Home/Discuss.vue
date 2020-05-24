@@ -1,32 +1,38 @@
 <template>
   <div class="discuss">
     <ul>
-      <li class="item" v-for="(item, index) in Post" :key="index">
+      <li
+        class="item"
+        @click="toPost(item.PostID)"
+        v-for="(item, index) in Post"
+        :key="index"
+      >
         <img class="left" :src="item.ImagePath" alt="" />
         <div class="middle">
           <div class="title">
             {{ item.Title }}
           </div>
-          <br />
           <div class="name">
             {{ item.UserName }}
           </div>
         </div>
-        <div class="right">
-          <div>
-            {{ item.LikesNum }}
-          </div>
-          <div>
-            <i class="el-icon-edit"></i>
-            {{ item.CommentNum }}
-          </div>
+        <div class="likes">
+          <div>点赞</div>
+          <div>{{item.LikesNum}}</div>
+        </div>
+
+        <div class="comment">
+          <div>评论</div>
+          <div>{{item.CommentNum}}</div>
         </div>
       </li>
     </ul>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { request } from "../../network/request";
 export default {
   name: "Discuss",
   data() {
@@ -48,8 +54,8 @@ export default {
           UserID: 233,
           UserName: "用户名",
           ImagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          Title: "写大作业好开心啊",
+            "https://upload.jianshu.io/users/upload_avatars/13511312/c1e31c1b-337a-47cb-8785-aee48c16a85e.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
+          Title: "vue动态绑定class的几种方式",
           LikesNum: 0,
           BrowseNum: 1,
           CommentNum: 2
@@ -57,40 +63,63 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {
+    toPost(PostID) {
+      this.$router.push({ path: "/post/" + PostID });
+    }
+  },
+  mounted() {
+    request({
+      url: "/home/multidata"
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 };
 </script>
 <style>
-.item {
-  display: flow-root;
-  margin: 15px 0px;
+.discuss .item {
+  display: flex;
 }
 
-.middle {
-  position: relative;
-  left: 20px;
-  top: 20px;
-  height: 60px;
-}
-
-.title {
-  float: left;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.name {
-  float: left;
-  font-size: 10px;
-  margin-top:20px;
-}
-
-.left {
+.discuss .item .left {
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  position: relative;
-  left: 9px;
-  top: 10px;
+  flex-grow: 0.01;
+}
+
+.discuss .item .middle {
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: flex-start;
+  width: auto;
+  flex-grow: 0.79;
+}
+
+.discuss .item .title {
+  height: 25px;
+  width: auto;
+}
+
+.discuss .item .name {
+  height: 25px;
+  width: auto;
+}
+
+.discuss .item .likes {
+  display: flex;
+  flex-grow: 0.1;
+}
+
+.discuss .item .comment {
+  display: flex;
+  flex-grow: 0.1;
 }
 </style>

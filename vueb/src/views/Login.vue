@@ -37,6 +37,10 @@ export default {
     letter-spacing: .05em;
 }
 
+.el-main{
+  padding: 0;
+}
+
 html{
     height: 100%;
 }
