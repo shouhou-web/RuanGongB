@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--配置：动态扫描service包-->
+    <!--主要组件：事务管理器-->
+
+    <!--注解扫描，自动实现装配-->
+    <!--注册Service实现类到容器中-->
+    <context:component-scan base-package="com.forum.service"/>
+
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--Springmapper中配置的数据库连接池，注入到事务管理器中-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>
