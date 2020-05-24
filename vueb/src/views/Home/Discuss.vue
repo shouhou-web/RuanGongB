@@ -1,30 +1,28 @@
 <template>
   <div class="discuss">
-    <ul>
-      <li
-        class="item"
-        @click="toPost(item.PostID)"
-        v-for="(item, index) in Post"
-        :key="index"
-      >
-        <img class="left" :src="item.ImagePath" alt="" />
-        <div class="middle">
-          <div class="title">
-            {{ item.Title }}
-          </div>
-          <div class="name">
-            {{ item.UserName }}
-          </div>
+    <ul
+      class="item"
+      @click="toPost(item.PostID)"
+      v-for="(item, index) in Post"
+      :key="index"
+    >
+      <img class="left" :src="item.ImagePath" alt="" />
+      <li class="middle">
+        <div class="title">
+          {{ item.Title }}
         </div>
-        <div class="likes">
-          <div>点赞</div>
-          <div>{{item.LikesNum}}</div>
+        <div class="name">
+          {{ item.UserName }}
         </div>
+      </li>
+      <li class="likes">
+        <div>点赞</div>
+        <div>{{ item.LikesNum }}</div>
+      </li>
 
-        <div class="comment">
-          <div>评论</div>
-          <div>{{item.CommentNum}}</div>
-        </div>
+      <li class="comment">
+        <div>评论</div>
+        <div>{{ item.CommentNum }}</div>
       </li>
     </ul>
     <router-view></router-view>
@@ -84,42 +82,44 @@ export default {
 <style>
 .discuss .item {
   display: flex;
+  align-items: center;
+  margin-right: 10px 0px;
+  padding: 20px;
 }
 
 .discuss .item .left {
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
-  flex-grow: 0.01;
+  margin-right: 1em;
 }
 
 .discuss .item .middle {
-  height: 60px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content:space-around;
   align-items: flex-start;
-  width: auto;
-  flex-grow: 0.79;
+  justify-content: space-around;
+  line-height: 30px;
 }
 
 .discuss .item .title {
-  height: 25px;
-  width: auto;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .discuss .item .name {
-  height: 25px;
-  width: auto;
+  font-weight: 200;
+  font-size: 10px;
 }
 
 .discuss .item .likes {
   display: flex;
-  flex-grow: 0.1;
+  line-height: 30px;
 }
 
 .discuss .item .comment {
   display: flex;
-  flex-grow: 0.1;
+  line-height: 30px;
 }
 </style>
