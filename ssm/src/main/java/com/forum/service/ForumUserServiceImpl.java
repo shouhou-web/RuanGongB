@@ -11,18 +11,32 @@ public class ForumUserServiceImpl implements ForumUserService{
 
     @Autowired
     private ForumUserMapper mapper;
+    public void setMapper(ForumUserMapper mapper) {
+        this.mapper=mapper;
+    }
 
-    public void registerForumUser(String UserName,String UserPassword){
+    public int register(String UserName,String UserPassword,String UserPassword2){
+        if(mapper.getForumUserByUserName(UserName)!=null)
+            return 1;
+        if(!UserPassword.equals(UserPassword2))
+            return 2;
+        if(!ForumUserUtil.checkPasswordIllegal(UserPassword))
+            return 3;
         ForumUser forumUser=new ForumUser();
         forumUser.setUserName(UserName);
         forumUser.setUserPassword(UserPassword);
         forumUser.setUserID(ForumUserUtil.UserNum);
         ForumUserUtil.UserNum++;
-
         mapper.addForumUser(forumUser);
+        return 0;
     }
 
-    public void setMapper(ForumUserMapper mapper) {
-        this.mapper=mapper;
+    public ForumUser login(String UserName,String Password){
+        ForumUser forumUser=mapper.getForumUserByUserName(UserName);
+        if(forumUser==null||!forumUser.getUserPassword().equals(Password))
+            return null;
+        return forumUser;
     }
+
+
 }

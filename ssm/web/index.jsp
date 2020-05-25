@@ -8,10 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>hhh</title>
+    <title>这里是一个没有用的后台主页</title>
   </head>
   <body>
-  hhh
-  <a href="${pageContext.request.contextPath}/register">点击进入列表页</a>
   </body>
 </html>

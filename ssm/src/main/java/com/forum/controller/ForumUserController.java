@@ -16,15 +16,14 @@ public class ForumUserController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public String register(){
-        forumUserService.registerForumUser("hhh","123456");
-        return "good";
+    public int register(@RequestParam("username")String username,@RequestParam("password")String password,@RequestParam("password")String password2){
+        return forumUserService.register(username,password,password2);
     }
 
     @RequestMapping("/login")
     @ResponseBody
     public ForumUser login(@RequestParam("username")String username,@RequestParam("password")String password){
-        return new ForumUser();
+        return forumUserService.login(username,password);
     }
 
 }

@@ -11,6 +11,9 @@ public interface ForumUserMapper {
     //根据ID获取用户所有信息
     ForumUser getForumUserByID(int UserID);
 
+    //根据ID获取用户所有信息
+    ForumUser getForumUserByUserName(String UserName);
+
     //修改用户信息
     int updateForumUser(ForumUser forumUser);
 

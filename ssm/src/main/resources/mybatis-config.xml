@@ -11,7 +11,4 @@
     <mappers>
         <mapper resource="com/forum/mapper/ForumUserMapper.xml"/>
     </mappers>
-    <!--<mappers>
-        <mapper class="com.forum.mapper.ForumUserMapper"/>
-    </mappers>-->
 </configuration>

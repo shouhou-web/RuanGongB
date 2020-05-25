@@ -4,8 +4,8 @@ import com.forum.pojo.ForumUser;
 
 public interface ForumUserService {
 
-    void registerForumUser(String UserName,String UserPassword);
+    int register(String UserName,String UserPassword,String UserPassword2);
 
-
+    ForumUser login(String UserName,String Password);
 
 }

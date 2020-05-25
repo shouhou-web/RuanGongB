@@ -15,6 +15,11 @@
         where UserID=#{UserID}
     </select>
 
+    <select id="getForumUserByUserName" parameterType="String" resultType="ForumUser">
+        select * from ForumUser
+        where UserName=#{UserName}
+    </select>
+
     <update id="updateForumUser" parameterType="ForumUser">
         update ForumUser
         set UserName=#{UserName},UserPassword=#{UserPassword},Sex=#{Sex},ImagePath=#{ImagePath}
