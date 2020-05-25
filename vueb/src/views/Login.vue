@@ -40,7 +40,8 @@ export default {
         params: {
           username:this.username,
           password:this.password
-        }
+        },
+        method:'post'
       })
         .then(res => {
           console.log(res);

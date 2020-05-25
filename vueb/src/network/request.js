@@ -31,8 +31,8 @@ export function request(config) {
     //console.log('来到了response拦截success中');
     return response.data
   }, err => {
-    console.log('来到了response拦截failure中');
-    console.log(err);
+    // console.log('来到了response拦截failure中');
+    // console.log(err);
     return err
   })
 

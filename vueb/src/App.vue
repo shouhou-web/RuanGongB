@@ -98,7 +98,7 @@ export default {
 .top .container .logo {
   width: 50px;
   float: left;
-  margin-left: 60px;
+  margin-left: 10px;
 }
 
 .top .container .href {
