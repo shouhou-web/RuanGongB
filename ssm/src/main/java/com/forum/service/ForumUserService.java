@@ -6,4 +6,6 @@ public interface ForumUserService {
 
     void registerForumUser(String UserName,String UserPassword);
 
+
+
 }
