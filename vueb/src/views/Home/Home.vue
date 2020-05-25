@@ -2,8 +2,8 @@
   <!-- 路由发生改变会渲染相应的组件 -->
   <div class="home">
     <el-container>
-      <el-aside width="200px"
-        ><ul class="nav-l">
+      <el-aside width="200px">
+        <ul class="nav-l">
           <li @click="editPostClick">发布帖子</li>
           <li :class="[onClick.discuss ? 'blue' : '']" @click="discussClick">
             讨论区
@@ -20,9 +20,9 @@
           <li :class="[onClick.exercise ? 'blue' : '']" @click="exerciseClick">
             刷题板块
           </li>
-        </ul></el-aside
-      >
-      <el-main> <router-view /></el-main>
+        </ul>
+      </el-aside>
+      <el-main><router-view /></el-main>
     </el-container>
   </div>
 </template>
@@ -35,32 +35,32 @@ export default {
       this.$router.push({ path: "/home" });
     },
     editPostClick() {
-      this.$router.push("/editPost");
+      this.$router.push("/home/editPost");
     },
     discussClick() {
       this.closeAll();
       this.onClick.discuss = true;
-      this.$router.push("/discuss");
+      this.$router.push("/home/discuss");
     },
     courseClick() {
       this.closeAll();
       this.onClick.course = true;
-      this.$router.push("/course");
+      this.$router.push("/home/course");
     },
     schoolClick() {
       this.closeAll();
       this.onClick.school = true;
-      this.$router.push("/school");
+      this.$router.push("/home/school");
     },
     resourceClick() {
       this.closeAll();
       this.onClick.resource = true;
-      this.$router.push("/resource");
+      this.$router.push("/home/resource");
     },
     exerciseClick() {
       this.closeAll();
       this.onClick.exercise = true;
-      this.$router.push("/exercise");
+      this.$router.push("/home/exercise");
     },
     closeAll() {
       for (let key in this.onClick) this.onClick[key] = false;

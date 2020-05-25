@@ -15,11 +15,14 @@
           {{ item.UserName }}
         </div>
       </li>
+
+      <i class="el-icon-thumb"></i>
       <li class="likes">
         <div>点赞</div>
         <div>{{ item.LikesNum }}</div>
       </li>
-
+      
+      <i class="el-icon-chat-line-round"></i>
       <li class="comment">
         <div>评论</div>
         <div>{{ item.CommentNum }}</div>
@@ -67,15 +70,15 @@ export default {
     }
   },
   mounted() {
-    request({
-      url: "/home/multidata"
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // request({
+    //   url: "/home/multidata"
+    // })
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 };
 </script>

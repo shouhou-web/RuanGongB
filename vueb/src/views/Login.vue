@@ -1,117 +1,56 @@
 <template>
   <div class="container">
-    <div class="login-wrapper">
-      <div class="header">Login</div>
-      <div class="form-warpper">
-        <input
-          type="text"
-          name="username"
-          placeholder="username"
-          class="input-item"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          class="input-item"
-        />
-        <div class="btn">Login</div>
-      </div>
-      <div class="msg">Don't have account?<a href="#">Sign up</a></div>
+    <div class="header">Login</div>
+    <div class="form-warpper">
+      <input
+        type="text"
+        v-model="username"
+        placeholder="username"
+        class="input-item"
+      />
+      <input
+        type="password"
+        v-model="password"
+        placeholder="password"
+        class="input-item"
+      />
+      {{ username + password }}
+      <button @click="submit" class="btn">登录</button>
     </div>
   </div>
 </template>
 
 <script>
+import { request } from "../network/request";
 export default {
   name: "Register",
-  computed: {}
+  computed: {},
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    submit() {
+      console.log(this.username)
+      console.log(this.password)
+      request({
+        url: "/login",
+        params: {
+          username:this.username,
+          password:this.password
+        }
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>
 
-<style>
-*{
-    padding: 0;
-    margin: 0;
-    font-family: 'Open Sans Light';
-    letter-spacing: .05em;
-}
-
-.el-main{
-  padding: 0;
-}
-
-html{
-    height: 100%;
-}
-
-body{
-    height: 100%;
-}
-
-.container{
-    height: 100%;
-    background-image: linear-gradient(to right,#fbc2eb,#a6c1ee);
-}
-
-.login-wrapper{
-    background-color: #fff;
-    width: 350px;
-    height: 500px;
-    border-radius: 15px;
-    padding: 0 50px;
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-}
-
-.login-wrapper .header{
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 200px;
-}
-
-.login-wrapper .form-warpper .input-item{
-    display: block;
-    width: 100%;
-    margin-bottom: 20px;
-    border: 0;
-    padding: 10px;
-    border-bottom: 1px solid rgb(128,125,125);
-    font-size: 15px;
-    outline: none;
-}
-
-.login-wrapper .form-warpper .input-item::placeholder{
-    text-transform: uppercase;
-}
-
-.login-wrapper .form-warpper .btn{
-    text-align: center;
-    padding: 10px;
-    width: 100%;
-    margin-top: 40px;
-    background-image: linear-gradient(to right,#a6c1ee,#fbc2eb);
-    color:#fff;
-}
-
-.login-wrapper .msg{
-    text-align: center;
-    line-height: 80px;
-}
-
-.login-wrapper .msg a{
-    text-decoration-line: none;
-    color: #a6c1ee;
-}
-
-.input-item {
-  box-sizing: border-box;
-}
- 
-.btn{
-  box-sizing: border-box;
-}
-</style>
+<style></style>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container class="main">
       <el-header class="top">
         <div class="container">
           <router-link class="logo" to="/home" replace>Home</router-link>
@@ -8,17 +8,17 @@
             class="href"
             href="https://cloud-beihangsoft-cn.e1.buaa.edu.cn/"
             target="_blank"
-            >云平台</a
-          >
-          <a class="href" href="http://course.e2.buaa.edu.cn" target="_blank"
-            >课程中心</a
-          >
+            >云平台
+          </a>
+          <a class="href" href="http://course.e2.buaa.edu.cn" target="_blank">
+            课程中心
+          </a>
           <router-link class="msg" to="/profileMessage">消息</router-link>
           <div class="profile" v-if="token" @click="toProfile">
             个人空间
           </div>
-          <router-link v-if="!token" to="/register">注册</router-link>
-          <router-link v-if="!token" to="/login">登录</router-link>
+          <router-link class="register" v-if="!token" to="/register">注册</router-link>
+          <router-link class="login" v-if="!token" :to="{path:'/login'}">登录</router-link>
         </div>
       </el-header>
       <el-main>
@@ -34,20 +34,12 @@ export default {
   name: "App",
   data() {
     return {
-      token: true
+      token: false
     };
   },
   methods: {
     toProfile() {
-      // this.$router.push("/profile/" + this.UserID);
-      //a
-      this.$router.push({path:"profile",query:{id:"oraora"}});
-      //b
-      // this.$router.push({name:"profile",params:{id:"oraora"}});
-      // //c
-      // this.$router.push({path:"hello",params:{id:"oraora"}});
-      // //d
-      // this.$router.push({path:"/hello/"+"oraora"});
+      this.$router.push({ path: "/profile", query: { id: "oraora" } });
     },
     toProfileMessage() {
       this.$router.push("/profileMessage");
@@ -65,7 +57,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
+  width: 1880px;
 }
+
 .el-main {
   background-color: #e9eef3;
   color: #333;
@@ -79,39 +73,32 @@ export default {
 }
 
 /* 导航相关的样式 */
-.header {
-  position: relative;
-  left: 50%;
-  min-height: 1100px;
-  transition: transform(-50%);
-}
-.container{
+.container {
+  text-align: center;
+  line-height: 60px;
+  height: 60px;
+  font-weight: bold;
   width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .top {
-  background-color: #b3c0d1;
-  text-align: center;
-  line-height: 60px;
-  height: 60px;
-  color: black;
-  font-weight: bold;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  background-image: linear-gradient(to right,#a6c1ee,#fbc2eb);
+  min-width: 1903px;
+  width: 1903px;
+  padding: 0px !important;
 }
 
 .top .container a {
-  color: black;
+  color: #ffffff;
   font-weight: bold;
 }
 
 .top .container .logo {
   width: 50px;
   float: left;
-  margin-left: 30px;
+  margin-left: 60px;
 }
 
 .top .container .href {
@@ -124,11 +111,21 @@ export default {
   width: 50px;
   height: 40px;
   float: left;
-  margin-left: 630px;
+  margin-left: 570px;
 }
 
 .top .container .profile {
   float: left;
-  margin-left: 30px;
+  margin-left: 60px;
+}
+
+.top .container .register {
+  float: left;
+  margin-left: 50px;
+}
+
+.top .container .login {
+  float: left;
+  margin-left: 20px;
 }
 </style>

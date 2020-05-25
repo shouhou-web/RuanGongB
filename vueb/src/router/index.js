@@ -9,9 +9,14 @@ const School = () => import('../views/Home/School.vue');
 const Resource = () => import('../views/Home/Resource.vue');
 const Exercise = () => import('../views/Home/Exercise.vue');
 
+//消息相关组件
+const ProfileMessage = () => import('../views/Message/ProfileMessage.vue')
+const ViewCom = () => import('../views/Message/ViewCom.vue')
+const ViewLike = () => import('../views/Message/ViewLike.vue')
+const ViewSystem = () => import('../views/Message/ViewSystem.vue')
+
 const EditPost = () => import('../views/EditPost.vue')
 const Post = () => import('../views/Post.vue')
-const ProfileMessage = () => import('../views/ProfileMessage.vue')
 
 const About = () => import('../views/About.vue');
 const Register = () => import('../views/Register.vue');
@@ -38,30 +43,30 @@ const routes = [
       {
         path: '/',
         // redirect重定向
-        redirect: '/discuss'
+        redirect: '/home/discuss'
       },
       {
-        path: '/discuss',
+        path: '/home/discuss',
         name: 'Discuss',
         component: Discuss,
       },
       {
-        path: '/course',
+        path: '/home/course',
         name: 'Course',
         component: Course
       },
       {
-        path: '/school',
+        path: '/home/school',
         name: 'School',
         component: School,
       },
       {
-        path: '/resource',
+        path: '/home/resource',
         name: 'Resource',
         component: Resource
       },
       {
-        path: '/exercise',
+        path: '/home/exercise',
         name: 'Exercise',
         component: Exercise
       },
@@ -80,7 +85,30 @@ const routes = [
   {
     path: '/profileMessage',
     name: 'ProfileMessage',
-    component: ProfileMessage
+    component: ProfileMessage,
+    children: [
+      {
+        path: '/',
+        // redirect重定向
+        redirect: '/profileMessage/viewcom'
+      },
+      {
+        path: '/profileMessage/viewcom',
+        name: 'ViewCom',
+        component: ViewCom
+      },
+      {
+        path: '/profileMessage/viewlike',
+        name: 'ViewLike',
+        component: ViewLike
+      },
+      {
+        path: '/profileMessage/viewsystem',
+        name: 'ViewSyste,',
+        component: ViewSystem,
+      }
+
+    ]
   },
   {
     path: '/about',
