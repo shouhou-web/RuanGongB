@@ -1,9 +1,11 @@
 package com.forum.controller;
 
+import com.forum.pojo.ForumUser;
 import com.forum.service.ForumUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -17,6 +19,12 @@ public class ForumUserController {
     public String register(){
         forumUserService.registerForumUser("hhh","123456");
         return "good";
+    }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public ForumUser login(@RequestParam("username")String username,@RequestParam("password")String password){
+        return new ForumUser();
     }
 
 }

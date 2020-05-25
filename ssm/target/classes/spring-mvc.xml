@@ -25,4 +25,13 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <mvc:cors>
+        <!--实现跨域的配置代码 -->
+        <mvc:mapping path="/**"
+                     allowed-origins="*"
+                     allowed-methods="POST,GET, OPTIONS,DELETE,PUT"
+                     allowed-headers="Content-Type,ContentType,Access-Control-Allow-Headers, Authorization, X-Requested-With"
+                     allow-credentials="true" />
+    </mvc:cors>
+
 </beans>

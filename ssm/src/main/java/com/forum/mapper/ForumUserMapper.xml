@@ -10,17 +10,9 @@
             values(#{UserID},#{UserName},#{UserPassword},#{Sex},#{ImagePath},#{Experience},#{UserLevel},#{UserIdentity},#{UserState})
     </insert>
 
-    <delete id="deleteForumUser" parameterType="int">
-      delete from ForumUser where UserID=#{UserID}
-    </delete>
-
     <select id="getForumUserByID" parameterType="int" resultType="ForumUser">
         select * from ForumUser
         where UserID=#{UserID}
-    </select>
-
-    <select id="getAllForumUser" resultType="ForumUser">
-        select * from ForumUser
     </select>
 
     <update id="updateForumUser" parameterType="ForumUser">
@@ -28,5 +20,7 @@
         set UserName=#{UserName},UserPassword=#{UserPassword},Sex=#{Sex},ImagePath=#{ImagePath}
         where UserID=#{UserID}
     </update>
+
+
 
 </mapper>
