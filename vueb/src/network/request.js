@@ -3,7 +3,8 @@ import axios from 'axios'
 export function request(config) {
   //1.创建axios的实例
   const instance = axios.create({
-    baseURL: 'http://localhost:8080',
+    // baseURL: 'http://localhost:8080',
+    baseURL:'http://123.207.32.32:8000',
     timeout: 5000
   })
 
@@ -31,9 +32,9 @@ export function request(config) {
     //console.log('来到了response拦截success中');
     return response.data
   }, err => {
-    // console.log('来到了response拦截failure中');
-    // console.log(err);
-    return err
+    console.log('来到了response拦截failure中');
+    console.log(err);
+    throw err
   })
 
   return instance(config);

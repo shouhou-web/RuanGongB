@@ -32,24 +32,7 @@ export default {
     };
   },
   methods: {
-    submit() {
-      console.log(this.username)
-      console.log(this.password)
-      request({
-        url: "/login",
-        params: {
-          username:this.username,
-          password:this.password
-        },
-        method:'post'
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    
   }
 };
 </script>
