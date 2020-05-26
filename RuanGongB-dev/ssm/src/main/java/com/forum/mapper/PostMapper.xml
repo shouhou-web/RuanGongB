@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forum.mapper.PostMapper">
+
+    <select id="getPostByPostIdentity" parameterType="int" resultType="Post">
+        select * from Post where PostIdentity=#{PostIdentity}
+    </select>
+    
+    <select id="getPostByPostID" parameterType="int" resultType="Post">
+        select * from Post where PostID=#{PostID}
+    </select>
+    
+    <insert id="addPost" parameterType="Post">
+        insert into Post (PostID, UserID, Title, Content, LikesNum, BrowseNum, AccessoryPath, StickState, PostIdentity, Time, EditTime)
+        values (#{PostID}, #{UserID}, #{Title}, #{Content}, 0, 0, #{AccessoryPath}, 0, #{PostIdentity}, GETDATE(), GETDATE());
+    </insert>
+
+    <insert id="updatePost" parameterType="Post">
+        update Post set Title = #{Title}, Content = #{Content}, EditTime = GETDATE() where PostID = #{PostID}
+    </insert>
+
+    <delete id="PostID" parameterType="int">
+        delete from Post where PostID=#{PostID}
+    </delete>
+
+    <select id="getPostByLikes" parameterType="int" resultType="Post">
+        select * from Post where exists(select * from Likes where Likes.PostID = Post.PostID and Likes.UserID = #{UserID})
+    </select>
+
+    <select id="getPostByBrowses" parameterType="int" resultType="Post">
+        select * from Post where exists(select * from Browses where Browses.PostID = Post.PostID and Browses.UserID = #{UserID})
+    </select>
+
+</mapper>
