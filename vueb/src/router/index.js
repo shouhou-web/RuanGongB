@@ -15,13 +15,19 @@ const ViewCom = () => import('../views/Message/ViewCom.vue')
 const ViewLike = () => import('../views/Message/ViewLike.vue')
 const ViewSystem = () => import('../views/Message/ViewSystem.vue')
 
+//个人空间相关组件
+const Profile = () => import('../views/Profile/Profile.vue');
+const Viewd = () => import('../views/Profile/Viewed.vue')
+const Liked = () => import('../views/Profile/Liked.vue')
+const MyPost = () => import('../views/Profile/MyPost.vue')
+const comment = () => import('../views/Profile/Comment.vue')
+
 const EditPost = () => import('../views/EditPost.vue')
 const Post = () => import('../views/Post.vue')
 
 const About = () => import('../views/About.vue');
 const Register = () => import('../views/Register.vue');
 const Login = () => import('../views/Login.vue');
-const Profile = () => import('../views/Profile.vue');
 //1.安装插件
 Vue.use(VueRouter)
 
@@ -111,6 +117,33 @@ const routes = [
     ]
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    children: [
+      {
+        path: '/profile/viewed',
+        name: 'Viewd',
+        component: Viewd
+      },
+      {
+        path: '/profile/comment',
+        name: 'Comment',
+        component: comment
+      },
+      {
+        path: '/profile/liked',
+        name: 'Liked',
+        component: Liked
+      },
+      {
+        path: '/profile/mypost',
+        name: 'MyPost',
+        component: MyPost
+      },
+    ]
+  },
+  {
     path: '/about',
     name: 'About',
     meta: {
@@ -127,11 +160,6 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
   }
 ]
 

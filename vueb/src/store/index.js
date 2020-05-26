@@ -8,7 +8,7 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-    token: false,
+    token: true,
     user:{}
 }
 
