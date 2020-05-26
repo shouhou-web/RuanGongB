@@ -19,7 +19,7 @@
           </a>
           <router-link class="head-msg" to="/profileMessage">消息</router-link>
           <div class="profile" v-if="token" @click="toProfile">
-            {{ $store.state.user.username }}
+            {{ $store.state.user.userName }}
           </div>
           <router-link class="head-register" v-if="!token" to="/register">
             注册
@@ -93,7 +93,7 @@ export default {
     toProfile() {
       this.$router.push({
         path: "/profile",
-        query: { id: this.$store.state.user.username }
+        query: { id: this.$store.state.user.userName }
       });
     },
     toProfileMessage() {
