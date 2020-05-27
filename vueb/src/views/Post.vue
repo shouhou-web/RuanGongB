@@ -46,7 +46,7 @@
             @click="isLikes = !isLikes"
             v-else
             src="../assets/Icon/Post/likes_cur.png"
-            alt=""
+            alt="图片无法加载QAQ"
           />
           {{ post.likesNum }}
         </div>
@@ -70,7 +70,7 @@
       <!-- 评论区 -->
       <ul class="comment">
         <li class="comment-item" v-for="(item, index) in comment" :key="index">
-          <img class="img" :src="item.imagePath" alt="" />
+          <img class="img" :src="item.imagePath" alt="图片无法加载QAQ" />
           <div class="main">
             <div class="main-top">
               <div class="main-top-title">
@@ -93,13 +93,13 @@
                   class="likes-img"
                   v-if="!item.isLikes"
                   src="../assets/Icon/Post/likes.png"
-                  alt=""
+                  alt="图片无法加载QAQ"
                 />
                 <img
                   class="likes-img"
                   v-else
                   src="../assets/Icon/Post/likes_cur.png"
-                  alt=""
+                  alt="图片无法加载QAQ"
                 />
                 {{ post.likesNum }}
               </div>
@@ -112,7 +112,7 @@
     <div class="aside">
       <!-- 作者 -->
       <div class="author">
-        <img :src="post.imagePath" alt="" />
+        <img :src="post.imagePath" alt="图片无法加载QAQ" />
         <div class="author-content">
           <div class="author-name">
             ♤Ansel♤
@@ -128,7 +128,7 @@
       </div>
       <div class="div"></div>
       <div class="section-body">
-        <img src="../assets/Icon/Post/section.png" alt="" />
+        <img src="../assets/Icon/Post/section.png" alt="图片无法加载QAQ" />
         <div class="content">
           讨论区
         </div>

@@ -122,6 +122,15 @@ const routes = [
     component: Profile,
     children: [
       {
+        path: '/',
+        redirect: '/profile/myPost'
+      },
+      {
+        path: '/profile/myPost',
+        name: 'MyPost',
+        component: MyPost
+      },
+      {
         path: '/profile/viewed',
         name: 'Viewd',
         component: Viewd
@@ -136,11 +145,7 @@ const routes = [
         name: 'Liked',
         component: Liked
       },
-      {
-        path: '/profile/mypost',
-        name: 'MyPost',
-        component: MyPost
-      },
+      
     ]
   },
   {

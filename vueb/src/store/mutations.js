@@ -5,7 +5,8 @@ const mutations = {
         state.user = info
     },
     logout(state) {
-        state.token = false
+        state.token = false,
+        state.user = {}
     }
 }
 

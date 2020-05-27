@@ -202,7 +202,7 @@ export default {
           } else {
             this.$store.commit("login", res);
             this.$message({
-              message: "恭喜你，登陆成功",
+              message: "恭喜你，登录成功",
               type: "success"
             });
             this.open = false;
