@@ -235,8 +235,7 @@ export default {
   background-color: #e9eef3;
   color: #333;
   text-align: center;
-  line-height: 160px;
-  height: 900px;
+  height: auto;
   padding: 0px !important;
   width: 1100px;
   margin-left: auto;

@@ -35,7 +35,7 @@ export default {
       this.$router.push({ path: "/home" });
     },
     editPostClick() {
-      this.$router.push("/home/editPost");
+      this.$router.push({path:"/editPost"});
     },
     discussClick() {
       this.closeAll();

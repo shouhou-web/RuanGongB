@@ -165,6 +165,7 @@ export default {
 }
 
 .blue {
+  color: #00c3ff;
 }
 
 .pal-item:hover {
