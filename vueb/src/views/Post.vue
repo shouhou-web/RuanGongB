@@ -7,7 +7,7 @@
         <h1>{{ post.title }}</h1>
         <!-- 预览各项数据 -->
         <div class="preview">
-          <div class="identify">来自板块：讨论区</div>
+          <div class="identify">来自板块：{{ post.type }}</div>
 
           <div class="preview-browse">
             <i class="el-icon-view"></i>
@@ -26,10 +26,10 @@
         </div>
         <!-- 文章发表时间 -->
         <div class="time">
-          文章发表：{{ post.time }} | 最后编辑：{{ post.editTime }}
+          文章发表：{{ post.createTime }} | 最后编辑：{{ post.editTime }}
         </div>
         <!-- 帖子内容 -->
-        <div class="content">
+        <div class="content" v-html="post.content">
           {{ post.content }}
         </div>
         <!-- 分割线 -->
@@ -130,7 +130,7 @@
       <div class="section-body">
         <img src="../assets/Icon/Post/section.png" alt="图片无法加载QAQ" />
         <div class="content">
-          讨论区
+          {{ post.type }}
         </div>
       </div>
     </div>
@@ -138,17 +138,26 @@
 </template>
 
 <script>
+import { downPost } from "../network/post";
 export default {
   name: "Post",
   data() {
     return {
+      type: [
+        "新手上路",
+        "讨论区",
+        "课程推荐",
+        "校园周边",
+        "资源共享",
+        "刷题板块"
+      ],
       isLikes: false,
       newcomment: "",
       post: {
         postID: 123,
         userID: 233,
         postIdentity: 1,
-        content: "帖子内容",
+        content: `<div>帖子内容</div>`,
         userName: "用户名",
         accessoryPath: "附件路径",
         imagePath:
@@ -157,7 +166,7 @@ export default {
         likesNum: 0,
         browseNum: 1,
         commentNum: 2,
-        time: "05-24",
+        createTime: "05-24",
         editTime: "05-24"
       },
       User: {},
@@ -169,7 +178,8 @@ export default {
           level: 9,
           date: "05-21",
           likesNum: 25,
-          content: "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了",
+          content:
+            "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了",
           userName: "用户名",
           imagePath:
             "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
@@ -194,12 +204,18 @@ export default {
   methods: {},
   computed: {
     postID() {
-      return this.$route.params.PostID;
+      this.$route.query;
+      return this.$route.qu.PostID;
     }
   },
   created() {
     //发送请求
-    console.log(this.$route.query.id);
+    console.log(this.$route.query.postID);
+    let postID = this.$route.query.postID;
+    downPost(postID).then(res => {
+      //下载帖子数据
+      this.post = post;
+    });
   }
 };
 </script>

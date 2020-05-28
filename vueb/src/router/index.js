@@ -79,7 +79,7 @@ const routes = [
     ]
   },
   {
-    path: '/post/:PostID',
+    path: '/post',
     name: 'Post',
     component: Post
   },

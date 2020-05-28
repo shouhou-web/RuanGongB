@@ -118,15 +118,20 @@ export default {
       data.append(this.fileName, fileInput.files[0]);
       console.log(this.fileName, fileInput.files[0])
       upimg(data).then(res => {
-        if (res.data) {
-          console.log(res.data);
+        if (res) {
+          console.log(res);
           this.editor.insertEmbed(
             this.editor.getSelection().index,
             "image",
-            res.data
+            res
           );
         }
-      });
+      }).catch(
+        err =>{
+          this.$message.error("注册失败了~请检查网络并再次尝试");
+          return;
+        }
+      );
     },
     /*点击上传图片按钮*/
     imgClick() {
