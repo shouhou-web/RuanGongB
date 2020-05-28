@@ -1,10 +1,11 @@
 <template>
   <div class="editpost">
-    <editor v-model="text" upload-url="/upload/image" fileName="file" @input="input" />
+    <!-- <editor v-model="text" upload-url="/upload/image" fileName="file" @input="input" /> -->
+    <neweditor></neweditor>
   </div>
 </template>
 <script>
-import editor from "../components/common/v-editor";
+import neweditor from "../components/common/editor";
 
 export default {
   name: "EditPost",
@@ -14,7 +15,7 @@ export default {
     };
   },
   components: {
-    editor
+    neweditor
   },
   methods:{
     input(e){
