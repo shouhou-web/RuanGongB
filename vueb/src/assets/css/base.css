@@ -27,6 +27,11 @@ body {
   width: 100vw;
 }
 
+input{
+  outline: none;
+  overflow: visible;
+}
+
 a {
   color: var(--color-text);
   text-decoration: none;

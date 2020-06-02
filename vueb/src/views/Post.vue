@@ -37,13 +37,13 @@
         <!-- 点赞按钮 -->
         <div class="likes-end">
           <img
-            @click="isLikes = !isLikes"
+            @click="likesClick"
             v-if="!isLikes"
             src="../assets/Icon/Post/likes.png"
             alt=""
           />
           <img
-            @click="isLikes = !isLikes"
+            @click="unlikesClick"
             v-else
             src="../assets/Icon/Post/likes_cur.png"
             alt="图片无法加载QAQ"
@@ -52,7 +52,7 @@
         </div>
       </div>
       <!-- 评论框 -->
-      <div class="new-comment">
+      <div id="new-comment" class="new-comment">
         <div class="title">
           看帖是喜欢，评论才是真爱：
         </div>
@@ -65,11 +65,17 @@
           show-word-limit
         >
         </textarea>
-        <el-button class="comment-submit" type="primary">评论</el-button>
+        <el-button @click="commentPush" class="comment-submit" type="primary"
+          >评论</el-button
+        >
       </div>
       <!-- 评论区 -->
       <ul class="comment">
-        <li class="comment-item" v-for="(item, index) in comment" :key="index">
+        <li
+          class="comment-item"
+          v-for="(item, index) in post.listComment"
+          :key="index"
+        >
           <img class="img" :src="item.imagePath" alt="图片无法加载QAQ" />
           <div class="main">
             <div class="main-top">
@@ -91,7 +97,7 @@
               <div class="likes">
                 <img
                   class="likes-img"
-                  v-if="!item.isLikes"
+                  v-if="!isLikes"
                   src="../assets/Icon/Post/likes.png"
                   alt="图片无法加载QAQ"
                 />
@@ -134,15 +140,86 @@
         </div>
       </div>
     </div>
+    <!-- 左侧固定可选操作 -->
+    <div class="post-option">
+      <div @click="commentClick">
+        <img src="../assets/Icon/Post/comment.png" alt="" />
+      </div>
+      <div>
+        <img
+          v-if="!isLikes"
+          @click="likesClick"
+          src="../assets/Icon/Post/likes.png"
+          alt=""
+        />
+        <img
+          v-else
+          @click="unlikesClick"
+          src="../assets/Icon/Post/likes_cur.png"
+          alt=""
+        />
+      </div>
+      <div @click="manageClick">
+        <img src="../assets/Icon/Post/manage.png" alt="" />
+      </div>
+    </div>
+    <!-- 阴影 -->
+    <div
+      :class="[manage ? '' : 'page-mask-show']"
+      @click="manage = !manage"
+      class="page-mask"
+    ></div>
+    <!-- 悬浮窗 -->
+    <div :class="[manage ? 'page-state' : 'page-state-hide']" class="open-page">
+      <div class="hover login">
+        <div class="hover-radio-title">
+          管理
+        </div>
+        <!-- <div class="login-div"></div> -->
+        <div class="hover-radio">
+          <label class="hover-radio-i">
+            <input
+              name="type"
+              type="radio"
+              id="0"
+              value="编辑"
+              :checked="manageType == '编辑'"
+              v-model="manageType"
+            />
+            编辑
+          </label>
+          <label class="hover-radio-i" style="color:red">
+            <input
+              name="type"
+              type="radio"
+              id="0"
+              value="删除"
+              v-model="manageType"
+            />
+            删除
+          </label>
+        </div>
+        <!-- <div class="login-div"></div> -->
+        <div class="hover-radio-bottom">
+          <button @click="cancel" class="hover-radio-button cancel">
+            取消
+          </button>
+          <button @click="assure" class="hover-radio-button assure">
+            确定
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { downPost } from "../network/post";
+import { downPost, likePost, pushComment } from "../network/post";
 export default {
   name: "Post",
   data() {
     return {
+      userID: 0,
       type: [
         "新手上路",
         "讨论区",
@@ -151,75 +228,249 @@ export default {
         "资源共享",
         "刷题板块"
       ],
-      isLikes: false,
+      manage: false,
+      manageType: "编辑",
       newcomment: "",
       post: {
         postID: 123,
         userID: 233,
-        postIdentity: 1,
+        postIdentity: 2,
         content: `<div>帖子内容</div>`,
         userName: "用户名",
         accessoryPath: "附件路径",
         imagePath:
           "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
         title: "写大作业好开心啊",
-        likesNum: 0,
+        likesNum: 1,
         browseNum: 1,
         commentNum: 2,
         createTime: "05-24",
-        editTime: "05-24"
-      },
-      User: {},
-      comment: [
-        {
-          commentID: 1,
-          userID: 233,
-          postID: 123,
-          level: 9,
-          date: "05-21",
-          likesNum: 25,
-          content:
-            "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了",
-          userName: "用户名",
-          imagePath:
-            "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
-          userLevel: 2
-        },
-        {
-          commentID: 1,
-          userID: 233,
-          postID: 123,
-          level: 9,
-          date: "05-21",
-          likesNum: 25,
-          content: "评论内容",
-          userName: "用户名",
-          imagePath:
-            "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
-          userLevel: 2
-        }
-      ]
+        editTime: "05-24",
+        listComment: [
+          {
+            commentID: 1,
+            userID: 233,
+            postID: 123,
+            level: 9,
+            date: "05-21",
+            likesNum: 25,
+            content:
+              "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了",
+            userName: "用户名",
+            imagePath:
+              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
+            userLevel: 2
+          },
+          {
+            commentID: 1,
+            userID: 233,
+            postID: 123,
+            level: 9,
+            date: "05-21",
+            likesNum: 25,
+            content: "评论内容",
+            userName: "用户名",
+            imagePath:
+              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
+            userLevel: 2
+          }
+        ],
+        listLikes: [10000]
+      }
     };
   },
-  methods: {},
+  methods: {
+    commentPush() {
+      if (this.newcomment.length <= 5){
+        this.$message({
+          message: "请书写至少五个字的评论~",
+          type: "warning"
+        });
+        return;
+      }
+      let postID = this.post.postID;
+      let userID = this.userID;
+      let content = this.newcomment;
+      pushComment(postID, userID, content)
+        .then(res => {
+          if (res == null)
+            this.$message.error("评论失败了~请检查您的网络");
+          else this.post.listComment.push(res);
+        })
+        .catch(err => {
+          this.$message.error("评论失败了~请检查您的网络");
+        });
+    },
+    likesClick() {
+      this.post.listLikes.push(this.userID);
+      this.post.likesNum += 1;
+    },
+    unlikesClick() {
+      let id = this.post.listLikes.indexOf(this.userID);
+      console.log(id);
+      this.post.listLikes.splice(id, 1);
+      this.post.likesNum -= 1;
+    },
+    manageClick() {
+      this.manage = true;
+    },
+    commentClick() {
+      let el = document.getElementById("new-comment");
+      console.log(el);
+      this.$nextTick(function() {
+        window.scrollTo({ behavior: "smooth", top: el.offsetTop });
+      });
+    },
+    cancel() {
+      this.manage = false;
+    },
+    assure() {
+      if (this.manageType == "编辑") this.toEdit();
+    },
+    toEdit() {
+      let post = this.post;
+      this.$router.push({
+        path: "/editPost",
+        query: {
+          post: post
+        }
+      });
+    }
+  },
   computed: {
-    postID() {
-      this.$route.query;
-      return this.$route.qu.PostID;
+    isLikes() {
+      let userID = this.userID;
+      return (
+        this.post.listLikes.filter(item => {
+          return item == userID;
+        }).length == 1
+      );
     }
   },
   created() {
     //发送请求
     console.log(this.$route.query.postID);
     let postID = this.$route.query.postID;
-    downPost(postID).then(res => {
-      //下载帖子数据
-      this.post = post;
-    });
+    this.userID = this.$store.state.user.userID;
+    downPost(postID)
+      .then(post => {
+        //下载帖子数据
+        console.log(this.post);
+        console.log(post);
+        this.post = post;
+      })
+      .catch(err => {
+        this.$message.error("加载失败了~请检查您的网络");
+      });
+  },
+  beforeDestroy() {
+    console.log("destroy");
+    let userID = this.userID;
+    let postID = this.post.postID;
+    let state = this.post.listLikes.filter(item => {
+      return item == userID;
+    }).length;
+    likePost(userID, postID, state)
+      .then(res => {
+        if (res == 1) {
+          this.$message.error("点赞数据保存失败了~请检查您的网络");
+        }
+      })
+      .catch(err => {
+        this.$message.error("加载失败了~请检查您的网络");
+      });
   }
 };
 </script>
 <style>
+/* 悬浮窗 */
+.hover {
+  height: 247px;
+  width: 480px;
+}
+
+.hover-radio-title {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 30px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 50px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.hover-radio {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  padding: 0px 30px;
+  height: 112px;
+  line-height: 50px;
+  align-content: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.hover-radio-i {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding: 2px;
+  width: 70px;
+  justify-content: space-around;
+  margin-left: 30px;
+  line-height: 50px;
+}
+
+.hover-radio-bottom {
+  display: flex;
+  width: 480px;
+  -webkit-box-pack: center;
+  text-align: center;
+  padding: 10px 0 30px 0;
+  justify-content: center;
+}
+
+.hover-radio-button {
+  width: 104px;
+  height: 32px;
+  margin: 0 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.cancel {
+  color: #666;
+  background-color: #fff;
+}
+
+.assure {
+  background-color: #4cc3ff;
+  border-color: #4cc3ff;
+  color: #fff;
+}
+/* 可选选项 */
+.post-option {
+  position: fixed;
+  top: 95px;
+  left: 345px;
+  width: 46px;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 0 6px;
+  -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+}
+
+.post-option img {
+  width: 22px;
+  height: 22px;
+  margin: 12px 0;
+}
+
 .post {
   display: flex;
   margin-top: 30px;

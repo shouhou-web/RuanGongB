@@ -145,6 +145,7 @@ export default {
       input.name = this.fileName;
       input.accept = "image/jpeg,image/png,image/jpg,image/gif";
       input.onchange = this.onFileChange;
+      input.formEnctype = 'multipart/form-dat';
       input.click();
     }
   },

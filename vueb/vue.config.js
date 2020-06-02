@@ -9,5 +9,22 @@ module.exports = {
                 'views': '@/views',
             }
         }
+    },
+    publicPath: '/',
+    outputDir: 'dist',
+    devServer: {
+        open: true,
+        host: 'localhost',
+        port: '8081',
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8080', // 要请求的地址
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        }
     }
 }
