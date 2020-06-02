@@ -34,6 +34,7 @@
 
 <script>
 import { request } from "../../network/request";
+import { getPostList } from "../../network/post";
 export default {
   name: "Discuss",
   data() {
@@ -73,15 +74,18 @@ export default {
     }
   },
   mounted() {
-    // request({
-    //   url: "/home/multidata"
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    getPostList(1)
+      .then(res => {
+        if (res == null)
+          this.$message({
+            message: "没有该类型帖子的信息~",
+            type: "warning"
+          });
+        else this.post = res;
+      })
+      .catch(err => {
+        this.$message.error("获取信息失败了~请检查您的网络");
+      });
   }
 };
 </script>

@@ -29,6 +29,17 @@ export function uploadPost(userID, title, postIdentity, content) {
     })
 }
 
+// 获取特定种类的帖子
+export function getPostList(postIdentity) {
+    return request({
+        url: "/getPostList",
+        params: {
+            postIdentity
+        },
+        method: 'post'
+    })
+}
+
 // 获取帖子数据
 export function downPost(postID) {
     return request({
