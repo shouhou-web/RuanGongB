@@ -1,5 +1,5 @@
 <template>
-  <div class="exercise">
+  <div class="course">
     <h1>课程推荐</h1>
     <router-view></router-view>
   </div>
@@ -17,3 +17,12 @@ export default {
   }
 };
 </script>
+<style>
+.course{
+  background-color: #fff;
+  margin: 20px 20px 20px 0;
+  line-height: 50px;
+  width: 790px;
+  border-radius: 4px;
+}
+</style>

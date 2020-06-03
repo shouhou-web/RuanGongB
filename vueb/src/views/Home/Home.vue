@@ -1,29 +1,75 @@
 <template>
   <!-- 路由发生改变会渲染相应的组件 -->
   <div class="home">
-    <el-container>
-      <el-aside width="200px">
-        <ul class="nav-l">
-          <li @click="editPostClick">发布帖子</li>
-          <li :class="[onClick.discuss ? 'blue' : '']" @click="discussClick">
-            讨论区
-          </li>
-          <li :class="[onClick.course ? 'blue' : '']" @click="courseClick">
-            课程推荐
-          </li>
-          <li :class="[onClick.school ? 'blue' : '']" @click="schoolClick">
-            校园周边
-          </li>
-          <li :class="[onClick.resource ? 'blue' : '']" @click="resourceClick">
-            资源共享
-          </li>
-          <li :class="[onClick.exercise ? 'blue' : '']" @click="exerciseClick">
-            刷题板块
-          </li>
-        </ul>
-      </el-aside>
-      <el-main><router-view /></el-main>
-    </el-container>
+    <div class="home-main"><router-view /></div>
+    <div class="home-aside">
+      <div class="home-option">
+        <div class="title">
+          可选操作
+        </div>
+        <div class="main">
+          <div class="editpost" @click="editPostClick">发布帖子</div>
+        </div>
+      </div>
+      <!-- 侧边导航栏 -->
+      <div class="home-nav">
+        <div class="title">
+          帖子板块
+        </div>
+        <div class="nav">
+          <div
+            class="nav-i"
+            :class="[onClick.discuss ? 'blue' : '']"
+            @click="discussClick"
+          >
+            <img src="../../assets/Icon/Home/discuss.png" alt="" />
+            <p>
+              讨论区
+            </p>
+          </div>
+          <div
+            class="nav-i"
+            :class="[onClick.course ? 'blue' : '']"
+            @click="courseClick"
+          >
+            <img src="../../assets/Icon/Home/course.png" alt="" />
+            <p>
+              课程推荐
+            </p>
+          </div>
+          <div
+            class="nav-i"
+            :class="[onClick.school ? 'blue' : '']"
+            @click="schoolClick"
+          >
+            <img src="../../assets/Icon/Home/school.png" alt="" />
+            <p>
+              校园周边
+            </p>
+          </div>
+          <div
+            class="nav-i"
+            :class="[onClick.resource ? 'blue' : '']"
+            @click="resourceClick"
+          >
+            <img src="../../assets/Icon/Home/resource.png" alt="" />
+            <p>
+              资源共享
+            </p>
+          </div>
+          <div
+            class="nav-i"
+            :class="[onClick.exercise ? 'blue' : '']"
+            @click="exerciseClick"
+          >
+            <img src="../../assets/Icon/Home/exercise.png" alt="" />
+            <p>
+              刷题板块
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -35,7 +81,12 @@ export default {
       this.$router.push({ path: "/home" });
     },
     editPostClick() {
-      this.$router.push({path:"/editPost"});
+      this.$router.push({
+        path: "/editPost",
+        query: {
+          post: null
+        }
+      });
     },
     discussClick() {
       this.closeAll();
@@ -80,44 +131,96 @@ export default {
 };
 </script>
 <style>
-.home .nav-l {
-  width: 200px;
-  min-height: 100%;
+.el-aside {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-.home .nav-l li:hover {
-  color: #409eff;
+.home,
+.home-main {
+  background-color: rgb(240, 241, 245);
+}
+
+.home-aside {
+  margin: 20px 0;
+  background-color: rgb(240, 241, 245);
+}
+
+.home-option {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  height: 140px;
+  margin: 0 0 20px 0;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.home-option .title,
+.home-nav .title {
+  display: flex;
+  height: 50px;
+  border-bottom: 1px solid #ebebeb;
+  padding: 0 20px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.home-option .main {
+  display: flex;
+  height: 90px;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-option .editpost {
+  width: 130px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffe733;
+  padding: 0 18px;
+  height: 36px;
+  color: #663c00;
+  background-color: #ffe14c;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.home-nav {
+  background-color: #fff;
+  border-radius: 4px;
+  height: 380px;
+}
+
+.home-nav .nav {
+  padding: 10px 20px 20px 20px;
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.home-nav .nav-i {
+  display: flex;
+  align-items: center;
+}
+
+.home-nav .nav-i img {
+  width: 48px;
+  height: 48px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.home {
+  display: flex;
 }
 
 .blue {
   color: #409eff;
-}
-
-.home .nav-l li {
-  font-size: 14px;
-  padding: 0 20px;
-  cursor: pointer;
-  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
-  box-sizing: border-box;
-  height: 56px;
-  line-height: 56px;
-  position: relative;
-  -webkit-box-sizing: border-box;
-  white-space: nowrap;
-  list-style: none;
-}
-
-.home .el-aside {
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-  background-color: #fff;
-}
-
-.home .el-main {
-  color: #333;
-  text-align: center;
-  line-height: 160px;
-  background-color: #fff;
 }
 </style>

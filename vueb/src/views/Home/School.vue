@@ -1,5 +1,5 @@
 <template>
-  <div class="scholl">
+  <div class="school">
     <h1>校园周边</h1>
     <router-view></router-view>
   </div>
@@ -17,3 +17,12 @@ export default {
   }
 };
 </script>
+<style>
+.school{
+  background-color: #fff;
+  margin: 20px 20px 20px 0;
+  line-height: 50px;
+  width: 790px;
+  border-radius: 4px;
+}
+</style>

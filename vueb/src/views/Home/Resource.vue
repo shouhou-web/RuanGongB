@@ -17,3 +17,12 @@ export default {
   }
 };
 </script>
+<style>
+.exercise{
+  background-color: #fff;
+  margin: 20px 20px 20px 0;
+  line-height: 50px;
+  width: 790px;
+  border-radius: 4px;
+}
+</style>

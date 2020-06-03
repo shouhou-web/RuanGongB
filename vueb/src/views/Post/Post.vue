@@ -7,7 +7,7 @@
         <h1>{{ post.title }}</h1>
         <!-- 预览各项数据 -->
         <div class="preview">
-          <div class="identify">来自板块：{{ post.type }}</div>
+          <div class="identify">来自板块：{{ type[post.postIdentity] }}</div>
 
           <div class="preview-browse">
             <i class="el-icon-view"></i>
@@ -39,13 +39,13 @@
           <img
             @click="likesClick"
             v-if="!isLikes"
-            src="../assets/Icon/Post/likes.png"
+            src="../../assets/Icon/Post/likes.png"
             alt=""
           />
           <img
             @click="unlikesClick"
             v-else
-            src="../assets/Icon/Post/likes_cur.png"
+            src="../../assets/Icon/Post/likes_cur.png"
             alt="图片无法加载QAQ"
           />
           {{ post.likesNum }}
@@ -76,7 +76,7 @@
           v-for="(item, index) in post.listComment"
           :key="index"
         >
-          <img class="img" :src="item.imagePath" alt="图片无法加载QAQ" />
+          <img class="img" :src="item.imagePath" alt="QAQ" />
           <div class="main">
             <div class="main-top">
               <div class="main-top-title">
@@ -94,21 +94,21 @@
               <div class="date">
                 {{ item.date }}
               </div>
-              <div class="likes">
+              <!-- <div class="likes">
                 <img
                   class="likes-img"
                   v-if="!isLikes"
-                  src="../assets/Icon/Post/likes.png"
-                  alt="图片无法加载QAQ"
+                  src="../../assets/Icon/Post/likes.png"
+                  alt="QAQ"
                 />
                 <img
                   class="likes-img"
                   v-else
-                  src="../assets/Icon/Post/likes_cur.png"
-                  alt="图片无法加载QAQ"
+                  src="../../assets/Icon/Post/likes_cur.png"
+                  alt="QAQ"
                 />
                 {{ post.likesNum }}
-              </div>
+              </div> -->
             </div>
           </div>
         </li>
@@ -134,33 +134,33 @@
       </div>
       <div class="div"></div>
       <div class="section-body">
-        <img src="../assets/Icon/Post/section.png" alt="图片无法加载QAQ" />
+        <img src="../../assets/Icon/Post/section.png" alt="图片无法加载QAQ" />
         <div class="content">
-          {{ post.type }}
+          {{ type[post.postIdentity] }}
         </div>
       </div>
     </div>
     <!-- 左侧固定可选操作 -->
     <div class="post-option">
       <div @click="commentClick">
-        <img src="../assets/Icon/Post/comment.png" alt="" />
+        <img src="../../assets/Icon/Post/comment.png" alt="" />
       </div>
       <div>
         <img
           v-if="!isLikes"
           @click="likesClick"
-          src="../assets/Icon/Post/likes.png"
+          src="../../assets/Icon/Post/likes.png"
           alt=""
         />
         <img
           v-else
           @click="unlikesClick"
-          src="../assets/Icon/Post/likes_cur.png"
+          src="../../assets/Icon/Post/likes_cur.png"
           alt=""
         />
       </div>
       <div @click="manageClick">
-        <img src="../assets/Icon/Post/manage.png" alt="" />
+        <img src="../../assets/Icon/Post/manage.png" alt="" />
       </div>
     </div>
     <!-- 阴影 -->
@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import { downPost, likePost, pushComment } from "../network/post";
+import { downPost, likePost, pushComment } from "../../network/post";
 export default {
   name: "Post",
   data() {
@@ -273,6 +273,32 @@ export default {
             imagePath:
               "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
             userLevel: 2
+          },
+          {
+            commentID: 1,
+            userID: 233,
+            postID: 123,
+            level: 9,
+            date: "05-21",
+            likesNum: 25,
+            content: "评论内容",
+            userName: "用户名",
+            imagePath:
+              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
+            userLevel: 2
+          },
+          {
+            commentID: 1,
+            userID: 233,
+            postID: 123,
+            level: 9,
+            date: "05-21",
+            likesNum: 25,
+            content: "评论内容",
+            userName: "用户名",
+            imagePath:
+              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
+            userLevel: 2
           }
         ],
         listLikes: [10000]
@@ -291,7 +317,7 @@ export default {
       let postID = this.post.postID;
       let userID = this.userID;
       let content = this.newcomment;
-      pushComment(postID, userID, content)
+      pushComment(userID, postID, content)
         .then(res => {
           if (res == null)
             this.$message.error("评论失败了~请检查您的网络");
@@ -584,6 +610,10 @@ export default {
 }
 
 /* 评论输入 */
+.post .main{
+  height: auto;
+}
+
 .post .main .new-comment {
   display: flex;
   flex-direction: column;

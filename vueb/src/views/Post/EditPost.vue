@@ -51,12 +51,19 @@
         <div class="edit-content-t edit-left">
           内容：
         </div>
-        <editor
+        <quill-editor
+          class="edit-content-e"
+          ref="myTextEditor"
+          v-model="content"
+          :options="quillOption"
+        >
+        </quill-editor>
+        <!-- <editor
           class="edit-content-e"
           v-model="content"
           upload-url="/upload/image"
           fileName="file"
-        />
+        /> -->
       </div>
       <!-- <neweditor></neweditor> -->
     </div>
@@ -66,14 +73,21 @@
   </div>
 </template>
 <script>
-import editor from "../components/common/v-editor";
-import { uploadPost } from "../network/post";
+// import editor from "../components/common/v-editor";
+import { uploadPost } from "../../network/post";
+import { quillEditor } from "vue-quill-editor";
+import quillConfig from "../../components/common/quill-config";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 export default {
   name: "EditPost",
   data() {
     return {
+      quillOption: quillConfig,
       content: "",
       title: "",
+      postID : 0,
       postIdentity: null,
       type: [
         {
@@ -100,16 +114,19 @@ export default {
       post: {}
     };
   },
-  components: {
-    editor
-  },
   created() {
     //发送请求
     console.log(this.$route.query.post);
     let post = this.$route.query.post;
-    this.title = post.title;
-    this.content = post.content;
-    this.postIdentity = post.postIdentity;
+    if (post != null) {
+      this.postID = post.postID;
+      this.title = post.title;
+      this.content = post.content;
+      this.postIdentity = post.postIdentity;
+    }
+  },
+  components: {
+    quillEditor
   },
   methods: {
     submitPost() {
@@ -121,27 +138,29 @@ export default {
       let title = this.title;
       let postIdentity = this.postIdentity;
       let content = this.content;
-      // switch (type) {
-      //   case "新手上路":
-      //     postIdentity = 0;
-      //     break;
-      //   case "讨论区":
-      //     postIdentity = 1;
-      //     break;
-      //   case "课程推荐":
-      //     postIdentity = 2;
-      //     break;
-      //   case "校园周边":
-      //     postIdentity = 3;
-      //     break;
-      //   case "资源共享":
-      //     postIdentity = 4;
-      //     break;
-      //   case "刷题板块":
-      //     postIdentity = 5;
-      //     break;
-      // }
-      uploadPost(userID, title, postIdentity, content)
+      let postID = this.postID;
+      if (title == ''){
+        this.$message({
+          message: "帖子标题不能为空~",
+          type: "warning"
+        });
+        return
+      }
+      if (!postIdentity){
+        this.$message({
+          message: "帖子类型不能为空~",
+          type: "warning"
+        });
+        return
+      }
+      if (content == ''){
+        this.$message({
+          message: "帖子内容不能为空",
+          type: "warning"
+        });
+        return;
+      }
+      uploadPost(userID, postID, title, postIdentity, content)
         .then(res => {
           console.log(res);
           this.$message({
@@ -219,6 +238,8 @@ export default {
 
 .edit-content-e {
   width: 740px;
+  height: 410px;
+  margin: 20px 0 0 0;
 }
 
 .edit-footer {
@@ -236,6 +257,7 @@ export default {
   height: 42px;
   outline: none;
   border: none;
+  margin-top: 20px;
 }
 
 .ql-editor {
@@ -258,7 +280,7 @@ export default {
 .editpost {
   display: flex;
   flex-direction: column;
-  padding-bottom: 70px;
+  padding-bottom: 20px;
   margin-top: 30px;
   background-color: #fff;
   border-radius: 4px;

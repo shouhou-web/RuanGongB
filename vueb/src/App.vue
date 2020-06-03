@@ -195,8 +195,8 @@ export default {
       }
       login(this.username, this.password)
         .then(res => {
-          console.log(res);
-          if (res == null) {
+          console.log("(", res, ")");
+          if (res == null || res == "") {
             this.$message.error("用户名与密码不匹配");
             return;
           } else {
@@ -255,8 +255,8 @@ export default {
 
 .top {
   background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
-  min-width: 1903px;
-  width: 1903px;
+  min-width: 1920px;
+  width: 1920px;
   padding: 0px !important;
   color: white;
 }

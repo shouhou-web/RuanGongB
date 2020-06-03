@@ -4,7 +4,7 @@ import qs from 'qs'
 
 //上传图片到数据库
 export function upimg(imgdata) {
-    console.log(qs.stringify(imgdata))
+    console.log(imgdata)
     return request({
         url: "/upimg",
         // params: {
@@ -19,11 +19,11 @@ export function upimg(imgdata) {
 }
 
 // 上传帖子
-export function uploadPost(userID, title, postIdentity, content) {
+export function uploadPost(userID, postID, title, postIdentity, content) {
     return request({
         url: "/uploadPost",
         params: {
-            userID, title, postIdentity, content
+            userID, postID, title, postIdentity, content
         },
         method: 'post'
     })
@@ -65,7 +65,7 @@ export function likePost(userID,postID,likeState) {
 }
 
 // 评论帖子
-export function pushComment(postID,userID,content) {
+export function pushComment(userID,postID,content) {
     return request({
         url: "/pushComment",
         params: {

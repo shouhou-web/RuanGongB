@@ -1,33 +1,43 @@
 <template>
   <div class="discuss">
-    <ul
-      class="item"
+    <div
+      class="discuss-post"
       @click="toPost(item.PostID)"
       v-for="(item, index) in Post"
       :key="index"
     >
-      <img class="left" :src="item.ImagePath" alt="" />
-      <li class="middle">
-        <div class="title">
-          {{ item.Title }}
-        </div>
+      <div class="discuss-post-header">
+        <img class="left" :src="item.imagePath" alt="" />
         <div class="name">
-          {{ item.UserName }}
+          {{ item.userName }}
         </div>
-      </li>
-
-      <i class="el-icon-thumb"></i>
-      <li class="likes">
-        <div>点赞</div>
-        <div>{{ item.LikesNum }}</div>
-      </li>
-
-      <i class="el-icon-chat-line-round"></i>
-      <li class="comment">
-        <div>评论</div>
-        <div>{{ item.CommentNum }}</div>
-      </li>
-    </ul>
+        <img class="level" :src="getLevel(item)" alt="图片无法加载QAQ" />
+        <div class="time">
+          {{ item.createTime }}
+        </div>
+      </div>
+      <!-- 中部 -->
+      <div class="discuss-post-middle">
+        <div class="title">
+          {{ item.title }}
+        </div>
+        <div class="preview" v-html="item.content"></div>
+      </div>
+      <div class="discuss-post-bottom">
+        <div class="discuss-likes discuss-post-bottom-item">
+          <img src="../../assets/Icon/Post/preview.png" alt="" />
+          <div class="num">{{ item.browseNum }}</div>
+        </div>
+        <div class="discuss-comment discuss-post-bottom-item">
+          <img src="../../assets/Icon/Post/likes.png" alt="" />
+          <div class="num">{{ item.likesNum }}</div>
+        </div>
+        <div class="discuss-likes discuss-post-bottom-item">
+          <img src="../../assets/Icon/Post/comment.png" alt="" />
+          <div class="num">{{ item.commentNum }}</div>
+        </div>
+      </div>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -41,36 +51,48 @@ export default {
     return {
       Post: [
         {
-          PostID: 123,
-          UserID: 233,
-          UserName: "用户名",
-          ImagePath:
+          postID: 123,
+          userID: 233,
+          userName: "用户名",
+          userLevel: 1,
+          createTime: "05-24",
+          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
+            </br>`,
+          imagePath:
             "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          Title: "写大作业好开心啊",
-          LikesNum: 0,
-          BrowseNum: 1,
-          CommentNum: 2
+          title: "写大作业好开心啊",
+          likesNum: 0,
+          browseNum: 1,
+          commentNum: 2
         },
         {
-          PostID: 123,
-          UserID: 233,
-          UserName: "用户名",
-          ImagePath:
-            "https://upload.jianshu.io/users/upload_avatars/13511312/c1e31c1b-337a-47cb-8785-aee48c16a85e.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240",
-          Title: "vue动态绑定class的几种方式",
-          LikesNum: 0,
-          BrowseNum: 1,
-          CommentNum: 2
+          postID: 123,
+          userID: 233,
+          userName: "用户名",
+          userLevel: 3,
+          createTime: "05-24",
+          content: `<div>帖子内容</div>`,
+          imagePath: "https://img-static.mihoyo.com/avatar/avatar30060.png",
+          title: "vue动态绑定class的几种方式",
+          likesNum: 0,
+          browseNum: 1,
+          commentNum: 2
         }
       ]
     };
   },
+  computed: {},
   methods: {
     toPost(PostID) {
       this.$router.push({
         path: "/post",
         query: { postID: PostID }
       });
+    },
+    getLevel(item) {
+      return (
+        "https://img-static.mihoyo.com/level/level" + item.userLevel + ".png"
+      );
     }
   },
   mounted() {
@@ -90,46 +112,122 @@ export default {
 };
 </script>
 <style>
-.discuss .item {
-  display: flex;
-  align-items: center;
-  margin-right: 10px 0px;
-  padding: 20px;
+.discuss {
+  background-color: #fff;
+  margin: 20px 20px 20px 0;
+  line-height: 50px;
+  width: 790px;
+  border-radius: 4px;
 }
 
-.discuss .item .left {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  margin-right: 1em;
-}
-
-.discuss .item .middle {
-  flex: 1;
+.discuss-post {
+  
+  height: 169px;
+  padding: 24px 0px 24px 30px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+}
+
+.discuss-post-header {
+  width: 640px;
+  height: 24px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  line-height: 30px;
+}
+
+.discuss-post-header .left {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #ebebeb;
+  vertical-align: top;
+}
+
+.discuss-post-header .name {
+  font-size: 12px;
+  max-width: 180px;
+  display: inline-block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.discuss-post-header .level {
+  height: 12px;
+  margin-left: 6px;
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  height: 1em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.discuss-post-header .time {
+  color: #ccc;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.discuss-post-middle {
+  margin: 15px 0;
+  width: 640px;
+  height: 66px;
+  display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  line-height: 30px;
 }
 
-.discuss .item .title {
+.discuss-post-middle .title {
+  display: flex;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: 600;
-  font-size: 20px;
+  color: #333;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.discuss .item .name {
-  font-weight: 200;
-  font-size: 10px;
-}
-
-.discuss .item .likes {
+.discuss-post-middle .preview {
   display: flex;
-  line-height: 30px;
+  width: 640px;
+  height: 18px;
+  line-height: 18px;
+  margin-top: 8px;
+  color: #999;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.discuss .item .comment {
+.discuss-post-bottom {
   display: flex;
-  line-height: 30px;
+  line-height: 20px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.discuss-post-bottom-item {
+  display: flex;
+}
+
+.discuss-post-bottom img {
+  width: 17.45px;
+  height: 16px;
+  color: #ccc;
+}
+
+.discuss-post-bottom .num {
+  margin-left: 8px;
+  color: #ccc;
+  display: inline-block;
+  width: 50px;
+  display: flex;
 }
 </style>

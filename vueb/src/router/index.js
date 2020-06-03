@@ -22,8 +22,9 @@ const Liked = () => import('../views/Profile/Liked.vue')
 const MyPost = () => import('../views/Profile/MyPost.vue')
 const comment = () => import('../views/Profile/Comment.vue')
 
-const EditPost = () => import('../views/EditPost.vue')
-const Post = () => import('../views/Post.vue')
+// 帖子相关组件
+const EditPost = () => import('../views/Post/EditPost.vue')
+const Post = () => import('../views/Post/Post.vue')
 
 const About = () => import('../views/About.vue');
 const Register = () => import('../views/Register.vue');
