@@ -22,7 +22,8 @@
             :class="[onClick.discuss ? 'blue' : '']"
             @click="discussClick"
           >
-            <img src="../../assets/Icon/Home/discuss.png" alt="" />
+            <!-- <img src="../../assets/Icon/Home/discuss.png" alt="" /> -->
+            <img src="../../assets/Icon/Home/discuss.png" alt="">
             <p>
               讨论区
             </p>
@@ -81,6 +82,13 @@ export default {
       this.$router.push({ path: "/home" });
     },
     editPostClick() {
+      if (!this.$store.state.token){
+        this.$message({
+          message: "登录后才能发布帖子哦~",
+          type: "warning"
+        });
+        return;
+      }
       this.$router.push({
         path: "/editPost",
         query: {

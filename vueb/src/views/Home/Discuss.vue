@@ -1,9 +1,10 @@
 <template>
   <div class="discuss">
     <div
+    
       class="discuss-post"
-      @click="toPost(item.PostID)"
-      v-for="(item, index) in Post"
+      @click="toPost(item.postID)"
+      v-for="(item, index) in post"
       :key="index"
     >
       <div class="discuss-post-header">
@@ -11,7 +12,7 @@
         <div class="name">
           {{ item.userName }}
         </div>
-        <img class="level" :src="getLevel(item)" alt="图片无法加载QAQ" />
+        <img class="level" :src="getLevel(item.userLevel)" alt="图片无法加载QAQ" />
         <div class="time">
           {{ item.createTime }}
         </div>
@@ -49,7 +50,7 @@ export default {
   name: "Discuss",
   data() {
     return {
-      Post: [
+      post: [
         {
           postID: 123,
           userID: 233,
@@ -84,16 +85,23 @@ export default {
   computed: {},
   methods: {
     toPost(PostID) {
+      if (!this.$store.state.token){
+        this.$message({
+          message: "登录后才能浏览帖子哦~",
+          type: "warning"
+        });
+        return;
+      }
       this.$router.push({
         path: "/post",
         query: { postID: PostID }
       });
     },
-    getLevel(item) {
+    getLevel(level) {
       return (
-        "https://img-static.mihoyo.com/level/level" + item.userLevel + ".png"
+        "https://img-static.mihoyo.com/level/level" + level + ".png"
       );
-    }
+    },
   },
   mounted() {
     getPostList(1)
@@ -121,11 +129,11 @@ export default {
 }
 
 .discuss-post {
-  
   height: 169px;
   padding: 24px 0px 24px 30px;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .discuss-post-header {

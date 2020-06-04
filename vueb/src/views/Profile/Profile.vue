@@ -145,6 +145,7 @@ export default {
   border-radius: 4px;
   width: 280px;
   margin: 0 20px;
+  height: 400px;
 }
 
 .pa-list {
@@ -152,6 +153,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 360px;
 }
 
 .pal-item {

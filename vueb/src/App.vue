@@ -17,7 +17,7 @@
           >
             课程中心
           </a>
-          <router-link class="head-msg" to="/profileMessage">消息</router-link>
+          <div class="head-msg" @click="toProfileMessage">消息</div>
           <div class="profile" v-if="token" @click="toProfile">
             {{ $store.state.user.userName }}个人空间
           </div>
@@ -64,7 +64,7 @@
         </div>
         <!-- <div class="login-div"></div> -->
         <div class="hover-bottom login-bottom">
-          <p href="">忘记密码？</p>
+          <p @click="forgetPassword">忘记密码？</p>
           <div style="display:flex;justify-content:center;">
             <div>还没有账户？</div>
             <p @click="change">立即注册</p>
@@ -124,7 +124,16 @@ export default {
   computed: {
     token() {
       return this.$store.state.token;
-    }
+    },
+    isAdmin() {
+      return this.$store.state.user.userIdentity == 1;
+    },
+    isNew() {
+      return this.$store.state.user.isNew == 1;
+    },
+    isState() {
+      return this.$store.state.user.userState == 1;
+    },
   },
   methods: {
     toProfile() {
@@ -133,7 +142,20 @@ export default {
         query: { id: this.$store.state.user.userName }
       });
     },
+    getLevel(level) {
+      return (
+        "https://img-static.mihoyo.com/level/level" + level + ".png"
+      );
+    },
     toProfileMessage() {
+      console.log(!this.$store.state.token)
+      if (!this.$store.state.token){
+        this.$message({
+          message: "登录后才能查看站内消息哦~",
+          type: "warning"
+        });
+        return;
+      }
       this.$router.push("/profileMessage");
     },
     openLogin() {
@@ -214,6 +236,12 @@ export default {
           this.$message.error("请检查网络");
           return;
         });
+    },
+    forgetPassword() {
+      this.$message({
+        message: "请联系管理员修改密码，电话15010487399",
+        type: "success"
+      });
     }
   }
 };
@@ -228,7 +256,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
-  width: 1880px;
+  width: 100%;
 }
 
 .el-main {
@@ -236,10 +264,11 @@ export default {
   color: #333;
   text-align: center;
   height: auto;
-  padding: 0px !important;
+  padding: 20px 0 !important;
   width: 1100px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 40px;
 }
 
 /* 导航相关的样式 */
@@ -255,10 +284,11 @@ export default {
 
 .top {
   background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
-  min-width: 1920px;
-  width: 1920px;
+  min-width: 100%;
+  width: 100%;
   padding: 0px !important;
   color: white;
+  position: fixed;
 }
 
 .top .container a {

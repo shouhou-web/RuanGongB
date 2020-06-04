@@ -160,7 +160,8 @@
         />
       </div>
       <div @click="manageClick">
-        <img src="../../assets/Icon/Post/manage.png" alt="" />
+        <img v-if="isMyPost"  src="../../assets/Icon/Post/manage.png" alt="" />
+        <img v-elif="isAdmin"  src="../../assets/Icon/Post/manage.png" alt="" />
       </div>
     </div>
     <!-- 阴影 -->
@@ -177,7 +178,8 @@
         </div>
         <!-- <div class="login-div"></div> -->
         <div class="hover-radio">
-          <label class="hover-radio-i">
+          <label
+               class="hover-radio-i">
             <input
               name="type"
               type="radio"
@@ -371,6 +373,10 @@ export default {
           return item == userID;
         }).length == 1
       );
+    },
+    isMyPost(){
+      let userID = this.userID;
+      return userID == this.post.userID;
     }
   },
   created() {

@@ -17,8 +17,9 @@ const state = {
         imagePath:'https://img-static.mihoyo.com/communityweb/upload/57b90e40dc9dc200b5edd78dee9c2229.png',
         experience: 100,
         userLevel: 9,
-        userIdentity: true,
-        userState: true
+        userIdentity: 1,//0普通，1管理员
+        userState: 0, //0正常，1被禁
+        isNew:0 //0正常，1还没看新手上路
     }
 }
 

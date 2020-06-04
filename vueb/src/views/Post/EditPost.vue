@@ -20,7 +20,7 @@
           帖子类型：
         </div>
         <div class="edit-type-l">
-          <label class="edit-type-li">
+          <label v-if="isAdmin" class="edit-type-li">
             <input
               name="type"
               type="radio"
@@ -46,6 +46,20 @@
             {{ item.label }}
           </label>
         </div>
+      </div>
+      <div class="edit-title">
+        <div class="edit-title-t edit-left">
+          阅读权限：
+        </div>
+        <el-select v-model="postLevel" placeholder="请选择帖子的最低阅读等级">
+          <el-option
+            v-for="item in option"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
       </div>
       <div class="edit-content">
         <div class="edit-content-t edit-left">
@@ -87,7 +101,8 @@ export default {
       quillOption: quillConfig,
       content: "",
       title: "",
-      postID : 0,
+      postLevel: "Lv.1",
+      postID: 0,
       postIdentity: null,
       type: [
         {
@@ -128,6 +143,19 @@ export default {
   components: {
     quillEditor
   },
+  computed: {
+    option() {
+      let opt = [];
+      for (let i = 1; i <= this.$store.state.user.userLevel; i++) {
+        let tmp = {
+          value: i,
+          label: "Lv." + i
+        };
+        opt.push(tmp);
+      }
+      return opt;
+    }
+  },
   methods: {
     submitPost() {
       console.log(this.$store.state.user.userID);
@@ -139,21 +167,21 @@ export default {
       let postIdentity = this.postIdentity;
       let content = this.content;
       let postID = this.postID;
-      if (title == ''){
+      if (title == "") {
         this.$message({
           message: "帖子标题不能为空~",
           type: "warning"
         });
-        return
+        return;
       }
-      if (!postIdentity){
+      if (!postIdentity) {
         this.$message({
           message: "帖子类型不能为空~",
           type: "warning"
         });
-        return
+        return;
       }
-      if (content == ''){
+      if (content == "") {
         this.$message({
           message: "帖子内容不能为空",
           type: "warning"
@@ -181,6 +209,27 @@ export default {
 };
 </script>
 <style>
+.edit-content,.edit-title,.edit-type{
+  margin: 10px 0;
+}
+.el-input__inner{
+  height: 50px;
+}
+
+.el-select{
+  display: flex;
+  align-items: center;
+  line-height: 50px;
+  position: relative;
+}
+
+.hover {
+  height: auto;
+  width: auto;
+  display: flex;
+  margin-left: -86px;
+}
+
 .editpost-header {
   widows: 1000px;
   height: 50px;
@@ -257,7 +306,7 @@ export default {
   height: 42px;
   outline: none;
   border: none;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .ql-editor {
@@ -265,7 +314,7 @@ export default {
 }
 
 .el-main {
-  background-color: #e9eef3;
+  background-color: rgb(240, 241, 245);
 }
 
 .editpost-main {
@@ -273,13 +322,14 @@ export default {
   display: flex;
   flex-direction: column;
   width: 1000px;
-  height: 642px;
+  height: auto;
   padding: 50px 80px 40px;
 }
 
 .editpost {
   display: flex;
   flex-direction: column;
+  height: auto;
   padding-bottom: 20px;
   margin-top: 30px;
   background-color: #fff;

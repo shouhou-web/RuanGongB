@@ -47,19 +47,20 @@ const handlers = {
                 formData.append(uploadConfig.name, fileInput.files[0]);
                 formData.append('object','product');
                 // 如果需要token且存在token
-                if (uploadConfig.token) {
-                    formData.append('token', uploadConfig.token)
-                }
+                // if (uploadConfig.token) {
+                //     formData.append('token', uploadConfig.token)
+                // }
                 // 图片上传
                 var xhr = new XMLHttpRequest();
                 xhr.open(uploadConfig.methods, uploadConfig.action, true);
                 // 上传数据成功，会触发
                 xhr.onload = function (e) {
                     if (xhr.status === 200) {
-                        var res = JSON.parse(xhr.responseText);
+                        // var res = JSON.parse(xhr.responseText);
                         let length = self.quill.getSelection(true).index;
+                        let res = xhr.responseText;
                         //这里很重要，你图片上传成功后，img的src需要在这里添加，res.path就是你服务器返回的图片链接。            
-                        self.quill.insertEmbed(length, 'image', res.path);
+                        self.quill.insertEmbed(length, 'image', res);
                         self.quill.setSelection(length + 1)
                     }
                     fileInput.value = ''
