@@ -101,7 +101,7 @@ export default {
       quillOption: quillConfig,
       content: "",
       title: "",
-      postLevel: "Lv.1",
+      postLevel: 1,
       postID: 0,
       postIdentity: null,
       type: [
@@ -154,16 +154,21 @@ export default {
         opt.push(tmp);
       }
       return opt;
-    }
+    },
+    isAdmin() {
+      return this.$store.state.user.userIdentity == 1;
+    },
   },
   methods: {
     submitPost() {
       console.log(this.$store.state.user.userID);
       console.log(this.title);
+      console.log(this.postLevel)
       console.log(this.postIdentity);
       console.log(this.content);
       let userID = this.$store.state.user.userID;
       let title = this.title;
+      let postLevel = this.postLevel;
       let postIdentity = this.postIdentity;
       let content = this.content;
       let postID = this.postID;
@@ -188,7 +193,7 @@ export default {
         });
         return;
       }
-      uploadPost(userID, postID, title, postIdentity, content)
+      uploadPost(userID, postID, title, postLevel, postIdentity, content)
         .then(res => {
           console.log(res);
           this.$message({
@@ -253,20 +258,11 @@ export default {
   display: flex;
 }
 
-.edit-title-i {
-  position: relative;
-  -webkit-box-flex: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  z-index: 2;
-  border: none;
-  color: #333;
-  padding: 0 20px;
-  background-color: transparent;
-  font-size: inherit;
-  width: 100px;
-  border: 1px solid #ebebeb;
-  border-radius: 4px;
+.hover {
+    height: auto;
+    width: auto;
+    display: flex;
+    margin-left: -86px;
 }
 
 .edit-type {

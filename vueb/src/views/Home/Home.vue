@@ -23,7 +23,7 @@
             @click="discussClick"
           >
             <!-- <img src="../../assets/Icon/Home/discuss.png" alt="" /> -->
-            <img src="../../assets/Icon/Home/discuss.png" alt="">
+            <img src="../../assets/Icon/Home/discuss.png" alt="" />
             <p>
               讨论区
             </p>
@@ -82,7 +82,7 @@ export default {
       this.$router.push({ path: "/home" });
     },
     editPostClick() {
-      if (!this.$store.state.token){
+      if (!this.$store.state.token) {
         this.$message({
           message: "登录后才能发布帖子哦~",
           type: "warning"
@@ -177,9 +177,11 @@ export default {
 
 .home-option .main {
   display: flex;
-  height: 90px;
   justify-content: center;
   align-items: center;
+  line-height: 50px;
+  align-content: center;
+  height: 90px;
 }
 
 .home-option .editpost {

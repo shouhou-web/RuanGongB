@@ -15,11 +15,11 @@
           <div class="ptm-id">用户ID：{{ $store.state.user.userID }}</div>
         </div>
 
-        <button class="ptm-button">编辑资料</button>
+        <router-link to="/profile/editInfo" class="ptm-button">编辑资料</router-link>
       </div>
       <div class="profile-title-right">
         <div class="ptr-likes">
-          {{ $store.state.user.userLikes }}
+          {{ $store.state.user.likesNum  }}
         </div>
         <div class="ptr-likestest">获赞</div>
       </div>
@@ -92,13 +92,13 @@ export default {
         {
           name: "我的等级",
           img: require("../../assets/Icon/Profile/5.png"),
-          to: "/profile/myLevel",
+          to: "/profile/profileLevel",
           current: false
         },
         {
           name: "编辑资料",
           img: require("../../assets/Icon/Profile/6.png"),
-          to: "/profile/edit",
+          to: "/profile/editInfo",
           current: false
         }
       ]
@@ -221,6 +221,7 @@ export default {
   border-radius: 50%;
   border: 1px solid #ebebeb;
   vertical-align: top;
+  margin-right: 30px;
 }
 
 .profile-title-middle {
@@ -284,7 +285,7 @@ export default {
 
 .ptm-id {
   margin-left: 10px;
-  font-size: 12px;
+  font-size: 13px;
   color: #ccc;
 }
 

@@ -132,9 +132,9 @@ export default {
     let userID = this.$store.state.user.userID;
     getMyPost(userID).then(res => {
       if (res == null || res == ''){
-        this.mypost = [];
+        this.myPost = [];
       }else{
-        this.mypost = res;
+        this.myPost = res;
       }
     }).catch(err => {
       this.$message.error("获取信息失败了~请检查网络并再次尝试")

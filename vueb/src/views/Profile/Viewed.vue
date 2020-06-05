@@ -139,9 +139,9 @@ export default {
     getBrowsePost(userID)
       .then(res => {
         if (res == null || res == "") {
-          this.viewdpost = [];
+          this.viewdPost = [];
         } else {
-          this.viewdpost = res;
+          this.viewdPost = res;
         }
       })
       .catch(err => {

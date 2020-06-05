@@ -1,0 +1,110 @@
+.discuss-post {
+  height: 169px;
+  padding: 24px 0px 24px 30px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.discuss-post-header {
+  width: 640px;
+  height: 24px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  line-height: 30px;
+}
+
+.discuss-post-header .left {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #ebebeb;
+  vertical-align: top;
+}
+
+.discuss-post-header .name {
+  font-size: 12px;
+  max-width: 180px;
+  display: inline-block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.discuss-post-header .level {
+  height: 12px;
+  margin-left: 6px;
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  height: 1em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.discuss-post-header .time {
+  color: #ccc;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.discuss-post-middle {
+  margin: 15px 0;
+  width: 640px;
+  height: 66px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.discuss-post-middle .title {
+  display: flex;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discuss-post-middle .preview {
+  display: flex;
+  width: 640px;
+  height: 18px;
+  line-height: 18px;
+  margin-top: 8px;
+  color: #999;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discuss-post-bottom {
+  display: flex;
+  line-height: 20px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.discuss-post-bottom-item {
+  display: flex;
+}
+
+.discuss-post-bottom img {
+  width: 17.45px;
+  height: 16px;
+  color: #ccc;
+}
+
+.discuss-post-bottom .num {
+  margin-left: 8px;
+  color: #ccc;
+  display: inline-block;
+  width: 50px;
+  display: flex;
+}

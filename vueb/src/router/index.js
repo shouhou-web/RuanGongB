@@ -21,10 +21,17 @@ const Viewd = () => import('../views/Profile/Viewed.vue')
 const Liked = () => import('../views/Profile/Liked.vue')
 const MyPost = () => import('../views/Profile/MyPost.vue')
 const comment = () => import('../views/Profile/Comment.vue')
+const EditInfo = () => import('../views/Profile/EditInfo.vue')
+const ProfileLevel = () => import('../views/Profile/ProfileLevel.vue')
 
 // 帖子相关组件
 const EditPost = () => import('../views/Post/EditPost.vue')
 const Post = () => import('../views/Post/Post.vue')
+const SearchPost = () => import('../views/Post/SearchPost.vue')
+
+//管理员相关组件
+const ManageProfile = () => import('../views/Manage/ManageProfile.vue') 
+const ViewProfile = () => import('../views/Manage/ViewProfile.vue')
 
 const About = () => import('../views/About.vue');
 const Register = () => import('../views/Register.vue');
@@ -90,6 +97,21 @@ const routes = [
     component: EditPost
   },
   {
+    path: '/editPost',
+    name: 'EditPost',
+    component: EditPost
+  },
+  {
+    path: '/searchPost',
+    name: 'SearchPost',
+    component: SearchPost
+  },
+  {
+    path: '/manageProfile',
+    name: 'ManageProfile',
+    component: ManageProfile
+  },
+  {
     path: '/profileMessage',
     name: 'ProfileMessage',
     component: ProfileMessage,
@@ -146,7 +168,21 @@ const routes = [
         name: 'Liked',
         component: Liked
       },
-      
+      {
+        path: '/profile/editInfo',
+        name: 'EditInfo',
+        component: EditInfo
+      },
+      {
+        path: '/profile/profileLevel',
+        name: 'ProfileLevel',
+        component: ProfileLevel
+      },
+      {
+        path: '/profile/viewProfile',
+        name: 'ViewProfile',
+        component: ViewProfile
+      },
     ]
   },
   {

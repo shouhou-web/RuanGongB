@@ -4,24 +4,26 @@
     <div class="main">
       <!-- 文章主体 -->
       <div class="article">
-        <h1>{{ post.title }}</h1>
+        <div class="title">
+          <h1>{{ post.title }}</h1>
+        </div>
         <!-- 预览各项数据 -->
         <div class="preview">
-          <div class="identify">来自板块：{{ type[post.postIdentity] }}</div>
-
-          <div class="preview-browse">
-            <i class="el-icon-view"></i>
-            {{ post.browseNum }}
-          </div>
-
-          <div class="preview-comment">
-            <i class="el-icon-chat-round"></i>
-            {{ post.commentNum }}
-          </div>
-
-          <div class="preview-likes">
-            <i class="el-icon-thumb"></i>
-            {{ post.likesNum }}
+          <div class="p-identify">来自板块：</div>
+          <div class="p-identify2">{{ type[post.postIdentity] }}</div>
+          <div class="discuss-post-bottom">
+            <div class="discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/preview.png" alt="" />
+              <div class="num">{{ post.browseNum }}</div>
+            </div>
+            <div class="discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/likes.png" alt="" />
+              <div class="num">{{ post.likesNum }}</div>
+            </div>
+            <div class="discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/comment.png" alt="" />
+              <div class="num">{{ post.commentNum }}</div>
+            </div>
           </div>
         </div>
         <!-- 文章发表时间 -->
@@ -83,9 +85,15 @@
                 <div class="name">
                   {{ item.userName }}
                 </div>
-                <div class="level">Lv.{{ item.level }}</div>
+                <img class="level" :src="getLevel(item.level)" alt="" />
               </div>
-              <div class="main-top-manage">管理</div>
+              <div
+                v-if="isAdmin"
+                @click="manageProfile(item.userID)"
+                class="main-top-manage"
+              >
+                管理
+              </div>
             </div>
             <div class="content">
               {{ item.content }}
@@ -118,13 +126,21 @@
     <div class="aside">
       <!-- 作者 -->
       <div class="author">
-        <img :src="post.imagePath" alt="图片无法加载QAQ" />
-        <div class="author-content">
-          <div class="author-name">
-            ♤Ansel♤
+        <img class="head" :src="post.imagePath" alt="图片无法加载QAQ" />
+        <div class="xxx">
+          <div
+            @click="manageProfile(post.userID)"
+            style="margin-left: 5px;"
+            v-if="isAdmin"
+            class="profile-manage"
+          >
+            管理
           </div>
-          <div class="author-level">
-            Lv.9
+          <div class="author-content">
+            <div class="author-name">
+              {{ post.userName }}
+            </div>
+            <img class="level" :src="getLevel(post.userLevel)" alt="" />
           </div>
         </div>
       </div>
@@ -160,8 +176,12 @@
         />
       </div>
       <div @click="manageClick">
-        <img v-if="isMyPost"  src="../../assets/Icon/Post/manage.png" alt="" />
-        <img v-elif="isAdmin"  src="../../assets/Icon/Post/manage.png" alt="" />
+        <img v-if="isMyPost" src="../../assets/Icon/Post/manage.png" alt="" />
+        <img
+          v-else-if="isAdmin"
+          src="../../assets/Icon/Post/manage.png"
+          alt=""
+        />
       </div>
     </div>
     <!-- 阴影 -->
@@ -178,8 +198,30 @@
         </div>
         <!-- <div class="login-div"></div> -->
         <div class="hover-radio">
+          <label v-if="isAdmin && post.stickState == 0" class="hover-radio-i">
+            <input
+              name="type"
+              type="radio"
+              id="0"
+              value="置顶帖子"
+              v-model="manageType"
+            />
+            置顶帖子
+          </label>
           <label
-               class="hover-radio-i">
+            v-else-if="isAdmin && post.stickState == 1"
+            class="hover-radio-i"
+          >
+            <input
+              name="type"
+              type="radio"
+              id="0"
+              value="取消置顶"
+              v-model="manageType"
+            />
+            取消置顶
+          </label>
+          <label v-else class="hover-radio-i">
             <input
               name="type"
               type="radio"
@@ -216,7 +258,13 @@
 </template>
 
 <script>
-import { downPost, likePost, pushComment } from "../../network/post";
+import {
+  downPost,
+  likePost,
+  pushComment,
+  stickPost,
+  deletePost
+} from "../../network/post";
 export default {
   name: "Post",
   data() {
@@ -236,7 +284,9 @@ export default {
       post: {
         postID: 123,
         userID: 233,
+        userLevel: 9,
         postIdentity: 2,
+        stickState: 0,
         content: `<div>帖子内容</div>`,
         userName: "用户名",
         accessoryPath: "附件路径",
@@ -309,7 +359,7 @@ export default {
   },
   methods: {
     commentPush() {
-      if (this.newcomment.length <= 5){
+      if (this.newcomment.length <= 5) {
         this.$message({
           message: "请书写至少五个字的评论~",
           type: "warning"
@@ -321,8 +371,7 @@ export default {
       let content = this.newcomment;
       pushComment(userID, postID, content)
         .then(res => {
-          if (res == null)
-            this.$message.error("评论失败了~请检查您的网络");
+          if (res == null) this.$message.error("评论失败了~请检查您的网络");
           else this.post.listComment.push(res);
         })
         .catch(err => {
@@ -354,6 +403,57 @@ export default {
     },
     assure() {
       if (this.manageType == "编辑") this.toEdit();
+      else if (this.manageType == "删除") {
+        let postID = this.post.postID;
+        let userID = this.$store.state.user.userID;
+        deletePost(postID, userID)
+          .then(res => {
+            if (res == 0) {
+              this.$message({
+                message: "删除成功",
+                type: "success"
+              });
+              this.$router.push({ path: "/home" });
+            } else this.$message.error("删除失败，请检查您的网络~");
+          })
+          .catch(err => {
+            this.$message.error("删除失败，请检查您的网络~");
+          });
+      } else if (this.manageType == "置顶帖子") {
+        console.log("置顶帖子");
+        let postID = this.post.postID;
+        let adminID = this.$store.state.user.userID;
+        let stickstate = 1;
+        stickPost(postID, adminID, stickstate)
+          .then(res => {
+            if (res == 0)
+              this.$message({
+                message: "置顶成功",
+                type: "success"
+              });
+            else this.$message.error("置顶失败，请检查您的网络~");
+          })
+          .catch(err => {
+            this.$message.error("置顶失败，请检查您的网络~");
+          });
+      } else if (this.manageType == "取消置顶") {
+        console.log("取消置顶");
+        let postID = this.post.postID;
+        let adminID = this.$store.state.user.userID;
+        let stickstate = 0;
+        stickPost(postID, adminID, stickstate)
+          .then(res => {
+            if (res == 0)
+              this.$message({
+                message: "取消置顶成功",
+                type: "success"
+              });
+            else this.$message.error("取消置顶失败，请检查您的网络~");
+          })
+          .catch(err => {
+            this.$message.error("取消置顶失败，请检查您的网络~");
+          });
+      }
     },
     toEdit() {
       let post = this.post;
@@ -363,9 +463,21 @@ export default {
           post: post
         }
       });
+    },
+    getLevel(level) {
+      return "https://img-static.mihoyo.com/level/level" + level + ".png";
+    },
+    manageProfile(userID) {
+      this.$router.push({
+        path: "/manageProfile",
+        query: { userID:userID }
+      });
     }
   },
   computed: {
+    isAdmin() {
+      return this.$store.state.user.userIdentity == 1;
+    },
     isLikes() {
       let userID = this.userID;
       return (
@@ -374,7 +486,7 @@ export default {
         }).length == 1
       );
     },
-    isMyPost(){
+    isMyPost() {
       let userID = this.userID;
       return userID == this.post.userID;
     }
@@ -415,6 +527,9 @@ export default {
 };
 </script>
 <style>
+.xxx {
+  margin-bottom: 35px;
+}
 /* 悬浮窗 */
 .hover {
   height: 247px;
@@ -449,10 +564,13 @@ export default {
   align-content: center;
   align-items: center;
   padding: 2px;
-  width: 70px;
-  justify-content: space-around;
+  width: 100px;
   margin-left: 30px;
   line-height: 50px;
+}
+
+.hover-radio-i input {
+  margin-right: 10px;
 }
 
 .hover-radio-bottom {
@@ -488,7 +606,8 @@ export default {
 .post-option {
   position: fixed;
   top: 95px;
-  left: 345px;
+  left: 68%;
+  margin-left: -50%;
   width: 46px;
   background-color: #fff;
   border-radius: 4px;
@@ -517,15 +636,78 @@ export default {
   width: 700px;
   border-radius: 5px;
   margin: 5px;
-  padding: 20px;
+  padding: 40px 50px;
   background-color: #fff;
+}
+
+.post .main .article .title {
+  display: flex;
+  width: 100%;
+}
+
+.post .main .article h1 {
+  font-size: 22px;
+  line-height: 26px;
+  margin: 0;
+  word-break: break-word;
+  display: flex;
 }
 
 .post .main .article .preview {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  width: 500px;
+  height: 40px;
+  padding: 0 15px;
+  background-color: #f7f8fc;
+  width: 600px;
+  margin-top: 30px;
+}
+
+.p-identify {
+  color: #999;
+  font-size: 14px;
+}
+
+.p-identify2 {
+  color: #fa0;
+  font-size: 14px;
+  margin-right: 280px;
+}
+
+.discuss-post-bottom {
+  display: flex;
+  line-height: 20px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.discuss-post-bottom-item {
+  display: flex;
+}
+
+.post .main .article .preview .discuss-post-bottom img {
+  margin-left: 20px;
+  width: 17.45px;
+  height: 16px;
+  color: #ccc;
+}
+
+.post .main .article .preview .discuss-post-bottom .num {
+  display: flex;
+  color: #ccc;
+  display: inline-block;
+  width: 10px;
+  margin-left: 5px;
+}
+
+.post .main .article .time {
+  color: #ccc;
+  margin-top: 20px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 .post .main .article .content {
@@ -563,20 +745,45 @@ export default {
 /* 侧边栏-作者 */
 .post .aside .author {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   border-radius: 5px;
   background-color: #fff;
   width: 280px;
   height: 160px;
-  padding: 20px;
+  padding: 0 20px 0 30px;
+}
+
+.post .aside .author .head {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 
 .post .aside .author .author-content {
   display: flex;
-  flex-direction: column;
   justify-content: space-around;
   line-height: 30px;
+  line-height: 50px;
+  align-items: center;
+}
+
+.post .aside .author .author-content .author-name {
+  color: #666;
+  line-height: 22px;
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 6px;
+  margin-left: 15px;
+  white-space: normal;
+  display: inline;
+  max-width: 180px;
+}
+.main .main-top .main-top-title .level,
+.post .aside .author .author-content .level {
+  height: 16px;
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* 侧边栏-所属模块 */
@@ -609,14 +816,8 @@ export default {
   margin-left: 20px;
 }
 
-.post .aside .author img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-
 /* 评论输入 */
-.post .main{
+.post .main {
   height: auto;
 }
 
@@ -676,7 +877,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   margin: 0px 5px;
-  border-radius: 5px;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .post .main .comment .img {
@@ -709,13 +910,22 @@ export default {
   height: 44px;
 }
 
-.post .main .comment .main .main-top-manage {
-  margin-left: 400px;
+.aside .author .profile-manage {
   color: #fff;
   font-size: 14px;
   width: 60px;
+  margin-left: 50px;
+  margin-bottom: 15px;
 }
 
+.post .main .comment .main .main-top-manage {
+  color: #fff;
+  font-size: 14px;
+  width: 60px;
+  margin-left: 400px;
+}
+
+.aside .author .profile-manage:hover,
 .post .main .comment .main .main-top-manage:hover {
   color: #ccc;
 }

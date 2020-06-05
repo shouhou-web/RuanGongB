@@ -1,7 +1,19 @@
 <template>
   <div class="discuss">
+    <!-- 置顶及新手入门 -->
+    <div class="post-top">
+      <!-- 置顶 -->
+      <div @click="toPost(item.postID)" v-for="(item, index) in top" :key="index" class="pt-i">
+        <div class="tag">
+          置顶
+        </div>
+        <div class="title">
+          {{ item.title }}
+        </div>
+      </div>
+    </div>
+    <!-- 帖子列表 -->
     <div
-    
       class="discuss-post"
       @click="toPost(item.postID)"
       v-for="(item, index) in post"
@@ -12,7 +24,11 @@
         <div class="name">
           {{ item.userName }}
         </div>
-        <img class="level" :src="getLevel(item.userLevel)" alt="图片无法加载QAQ" />
+        <img
+          class="level"
+          :src="getLevel(item.userLevel)"
+          alt="图片无法加载QAQ"
+        />
         <div class="time">
           {{ item.createTime }}
         </div>
@@ -50,6 +66,38 @@ export default {
   name: "Discuss",
   data() {
     return {
+      top: [
+        {
+          postID: 123,
+          userID: 233,
+          userName: "用户名",
+          userLevel: 1,
+          createTime: "05-24",
+          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
+            </br>`,
+          imagePath:
+            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
+          title: "写大作业好开心啊",
+          likesNum: 0,
+          browseNum: 1,
+          commentNum: 2
+        },
+        {
+          postID: 123,
+          userID: 233,
+          userName: "用户名",
+          userLevel: 1,
+          createTime: "05-24",
+          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
+            </br>`,
+          imagePath:
+            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
+          title: "写大作业好开心啊",
+          likesNum: 0,
+          browseNum: 1,
+          commentNum: 2
+        }
+      ],
       post: [
         {
           postID: 123,
@@ -82,10 +130,12 @@ export default {
       ]
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   methods: {
     toPost(PostID) {
-      if (!this.$store.state.token){
+      if (!this.$store.state.token) {
         this.$message({
           message: "登录后才能浏览帖子哦~",
           type: "warning"
@@ -98,10 +148,8 @@ export default {
       });
     },
     getLevel(level) {
-      return (
-        "https://img-static.mihoyo.com/level/level" + level + ".png"
-      );
-    },
+      return "https://img-static.mihoyo.com/level/level" + level + ".png";
+    }
   },
   mounted() {
     getPostList(1)
@@ -111,131 +159,57 @@ export default {
             message: "没有该类型帖子的信息~",
             type: "warning"
           });
-        else this.post = res;
+        else {
+          this.post = res.filter((item) => {
+            return item.stickState == 0
+          });
+          this.top = res.filter((item) => {
+            return item.stickState == 1
+          });
+        }
       })
       .catch(err => {
-        this.$message.error("获取信息失败了~请检查您的网络");
+        this.$message.error("discuss获取信息失败了~请检查您的网络");
       });
   }
 };
 </script>
 <style>
+.post-top {
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 30px;
+}
+
+.pt-i {
+  display: flex;
+  padding: 10px;
+}
+
+.pt-i .tag {
+  border: 1px solid #4cc3ff;
+  color: #4cc3ff;
+  margin-right: 10px;
+  height: 18px;
+  border-radius: 2px;
+  text-align: center;
+  line-height: 18px;
+  font-weight: 600;
+  padding: 0 4px;
+}
+
+.pt-i .title {
+  line-height: 20px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
 .discuss {
   background-color: #fff;
   margin: 20px 20px 20px 0;
   line-height: 50px;
   width: 790px;
   border-radius: 4px;
-}
-
-.discuss-post {
-  height: 169px;
-  padding: 24px 0px 24px 30px;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #ebebeb;
-}
-
-.discuss-post-header {
-  width: 640px;
-  height: 24px;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  line-height: 30px;
-}
-
-.discuss-post-header .left {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 1px solid #ebebeb;
-  vertical-align: top;
-}
-
-.discuss-post-header .name {
-  font-size: 12px;
-  max-width: 180px;
-  display: inline-block;
-  vertical-align: middle;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-left: 10px;
-}
-
-.discuss-post-header .level {
-  height: 12px;
-  margin-left: 6px;
-  font-size: 14px;
-  display: inline-block;
-  vertical-align: middle;
-  height: 1em;
-  fill: currentColor;
-  overflow: hidden;
-}
-
-.discuss-post-header .time {
-  color: #ccc;
-  margin-left: 10px;
-  font-size: 12px;
-}
-
-.discuss-post-middle {
-  margin: 15px 0;
-  width: 640px;
-  height: 66px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.discuss-post-middle .title {
-  display: flex;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 600;
-  color: #333;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.discuss-post-middle .preview {
-  display: flex;
-  width: 640px;
-  height: 18px;
-  line-height: 18px;
-  margin-top: 8px;
-  color: #999;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.discuss-post-bottom {
-  display: flex;
-  line-height: 20px;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.discuss-post-bottom-item {
-  display: flex;
-}
-
-.discuss-post-bottom img {
-  width: 17.45px;
-  height: 16px;
-  color: #ccc;
-}
-
-.discuss-post-bottom .num {
-  margin-left: 8px;
-  color: #ccc;
-  display: inline-block;
-  width: 50px;
-  display: flex;
 }
 </style>

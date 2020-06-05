@@ -3,27 +3,27 @@ import { request } from "./request";
 import qs from 'qs'
 
 //上传图片到数据库
-export function upimg(imgdata) {
-    console.log(imgdata)
-    return request({
-        url: "/upimg",
-        // params: {
-        //     imgdata : qs.stringify(imgdata)
-        // },
-        params: {
-            imgdata
-        },
-        method: 'post',
-        
-    })
-}
+// export function upimg(imgdata) {
+//     console.log(imgdata)
+//     return request({
+//         url: "/upimg",
+//         // params: {
+//         //     imgdata : qs.stringify(imgdata)
+//         // },
+//         params: {
+//             imgdata
+//         },
+//         method: 'post',
+
+//     })
+// }
 
 // 上传帖子
-export function uploadPost(userID, postID, title, postIdentity, content) {
+export function uploadPost(userID, postID, title, postLevel, postIdentity, content) {
     return request({
         url: "/uploadPost",
         params: {
-            userID, postID, title, postIdentity, content
+            userID, postID, title,postLevel, postIdentity, content
         },
         method: 'post'
     })
@@ -52,7 +52,7 @@ export function downPost(postID) {
 }
 
 // 点赞帖子
-export function likePost(userID,postID,likeState) {
+export function likePost(userID, postID, likeState) {
     return request({
         url: "/likePost",
         params: {
@@ -65,13 +65,36 @@ export function likePost(userID,postID,likeState) {
 }
 
 // 评论帖子
-export function pushComment(userID,postID,content) {
+export function pushComment(userID, postID, content) {
     return request({
         url: "/pushComment",
         params: {
             userID,
             postID,
             content
+        },
+        method: 'post'
+    })
+}
+
+//置顶帖子
+//stickstate 1：置顶该帖子，0：取消置顶
+export function stickPost(postID, adminID, stickstate) {
+    return request({
+        url: "/stickPost",
+        params: {
+            postID, adminID, stickstate
+        },
+        method: 'post'
+    })
+}
+
+//删除帖子
+export function deletePost(postID,userID) {
+    return request({
+        url: "/deletePost",
+        params: {
+            postID,userID
         },
         method: 'post'
     })

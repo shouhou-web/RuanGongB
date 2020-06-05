@@ -63,3 +63,18 @@ export function getBrowsePost(userID) {
         method: 'post'
     })
 }
+
+// 修改个人信息
+export function editUser(userID, imagePath, userName, userWord, sex) {
+    return request({
+        url: "/editUser",
+        params: {
+            userID, 
+            imagePath,
+            userName, 
+            userWord, 
+            sex
+        },
+        method: 'post'
+    })
+}

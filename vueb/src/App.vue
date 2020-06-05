@@ -249,6 +249,7 @@ export default {
 
 <style>
 @import "./assets/css/base.css";
+@import "./assets/css/post.css";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -260,7 +261,7 @@ export default {
 }
 
 .el-main {
-  background-color: #e9eef3;
+  background-color: rgb(240, 241, 245);
   color: #333;
   text-align: center;
   height: auto;
