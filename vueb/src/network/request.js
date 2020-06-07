@@ -1,4 +1,6 @@
 import axios from 'axios'
+import store from '../store/index'
+
 axios.defaults.baseURL = '/api'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -27,6 +29,7 @@ export function request(config) {
     // console.log(config);
 
     // 4.等等
+    // store.commit("showLoading");
     return config
   }, err => {
     // console.log('来到了request拦截failure中');
@@ -36,8 +39,10 @@ export function request(config) {
   //2.2 响应拦截
   instance.interceptors.response.use(response => {
     //console.log('来到了response拦截success中');
+    // store.commit("hideLoading");
     return response.data
   }, err => {
+    store.commit("hideLoading");
     console.log('来到了response拦截failure中');
     console.log(err);
     throw err

@@ -99,3 +99,14 @@ export function deletePost(postID,userID) {
         method: 'post'
     })
 }
+
+//搜索帖子
+export function searchPost(keyword) {
+    return request({
+        url: "/searchPost",
+        params: {
+            keyword
+        },
+        method: 'post'
+    })
+}

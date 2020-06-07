@@ -108,6 +108,7 @@ export default {
       console.log(this.duration)
       console.log(this.user.userState)
       let userID = this.user.userID;
+      let adminID = this.$store.state.user.userID;
       let content = this.content;
       let duration = this.duration;
       let userState = this.user.userState
@@ -116,7 +117,7 @@ export default {
         content = ""
       }else 
         userState = 1;
-      upManage(userID,userState,duration,content).then(res => {
+      upManage(userID,adminID,userState,duration,content).then(res => {
         if (res == 0) {
           this.$message({
             type:'success',

@@ -7,7 +7,8 @@
 }
 
 .discuss-post-header {
-  width: 640px;
+  width: 100%;
+  padding: 0 30px 0 0 ;
   height: 24px;
   display: flex;
   align-content: center;
@@ -107,4 +108,28 @@
   display: inline-block;
   width: 50px;
   display: flex;
+}
+
+.discuss-post-header .postLevel {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.discuss-post-header .postLevel-content{
+  background-color: #ccc;
+    color: #fff;
+    margin-right: 10px;
+    height: 22px;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 18px;
+    padding: 2px 4px;
+    width: auto;
+}
+
+.cp-content:hover,
+.navigation:hover {
+  color: #00c3ff;
 }

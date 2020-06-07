@@ -34,6 +34,11 @@
         <router-view />
       </el-main>
     </el-container>
+    <div
+      type="primary"
+      @click="openFullScreen1"
+      v-loading.fullscreen.lock="fullscreenLoading"
+    ></div>
     <!-- 阴影 -->
     <div
       :class="[open ? '' : 'page-mask-show']"
@@ -118,10 +123,14 @@ export default {
       username: "",
       password: "",
       password2: "",
+      search: "",
       type: 0
     };
   },
   computed: {
+    fullscreenLoading() {
+      return this.$store.state.fullscreenLoading;
+    },
     token() {
       return this.$store.state.token;
     },
@@ -133,9 +142,15 @@ export default {
     },
     isState() {
       return this.$store.state.user.userState == 1;
-    },
+    }
   },
   methods: {
+    openFullScreen1() {
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = false;
+      }, 2000);
+    },
     toProfile() {
       this.$router.push({
         path: "/profile",
@@ -143,13 +158,11 @@ export default {
       });
     },
     getLevel(level) {
-      return (
-        "https://img-static.mihoyo.com/level/level" + level + ".png"
-      );
+      return "https://img-static.mihoyo.com/level/level" + level + ".png";
     },
     toProfileMessage() {
-      console.log(!this.$store.state.token)
-      if (!this.$store.state.token){
+      console.log(!this.$store.state.token);
+      if (!this.$store.state.token) {
         this.$message({
           message: "登录后才能查看站内消息哦~",
           type: "warning"
@@ -230,6 +243,12 @@ export default {
             this.open = false;
             this.username = "";
             this.password = "";
+            if (res.isNew == 1) {
+              this.$router.push({
+                path: "/post",
+                query: { postID: 9999 }
+              });
+            }
           }
         })
         .catch(err => {

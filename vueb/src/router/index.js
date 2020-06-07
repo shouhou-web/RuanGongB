@@ -84,6 +84,11 @@ const routes = [
         name: 'Exercise',
         component: Exercise
       },
+      {
+        path: '/home/searchPost',
+        name: 'SearchPost',
+        component: SearchPost
+      },
     ]
   },
   {
@@ -100,11 +105,6 @@ const routes = [
     path: '/editPost',
     name: 'EditPost',
     component: EditPost
-  },
-  {
-    path: '/searchPost',
-    name: 'SearchPost',
-    component: SearchPost
   },
   {
     path: '/manageProfile',

@@ -12,6 +12,16 @@ export function login(username, password) {
     })
 }
 
+export function isNotNew(userID) {
+    return request({
+        url: "/isNotNew",
+        params: {
+            userID
+        },
+        method: 'post'
+    })
+}
+
 export function register(username, password, password2) {
     return request({
         url: "/register",

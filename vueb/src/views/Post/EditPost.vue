@@ -217,6 +217,7 @@ export default {
 .edit-content,.edit-title,.edit-type{
   margin: 10px 0;
 }
+
 .el-input__inner{
   height: 50px;
 }
@@ -229,8 +230,8 @@ export default {
 }
 
 .hover {
-  height: auto;
-  width: auto;
+  height: auto !important;
+  width: auto !important;
   display: flex;
   margin-left: -86px;
 }
@@ -258,11 +259,10 @@ export default {
   display: flex;
 }
 
-.hover {
-    height: auto;
-    width: auto;
-    display: flex;
-    margin-left: -86px;
+.edit-title-i {
+  border: 1px solid #e9eef3;
+  padding: 0px 20px;
+  width: 100%;
 }
 
 .edit-type {

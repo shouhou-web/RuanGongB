@@ -15,14 +15,16 @@
           <div class="ptm-id">用户ID：{{ $store.state.user.userID }}</div>
         </div>
 
-        <router-link to="/profile/editInfo" class="ptm-button">编辑资料</router-link>
+        <router-link to="/profile/editInfo" class="ptm-button"
+          >编辑资料</router-link
+        >
       </div>
-      <div class="profile-title-right">
+      <!-- <div class="profile-title-right">
         <div class="ptr-likes">
-          {{ $store.state.user.likesNum  }}
+          {{ $store.state.user.likesNum }}
         </div>
         <div class="ptr-likestest">获赞</div>
-      </div>
+      </div> -->
     </div>
     <div class="profile-main">
       <div class="profile-aside">
@@ -88,18 +90,6 @@ export default {
           img: require("../../assets/Icon/Profile/4.png"),
           to: "/profile/liked",
           current: false
-        },
-        {
-          name: "我的等级",
-          img: require("../../assets/Icon/Profile/5.png"),
-          to: "/profile/profileLevel",
-          current: false
-        },
-        {
-          name: "编辑资料",
-          img: require("../../assets/Icon/Profile/6.png"),
-          to: "/profile/editInfo",
-          current: false
         }
       ]
     };
@@ -111,6 +101,9 @@ export default {
         this.$store.state.user.userLevel +
         ".png"
       );
+    },
+    isAdmin() {
+      return this.$store.state.user.userIdentity == 1;
     }
   },
   components: {},
@@ -130,6 +123,29 @@ export default {
       });
       this.$router.push({ path: "/home" });
     }
+  },
+  mounted() {
+    let common = {
+      name: "我的等级",
+      img: require("../../assets/Icon/Profile/5.png"),
+      to: "/profile/profileLevel",
+      current: false
+    };
+    let admin = {
+      name: "封禁用户",
+      img: require("../../assets/Icon/Profile/5.png"),
+      to: "/profile/viewProfile",
+      current: false
+    };
+    let end = {
+      name: "编辑资料",
+      img: require("../../assets/Icon/Profile/6.png"),
+      to: "/profile/editInfo",
+      current: false
+    };
+    if (this.$store.state.user.userIdentity == 1) this.paList.push(admin);
+    else this.paList.push(common);
+    this.paList.push(end);
   }
 };
 </script>

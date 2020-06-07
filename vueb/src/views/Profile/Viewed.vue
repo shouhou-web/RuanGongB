@@ -26,7 +26,7 @@
         </div>
         <!-- 中部 -->
         <div class="discuss-post-middle">
-          <div class="title">
+          <div class="title navigation">
             {{ item.title }}
           </div>
           <div class="preview" v-html="item.content"></div>

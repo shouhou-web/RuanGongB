@@ -13,6 +13,12 @@ const mutations = {
         state.user.userName = userName;
         state.user.userWord = userWord;
         state.user.userSex = userSex;
+    },
+    showLoading(state) {
+        state.fullscreenLoading = true;
+    },
+    hideLoading(state) {
+        state.fullscreenLoading = false;
     }
 }
 

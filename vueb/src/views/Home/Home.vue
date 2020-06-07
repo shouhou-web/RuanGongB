@@ -18,7 +18,18 @@
         </div>
         <div class="nav">
           <div
-            class="nav-i"
+            class="nav-i navigation"
+            :class="[onClick.search ? 'blue' : '']"
+            @click="searchClick"
+          >
+            <!-- <img src="../../assets/Icon/Home/discuss.png" alt="" /> -->
+            <img src="../../assets/Icon/Home/discuss.png" alt="" />
+            <p>
+              搜索帖子
+            </p>
+          </div>
+          <div
+            class="nav-i navigation"
             :class="[onClick.discuss ? 'blue' : '']"
             @click="discussClick"
           >
@@ -29,7 +40,7 @@
             </p>
           </div>
           <div
-            class="nav-i"
+            class="nav-i navigation"
             :class="[onClick.course ? 'blue' : '']"
             @click="courseClick"
           >
@@ -39,7 +50,7 @@
             </p>
           </div>
           <div
-            class="nav-i"
+            class="nav-i navigation"
             :class="[onClick.school ? 'blue' : '']"
             @click="schoolClick"
           >
@@ -49,7 +60,7 @@
             </p>
           </div>
           <div
-            class="nav-i"
+            class="nav-i navigation"
             :class="[onClick.resource ? 'blue' : '']"
             @click="resourceClick"
           >
@@ -59,7 +70,7 @@
             </p>
           </div>
           <div
-            class="nav-i"
+            class="nav-i navigation"
             :class="[onClick.exercise ? 'blue' : '']"
             @click="exerciseClick"
           >
@@ -95,6 +106,11 @@ export default {
           post: null
         }
       });
+    },
+    searchClick() {
+      this.closeAll();
+      this.onClick.search = true;
+      this.$router.push("/home/searchPost")
     },
     discussClick() {
       this.closeAll();
@@ -132,7 +148,8 @@ export default {
         course: false,
         school: false,
         resource: false,
-        exercise: false
+        exercise: false,
+        search : false
       }
     };
   }
@@ -151,7 +168,7 @@ export default {
 
 .home-aside {
   margin: 20px 0;
-  background-color: rgb(240, 241, 245);
+  background-color: rgb(240, 241, 245); 
 }
 
 .home-option {
@@ -203,12 +220,12 @@ export default {
 .home-nav {
   background-color: #fff;
   border-radius: 4px;
-  height: 380px;
+  height: 400px;
 }
 
 .home-nav .nav {
   padding: 10px 20px 20px 20px;
-  height: 330px;
+  height: 360px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -231,6 +248,6 @@ export default {
 }
 
 .blue {
-  color: #409eff;
+  color: #00c3ff;
 }
 </style>

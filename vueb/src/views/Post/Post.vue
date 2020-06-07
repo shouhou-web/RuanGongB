@@ -265,6 +265,7 @@ import {
   stickPost,
   deletePost
 } from "../../network/post";
+import {isNotNew} from '../../network/user'
 export default {
   name: "Post",
   data() {
@@ -470,7 +471,7 @@ export default {
     manageProfile(userID) {
       this.$router.push({
         path: "/manageProfile",
-        query: { userID:userID }
+        query: { userID: userID }
       });
     }
   },
@@ -523,6 +524,9 @@ export default {
       .catch(err => {
         this.$message.error("加载失败了~请检查您的网络");
       });
+    if (this.post.postID == 9999) {
+      isNotNew(userID);
+    }
   }
 };
 </script>

@@ -13,15 +13,25 @@ export function getUser(userID) {
 }
 
 //上传禁言消息
-export function upManage(userID, userState, duration, content) {
+export function upManage(userID, adminID, userState, duration, content) {
     return request({
         url: "/upManage",
         params: {
-            userID, 
-            userState, 
-            duration, 
+            userID,
+            adminID,
+            userState,
+            duration,
             content
         },
+        method: 'post'
+    })
+}
+
+//获取禁言列表
+export function getManagedUser() {
+    return request({
+        url: "/getManagedUser",
+        params: {},
         method: 'post'
     })
 }
