@@ -10,8 +10,8 @@ module.exports = {
             }
         }
     },
-    // publicPath: '/',
-    // outputDir: 'dist',
+    publicPath: '/',
+    outputDir: 'dist',
     // devServer: {
     //     open: true,
     //     host: 'localhost',

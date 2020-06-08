@@ -65,7 +65,7 @@
         <div class="edit-title-t edit-left">
           上传附件：
         </div>
-        <input type="file" />
+        <input type="file" ref="clearFile" @change="getFile($event)" />
       </div>
       <div class="edit-content">
         <div class="edit-content-t edit-left">
@@ -166,6 +166,56 @@ export default {
     }
   },
   methods: {
+    getFile(event) {
+      let file = event.target.files;
+      for (var i = 0; i < file.length; i++) {
+        //    上传类型判断
+        let imgName = file[i].name;
+        let idx = imgName.lastIndexOf(".");
+        if (idx != -1) {
+          let ext = imgName.substr(idx + 1).toUpperCase();
+          ext = ext.toLowerCase();
+          if (ext != "pdf" && ext != "doc" && ext != "docx") {
+          } else {
+            this.addArr.push(file[i]);
+          }
+        } else {
+        }
+      }
+    },
+    submitAddFile() {
+      if (0 == this.addArr.length) {
+        this.$message({
+          type: "info",
+          message: "请选择要上传的文件"
+        });
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append("num", this.addType);
+      formData.append("linkId", this.addId);
+      formData.append("rfilename", this.addFileName);
+      for (var i = 0; i < this.addArr.length; i++) {
+        formData.append("fileUpload", this.addArr[i]);
+      }
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: this.token
+        }
+      };
+      this.axios
+        .post(apidate.uploadEnclosure, formData, config)
+        .then(response => {
+          if (response.data.info == "success") {
+            this.$message({
+              type: "success",
+              message: "附件上传成功!"
+            });
+          }
+        });
+    },
     submitPost() {
       console.log(this.$store.state.user.userID);
       console.log(this.title);
@@ -179,14 +229,7 @@ export default {
       let content = this.content;
       let postID = this.postID;
       // let formData = new window.FormData();
-      // 上传文件
-      let fileInput = document.querySelector("input[type=file]");
-      fileInput = document.createElement("input");
-      fileInput.setAttribute("type", "file");
-      fileInput.setAttribute("name", "filename" + postID);
       let formData = new FormData();
-      formData.append("filename" + postID, fileInput.files[0]);
-      formData.append("object", "product");
       if (title == "") {
         this.$message({
           message: "帖子标题不能为空~",
@@ -201,10 +244,12 @@ export default {
         });
         return;
       } else if (postIdentity == 4) {
+        // 上传文件
         formData.append(
-          "userfile",
+          "userfile"+ postID,
           document.querySelector("input[type=file]").files[0]
         ); // 'userfile' 这个名字要和后台获取文件的名字一样;
+        console.log(formData)
       }
       if (content == "") {
         this.$message({
@@ -213,6 +258,7 @@ export default {
         });
         return;
       }
+      console.log(formData)
       uploadPost(
         userID,
         postID,

@@ -117,6 +117,7 @@ export default {
     },
     logout() {
       this.$store.commit("logout");
+      sessionStorage.clear();
       this.$message({
         message: "成功退出账号",
         type: "success"

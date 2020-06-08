@@ -18,7 +18,7 @@
             alt="图片无法加载QAQ"
           />
           <div class="time">
-            {{ item.date }}
+            {{ item.createTime }}
           </div>
         </div>
         <!-- 评论内容 -->
@@ -57,6 +57,21 @@ export default {
         }
       ]
     };
+  },
+  methods:{
+    toPost(PostID) {
+      if (!this.$store.state.token) {
+        this.$message({
+          message: "登录后才能浏览帖子哦~",
+          type: "warning"
+        });
+        return;
+      }
+      this.$router.push({
+        path: "/post",
+        query: { postID: PostID }
+      });
+    }
   },
   created() {
     let userID = this.$store.state.user.userID;

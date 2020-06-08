@@ -12,7 +12,7 @@ export function request(config) {
     baseURL:'http://39.99.154.244:8080',
     timeout: 5000,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data;charse=UTF-8'
     }
   })
 
@@ -29,7 +29,7 @@ export function request(config) {
     // console.log(config);
 
     // 4.等等
-    // store.commit("showLoading");
+    store.commit("showLoading");
     return config
   }, err => {
     // console.log('来到了request拦截failure中');
@@ -39,7 +39,7 @@ export function request(config) {
   //2.2 响应拦截
   instance.interceptors.response.use(response => {
     //console.log('来到了response拦截success中');
-    // store.commit("hideLoading");
+    store.commit("hideLoading");
     return response.data
   }, err => {
     store.commit("hideLoading");

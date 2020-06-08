@@ -18,8 +18,8 @@
       </div>
     </div>
     <!-- 帖子列表 -->
-    <div class="discuss-post" v-for="(item, index) in post" :key="index">
-      <div v-if="canRead(item.postLevel)" @click="toPost(item.postID)">
+    <div v-for="(item, index) in post" :key="index">
+      <div class="discuss-post" v-if="canRead(item.postLevel)" @click="toPost(item.postID)">
         <div class="discuss-post-header">
           <img class="left" :src="item.imagePath" alt="" />
           <div class="name">
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div v-else @click="warn(item.postLevel)">
+      <div class="discuss-post" v-else @click="warn(item.postLevel)">
         <div class="discuss-post-header">
           <img class="left" :src="item.imagePath" alt="" />
           <div class="name">
@@ -110,70 +110,8 @@ export default {
   name: "Discuss",
   data() {
     return {
-      top: [
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        }
-      ],
-      post: [
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          postLevel: 3,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 3,
-          postLevel: 12,
-          createTime: "05-24",
-          content: `<div>帖子内容</div>`,
-          imagePath: "https://img-static.mihoyo.com/avatar/avatar30060.png",
-          title: "vue动态绑定class的几种方式",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        }
-      ]
+      top: [],
+      post: []
     };
   },
   computed: {

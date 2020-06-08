@@ -192,13 +192,14 @@
     ></div>
     <!-- 悬浮窗 -->
     <div :class="[manage ? 'page-state' : 'page-state-hide']" class="open-page">
-      <div class="hover login">
-        <div class="hover-radio-title">
+      <div class="hover-post login">
+        <div class="hover-radio-title-post">
           管理
         </div>
         <!-- <div class="login-div"></div> -->
-        <div class="hover-radio">
-          <label v-if="isAdmin && post.stickState == 0" class="hover-radio-i">
+        <div class="hover-radio-post">
+          <label v-if="isAdmin && post.stickState == 0" 
+          class="hover-radio-i-post">
             <input
               name="type"
               type="radio"
@@ -210,7 +211,7 @@
           </label>
           <label
             v-else-if="isAdmin && post.stickState == 1"
-            class="hover-radio-i"
+            class="hover-radio-i-post"
           >
             <input
               name="type"
@@ -221,7 +222,7 @@
             />
             取消置顶
           </label>
-          <label v-else class="hover-radio-i">
+          <label v-else class="hover-radio-i-post">
             <input
               name="type"
               type="radio"
@@ -232,7 +233,7 @@
             />
             编辑
           </label>
-          <label class="hover-radio-i" style="color:red">
+          <label class="hover-radio-i-post" style="color:red">
             <input
               name="type"
               type="radio"
@@ -244,11 +245,11 @@
           </label>
         </div>
         <!-- <div class="login-div"></div> -->
-        <div class="hover-radio-bottom">
-          <button @click="cancel" class="hover-radio-button cancel">
+        <div class="hover-radio-bottom-post">
+          <button @click="cancel" class="hover-radio-button-post cancel">
             取消
           </button>
-          <button @click="assure" class="hover-radio-button assure">
+          <button @click="assure" class="hover-radio-button-post assure">
             确定
           </button>
         </div>
@@ -535,12 +536,14 @@ export default {
   margin-bottom: 35px;
 }
 /* 悬浮窗 */
-.hover {
+.hover-post {
   height: 247px;
   width: 480px;
+  position: fixed;
+  background-color: #fff;
 }
 
-.hover-radio-title {
+.hover-radio-title-post {
   display: flex;
   justify-content: flex-start;
   padding: 0 30px;
@@ -550,7 +553,7 @@ export default {
   border-bottom: 1px solid #ebebeb;
 }
 
-.hover-radio {
+.hover-radio-post {
   display: flex;
   flex-direction: column;
   width: 480px;
@@ -563,7 +566,7 @@ export default {
   border-bottom: 1px solid #ebebeb;
 }
 
-.hover-radio-i {
+.hover-radio-i-post {
   display: flex;
   align-content: center;
   align-items: center;
@@ -573,11 +576,11 @@ export default {
   line-height: 50px;
 }
 
-.hover-radio-i input {
+.hover-radio-i-post input {
   margin-right: 10px;
 }
 
-.hover-radio-bottom {
+.hover-radio-bottom-post {
   display: flex;
   width: 480px;
   -webkit-box-pack: center;
@@ -586,7 +589,7 @@ export default {
   justify-content: center;
 }
 
-.hover-radio-button {
+.hover-radio-button-post {
   width: 104px;
   height: 32px;
   margin: 0 20px;

@@ -30,6 +30,7 @@ const handlers = {
         var self = this; 
 
         var fileInput = this.container.querySelector('input.ql-image[type=file]');
+        
         if (fileInput === null) {
             fileInput = document.createElement('input');
             fileInput.setAttribute('type', 'file');
@@ -46,6 +47,7 @@ const handlers = {
                 var formData = new FormData();
                 formData.append(uploadConfig.name, fileInput.files[0]);
                 formData.append('object','product');
+                console.log('formData',formData);
                 // 如果需要token且存在token
                 // if (uploadConfig.token) {
                 //     formData.append('token', uploadConfig.token)
@@ -59,7 +61,8 @@ const handlers = {
                         // var res = JSON.parse(xhr.responseText);
                         let length = self.quill.getSelection(true).index;
                         let res = xhr.responseText;
-                        //这里很重要，你图片上传成功后，img的src需要在这里添加，res.path就是你服务器返回的图片链接。            
+                        //这里很重要，你图片上传成功后，img的src需要在这里添加，res.path就是你服务器返回的图片链接。
+                        console.log('图片地址',res)            
                         self.quill.insertEmbed(length, 'image', res);
                         self.quill.setSelection(length + 1)
                     }

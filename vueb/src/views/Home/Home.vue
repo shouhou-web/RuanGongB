@@ -20,17 +20,6 @@
     <div class="home">
       <div class="home-main"><router-view /></div>
       <div class="home-aside">
-        <!-- <div class="home-option">
-          <div class="title">
-            可选操作
-          </div>
-          <div class="main">
-            <div class="editpost-button" @click="editPostClick">发布帖子</div>
-          </div>
-        </div> -->
-        <!-- <div class="editpost-button-f">
-        <div class="editpost-button" @click="editPostClick">发布帖子</div>
-      </div> -->
         <!-- 侧边导航栏 -->
         <div class="home-nav">
           <div class="title">
@@ -130,7 +119,7 @@ export default {
         },
         {
           title: "刷题板块",
-          describe:'不满足于ddl的勇者的战场',
+          describe:'这里是不满于ddl的勇者们的战场',
           img: require("../../assets/Icon/Home/exercise.png"),
           path: "/home/exercise"
         }
