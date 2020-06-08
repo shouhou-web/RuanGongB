@@ -8,8 +8,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 export function request(config) {
   //1.创建axios的实例
   const instance = axios.create({
-    baseURL: '/api',
-    // baseURL:'http://123.207.32.32:8000',
+    // baseURL: '/api',
+    baseURL:'http://39.99.154.244:8080',
     timeout: 5000,
     headers: {
       'Content-Type': 'multipart/form-data'

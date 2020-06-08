@@ -85,7 +85,7 @@
                 <div class="name">
                   {{ item.userName }}
                 </div>
-                <img class="level" :src="getLevel(item.level)" alt="" />
+                <img class="level" :src="getLevel(item.userLevel)" alt="" />
               </div>
               <div
                 v-if="isAdmin"
@@ -100,7 +100,7 @@
             </div>
             <div class="bottom">
               <div class="date">
-                {{ item.date }}
+                {{ item.createTime }}
               </div>
               <!-- <div class="likes">
                 <img
@@ -305,7 +305,7 @@ export default {
             userID: 233,
             postID: 123,
             level: 9,
-            date: "05-21",
+            createTime: "2020-05-21",
             likesNum: 25,
             content:
               "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了",
@@ -319,7 +319,7 @@ export default {
             userID: 233,
             postID: 123,
             level: 9,
-            date: "05-21",
+            createTime: "2020-05-21",
             likesNum: 25,
             content: "评论内容",
             userName: "用户名",
@@ -332,7 +332,7 @@ export default {
             userID: 233,
             postID: 123,
             level: 9,
-            date: "05-21",
+            createTime: "2020-05-21",
             likesNum: 25,
             content: "评论内容",
             userName: "用户名",
@@ -345,7 +345,7 @@ export default {
             userID: 233,
             postID: 123,
             level: 9,
-            date: "05-21",
+            createTime: "2020-05-21",
             likesNum: 25,
             content: "评论内容",
             userName: "用户名",
@@ -396,7 +396,7 @@ export default {
       let el = document.getElementById("new-comment");
       console.log(el);
       this.$nextTick(function() {
-        window.scrollTo({ behavior: "smooth", top: el.offsetTop });
+        window.scrollTo({ behavior: "smooth", top: el.offsetTop-70 });
       });
     },
     cancel() {
@@ -790,6 +790,10 @@ export default {
   vertical-align: middle;
 }
 
+.main .main-top .main-top-title .level {
+  margin-top: 3px;
+}
+
 /* 侧边栏-所属模块 */
 .post .aside .section-head {
   display: flex;
@@ -874,11 +878,12 @@ export default {
 .post .main .comment .comment-item {
   background-color: #fff;
   width: 700px;
-  height: 168px;
+  height: 148px;
   padding: 24px 50px;
   line-height: 22px;
   font-size: 14px;
   display: flex;
+  border-radius: 4px;
   justify-content: flex-start;
   margin: 0px 5px;
   border-bottom: 1px solid #ebebeb;
@@ -910,7 +915,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 44px;
+  width: 100%;
   height: 44px;
 }
 
@@ -943,6 +948,11 @@ export default {
 .post .main .comment .main .bottom .date {
   color: #ccc;
   font-size: 14px;
+  line-height: 30px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: -10px;
 }
 
 .post .main .comment .main .bottom .likes {

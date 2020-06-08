@@ -103,11 +103,11 @@ export default {
   computed: {},
   methods: {
     submitManage() {
-      console.log(this.user.userID);
+      console.log(this.$route.query.userID);
       console.log(this.content);
       console.log(this.duration)
       console.log(this.user.userState)
-      let userID = this.user.userID;
+      let userID = this.$route.query.userID;
       let adminID = this.$store.state.user.userID;
       let content = this.content;
       let duration = this.duration;
@@ -143,6 +143,7 @@ export default {
       if (res == null) {
         this.$message.error('获取信息失败，清检查您的网络~')
       }else {
+        console.log('userData',res)
         this.user = res;
       }
     }).catch(err => {

@@ -19,11 +19,11 @@ import qs from 'qs'
 // }
 
 // 上传帖子
-export function uploadPost(userID, postID, title, postLevel, postIdentity, content) {
+export function uploadPost(userID, postID, title, postLevel, postIdentity, content,fileData) {
     return request({
         url: "/uploadPost",
         params: {
-            userID, postID, title,postLevel, postIdentity, content
+            userID, postID, title,postLevel, postIdentity, content,fileData
         },
         method: 'post'
     })

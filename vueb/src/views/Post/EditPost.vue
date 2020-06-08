@@ -61,6 +61,12 @@
           </el-option>
         </el-select>
       </div>
+      <div v-if="postIdentity == 4" class="edit-uploadfile">
+        <div class="edit-title-t edit-left">
+          上传附件：
+        </div>
+        <input type="file" />
+      </div>
       <div class="edit-content">
         <div class="edit-content-t edit-left">
           内容：
@@ -82,7 +88,7 @@
       <!-- <neweditor></neweditor> -->
     </div>
     <div class="edit-footer">
-      <button class="edit-upload" @click="submitPost">上传</button>
+      <button class="edit-upload" @click="submitPost">发布帖子</button>
     </div>
   </div>
 </template>
@@ -157,13 +163,13 @@ export default {
     },
     isAdmin() {
       return this.$store.state.user.userIdentity == 1;
-    },
+    }
   },
   methods: {
     submitPost() {
       console.log(this.$store.state.user.userID);
       console.log(this.title);
-      console.log(this.postLevel)
+      console.log(this.postLevel);
       console.log(this.postIdentity);
       console.log(this.content);
       let userID = this.$store.state.user.userID;
@@ -172,6 +178,15 @@ export default {
       let postIdentity = this.postIdentity;
       let content = this.content;
       let postID = this.postID;
+      // let formData = new window.FormData();
+      // 上传文件
+      let fileInput = document.querySelector("input[type=file]");
+      fileInput = document.createElement("input");
+      fileInput.setAttribute("type", "file");
+      fileInput.setAttribute("name", "filename" + postID);
+      let formData = new FormData();
+      formData.append("filename" + postID, fileInput.files[0]);
+      formData.append("object", "product");
       if (title == "") {
         this.$message({
           message: "帖子标题不能为空~",
@@ -185,6 +200,11 @@ export default {
           type: "warning"
         });
         return;
+      } else if (postIdentity == 4) {
+        formData.append(
+          "userfile",
+          document.querySelector("input[type=file]").files[0]
+        ); // 'userfile' 这个名字要和后台获取文件的名字一样;
       }
       if (content == "") {
         this.$message({
@@ -193,7 +213,15 @@ export default {
         });
         return;
       }
-      uploadPost(userID, postID, title, postLevel, postIdentity, content)
+      uploadPost(
+        userID,
+        postID,
+        title,
+        postLevel,
+        postIdentity,
+        content,
+        formData
+      )
         .then(res => {
           console.log(res);
           this.$message({
@@ -214,15 +242,21 @@ export default {
 };
 </script>
 <style>
-.edit-content,.edit-title,.edit-type{
+.edit-uploadfile {
+  align-items: center;
+}
+
+.edit-content,
+.edit-title,
+.edit-type {
   margin: 10px 0;
 }
 
-.el-input__inner{
+.el-input__inner {
   height: 50px;
 }
 
-.el-select{
+.el-select {
   display: flex;
   align-items: center;
   line-height: 50px;
@@ -277,6 +311,7 @@ export default {
   justify-content: space-around;
 }
 
+.edit-uploadfile,
 .edit-content {
   display: flex;
 }

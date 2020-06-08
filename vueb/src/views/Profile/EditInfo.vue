@@ -151,6 +151,7 @@ export default {
       this.currentImagePath = this.imagePath;
     },
     assure() {
+      this.editImage = false;
       this.imagePath = this.currentImagePath;
     },
     save() {
@@ -176,24 +177,20 @@ export default {
       editUser(userID, imagePath, userName, userWord, userSex)
         .then(res => {
           console.log(res);
-          if (res == 0) {
+          if (res != null) {
             this.$store.commit(
               "editInfo",
-              imagePath,
-              userName,
-              userWord,
-              userSex
+              res
             );
             this.$message({
               message: "修改信息成功~",
               type: "success"
             });
-          } else if (res == 1)
+          } else
             this.$message({
               type: "warning",
               message: "用户名已存在~"
             });
-          else if (res == 2) this.$message.error("上传信息失败了~请检查网络");
         })
         .catch(err => {
           console.log(err);

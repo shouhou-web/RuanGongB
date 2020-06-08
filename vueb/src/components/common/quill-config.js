@@ -27,7 +27,7 @@ const toolOptions = [
 ];
 const handlers = {
     image: function image() {
-        var self = this;
+        var self = this; 
 
         var fileInput = this.container.querySelector('input.ql-image[type=file]');
         if (fileInput === null) {

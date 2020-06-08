@@ -217,6 +217,7 @@ export default {
             type: "warning"
           });
         else {
+          console.log(res);
           this.post = res.filter(item => {
             return item.stickState == 0;
           });

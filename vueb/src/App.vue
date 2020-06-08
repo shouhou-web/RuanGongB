@@ -47,7 +47,7 @@
     ></div>
     <!-- 悬浮窗 -->
     <div :class="[open ? 'page-state' : 'page-state-hide']" class="open-page">
-      <div v-if="type == 0" class="hover login">
+      <div v-if="type == 0" class="hover-app login">
         <div class="hover-title login-title">
           登录
         </div>
@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="hover register">
+      <div v-else class="hover-app register">
         <div class="hover-title register-title">
           注册
         </div>
@@ -352,7 +352,7 @@ export default {
 
 /* 悬浮窗登陆注册 */
 
-.hover {
+.hover-app {
   position: fixed;
   display: flex;
   flex-direction: column;

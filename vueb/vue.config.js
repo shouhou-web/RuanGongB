@@ -10,21 +10,21 @@ module.exports = {
             }
         }
     },
-    publicPath: '/',
-    outputDir: 'dist',
-    devServer: {
-        open: true,
-        host: 'localhost',
-        port: '8081',
-        proxy: {
-            '/api': {
-                target: 'http://localhost:8080', // 要请求的地址
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        }
-    }
+    // publicPath: '/',
+    // outputDir: 'dist',
+    // devServer: {
+    //     open: true,
+    //     host: 'localhost',
+    //     port: '8081',
+    //     proxy: {
+    //         '/api': {
+    //             target: 'http://39.99.154.244:8080', // 要请求的地址
+    //             ws: true,
+    //             changeOrigin: true,
+    //             pathRewrite: {
+    //                 '^/api': ''
+    //             }
+    //         }
+    //     }
+    // }
 }

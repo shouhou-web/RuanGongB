@@ -1,83 +1,54 @@
 <template>
   <!-- 路由发生改变会渲染相应的组件 -->
-  <div class="home">
-    <div class="home-main"><router-view /></div>
-    <div class="home-aside">
-      <div class="home-option">
+  <div class="Home">
+    <div class="Home-header">
+      <div class="Hheader-icon">
+        <img :src="HIcon" alt="" />
+      </div>
+      <div class="Hheader-middle">
         <div class="title">
-          可选操作
+          {{ Htitle }}
         </div>
-        <div class="main">
-          <div class="editpost" @click="editPostClick">发布帖子</div>
+        <div class="describe">
+          {{ Hdescribe }}
         </div>
       </div>
-      <!-- 侧边导航栏 -->
-      <div class="home-nav">
-        <div class="title">
-          帖子板块
-        </div>
-        <div class="nav">
-          <div
-            class="nav-i navigation"
-            :class="[onClick.search ? 'blue' : '']"
-            @click="searchClick"
-          >
-            <!-- <img src="../../assets/Icon/Home/discuss.png" alt="" /> -->
-            <img src="../../assets/Icon/Home/discuss.png" alt="" />
-            <p>
-              搜索帖子
-            </p>
+      <div class="upload">
+        <div class="editpost-button" @click="editPostClick">发布帖子</div>
+      </div>
+    </div>
+    <div class="home">
+      <div class="home-main"><router-view /></div>
+      <div class="home-aside">
+        <!-- <div class="home-option">
+          <div class="title">
+            可选操作
           </div>
-          <div
-            class="nav-i navigation"
-            :class="[onClick.discuss ? 'blue' : '']"
-            @click="discussClick"
-          >
-            <!-- <img src="../../assets/Icon/Home/discuss.png" alt="" /> -->
-            <img src="../../assets/Icon/Home/discuss.png" alt="" />
-            <p>
-              讨论区
-            </p>
+          <div class="main">
+            <div class="editpost-button" @click="editPostClick">发布帖子</div>
           </div>
-          <div
-            class="nav-i navigation"
-            :class="[onClick.course ? 'blue' : '']"
-            @click="courseClick"
-          >
-            <img src="../../assets/Icon/Home/course.png" alt="" />
-            <p>
-              课程推荐
-            </p>
+        </div> -->
+        <!-- <div class="editpost-button-f">
+        <div class="editpost-button" @click="editPostClick">发布帖子</div>
+      </div> -->
+        <!-- 侧边导航栏 -->
+        <div class="home-nav">
+          <div class="title">
+            帖子板块
           </div>
-          <div
-            class="nav-i navigation"
-            :class="[onClick.school ? 'blue' : '']"
-            @click="schoolClick"
-          >
-            <img src="../../assets/Icon/Home/school.png" alt="" />
-            <p>
-              校园周边
-            </p>
-          </div>
-          <div
-            class="nav-i navigation"
-            :class="[onClick.resource ? 'blue' : '']"
-            @click="resourceClick"
-          >
-            <img src="../../assets/Icon/Home/resource.png" alt="" />
-            <p>
-              资源共享
-            </p>
-          </div>
-          <div
-            class="nav-i navigation"
-            :class="[onClick.exercise ? 'blue' : '']"
-            @click="exerciseClick"
-          >
-            <img src="../../assets/Icon/Home/exercise.png" alt="" />
-            <p>
-              刷题板块
-            </p>
+          <div class="nav">
+            <div
+              class="nav-i navigation"
+              v-for="(item, index) in navigateList"
+              :key="index"
+              :class="[current == index ? 'blue' : '']"
+              @click="navigateClick(index,item.path)"
+            >
+              <img :src="item.img" alt="" />
+              <p>
+                {{ item.title }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -107,55 +78,124 @@ export default {
         }
       });
     },
-    searchClick() {
-      this.closeAll();
-      this.onClick.search = true;
-      this.$router.push("/home/searchPost")
+    navigateClick(index, path) {
+      this.current = index;
+      this.$router.push(path);
     },
-    discussClick() {
-      this.closeAll();
-      this.onClick.discuss = true;
-      this.$router.push("/home/discuss");
+  },
+  computed: {
+    HIcon() {
+      return this.navigateList[this.current].img;
     },
-    courseClick() {
-      this.closeAll();
-      this.onClick.course = true;
-      this.$router.push("/home/course");
+    Htitle() {
+      return this.navigateList[this.current].title;
     },
-    schoolClick() {
-      this.closeAll();
-      this.onClick.school = true;
-      this.$router.push("/home/school");
-    },
-    resourceClick() {
-      this.closeAll();
-      this.onClick.resource = true;
-      this.$router.push("/home/resource");
-    },
-    exerciseClick() {
-      this.closeAll();
-      this.onClick.exercise = true;
-      this.$router.push("/home/exercise");
-    },
-    closeAll() {
-      for (let key in this.onClick) this.onClick[key] = false;
+    Hdescribe() {
+      return this.navigateList[this.current].describe;
     }
   },
   data() {
     return {
+      current: 1,
+      navigateList: [
+        {
+          title: "搜索帖子",
+          describe:'',
+          img: require("../../assets/Icon/Home/search.png"),
+          path: "/home/searchPost"
+        },
+        {
+          title: "讨论区",
+          describe:'你的ddl肝完了吗？就来讨论',
+          img: require("../../assets/Icon/Home/discuss.png"),
+          path: "/home/discuss"
+        },
+        {
+          title: "课程推荐",
+          describe:'哪门课程的ddl最让你头秃？',
+          img: require("../../assets/Icon/Home/course.png"),
+          path: "/home/course"
+        },
+        {
+          title: "校园周边",
+          describe:'只要我在咖啡店里，ddl就找不到我',
+          img: require("../../assets/Icon/Home/school.png"),
+          path: "/home/school"
+        },
+        {
+          title: "资源共享",
+          describe:'我有独特的肝ddl技巧',
+          img: require("../../assets/Icon/Home/resource.png"),
+          path: "/home/resource"
+        },
+        {
+          title: "刷题板块",
+          describe:'不满足于ddl的勇者的战场',
+          img: require("../../assets/Icon/Home/exercise.png"),
+          path: "/home/exercise"
+        }
+      ],
       onClick: {
         discuss: true,
         course: false,
         school: false,
         resource: false,
         exercise: false,
-        search : false
+        search: false
       }
     };
   }
 };
 </script>
 <style>
+.Home-header {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 4px;
+  width: 1090px;
+  height: 120px;
+  margin-top: 20px;
+}
+
+.Hheader-icon {
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ebebeb;
+}
+
+.Hheader-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.Hheader-middle {
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
+.Hheader-middle .title {
+  display: flex;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.Hheader-middle .describe {
+  display: flex;
+  font-size: 14px;
+  line-height: 18px;
+  margin-top: 6px;
+  color: #999;
+}
+
 .el-aside {
   padding: 0 !important;
   margin: 0 !important;
@@ -168,7 +208,7 @@ export default {
 
 .home-aside {
   margin: 20px 0;
-  background-color: rgb(240, 241, 245); 
+  background-color: rgb(240, 241, 245);
 }
 
 .home-option {
@@ -201,7 +241,7 @@ export default {
   height: 90px;
 }
 
-.home-option .editpost {
+.home-option .editpost-button {
   width: 130px;
   height: 36px;
   display: flex;
@@ -217,10 +257,36 @@ export default {
   font-weight: 600;
 }
 
+.editpost-button-f {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 50px;
+  align-content: center;
+  height: 90px;
+  width: 280px;
+}
+
+.editpost-button {
+  width: 130px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
+  padding: 0 18px;
+  height: 36px;
+  color: #fff !important;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
 .home-nav {
   background-color: #fff;
   border-radius: 4px;
   height: 400px;
+  width: 280px;
 }
 
 .home-nav .nav {

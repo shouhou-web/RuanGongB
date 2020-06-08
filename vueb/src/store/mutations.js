@@ -8,11 +8,12 @@ const mutations = {
         state.token = false,
         state.user = {}
     },
-    editInfo(state, imagePath, userName, userWord, userSex) {
-        state.user.imagePath = imagePath;
-        state.user.userName = userName;
-        state.user.userWord = userWord;
-        state.user.userSex = userSex;
+    editInfo(state, res) {
+        console.log('修改的个人信息',res)
+        state.user.imagePath = res.imagePath;
+        state.user.userName = res.userName;
+        state.user.userWord = res.userWord;
+        state.user.userSex = res.userSex;
     },
     showLoading(state) {
         state.fullscreenLoading = true;
