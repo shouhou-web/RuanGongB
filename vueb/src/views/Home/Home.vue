@@ -60,6 +60,13 @@ export default {
         });
         return;
       }
+      if (this.$store.state.user.userState == 1) {
+        this.$message({
+          message: "禁言状态不能发布帖子哦~",
+          type: "warning"
+        });
+        return;
+      }
       this.$router.push({
         path: "/editPost",
         query: {

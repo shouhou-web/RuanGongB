@@ -72,6 +72,7 @@ export default {
   created() {
     getManagedUser()
       .then(res => {
+        console.log(res)
         if (res == null) this.userList = [];
         else this.userList = res;
       })

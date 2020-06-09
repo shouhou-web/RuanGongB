@@ -10,7 +10,7 @@
         </div>
         <input
           class="edit-title-i"
-          v-model="title"
+          v-model="otherData.title"
           type="text"
           placeholder="帖子标题"
         />
@@ -26,7 +26,7 @@
               type="radio"
               id="0"
               value="0"
-              v-model="postIdentity"
+              v-model="otherData.postIdentity"
             />
             新手上路
           </label>
@@ -41,7 +41,7 @@
               type="radio"
               :id="item.postIdentity"
               :value="item.postIdentity"
-              v-model="postIdentity"
+              v-model="otherData.postIdentity"
             />
             {{ item.label }}
           </label>
@@ -51,7 +51,10 @@
         <div class="edit-title-t edit-left">
           阅读权限：
         </div>
-        <el-select v-model="postLevel" placeholder="请选择帖子的最低阅读等级">
+        <el-select
+          v-model="otherData.postLevel"
+          placeholder="请选择帖子的最低阅读等级"
+        >
           <el-option
             v-for="item in option"
             :key="item.value"
@@ -61,11 +64,29 @@
           </el-option>
         </el-select>
       </div>
-      <div v-if="postIdentity == 4" class="edit-uploadfile">
+      <div v-if="otherData.postIdentity == 4" class="edit-uploadfile">
         <div class="edit-title-t edit-left">
           上传附件：
         </div>
-        <input type="file" ref="clearFile" @change="getFile($event)" />
+        <!-- <input type="file" @change="getFile($event)" /> -->
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :data="otherData"
+          name="userfile"
+          limit="1"
+          action="http://39.99.154.244:8080/uploadPost"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :on-success="onSuccess"
+          :on-exceed="handleExceed"
+          :file-list="fileList"
+          :auto-upload="false"
+        >
+          <el-button slot="trigger" size="small" type="primary">
+            选取文件
+          </el-button>
+        </el-upload>
       </div>
       <div class="edit-content">
         <div class="edit-content-t edit-left">
@@ -74,7 +95,7 @@
         <quill-editor
           class="edit-content-e"
           ref="myTextEditor"
-          v-model="content"
+          v-model="otherData.content"
           :options="quillOption"
         >
         </quill-editor>
@@ -104,12 +125,16 @@ export default {
   name: "EditPost",
   data() {
     return {
+      fileList: [],
+      otherData: {
+        userID: 0,
+        postID: 0,
+        title: "",
+        content: "",
+        postLevel: 1,
+        postIdentity: null
+      },
       quillOption: quillConfig,
-      content: "",
-      title: "",
-      postLevel: 1,
-      postID: 0,
-      postIdentity: null,
       type: [
         {
           label: "讨论区",
@@ -139,11 +164,12 @@ export default {
     //发送请求
     console.log(this.$route.query.post);
     let post = this.$route.query.post;
+    this.otherData.userID = this.$store.state.user.userID;
     if (post != null) {
-      this.postID = post.postID;
-      this.title = post.title;
-      this.content = post.content;
-      this.postIdentity = post.postIdentity;
+      this.otherData.postID = post.postID;
+      this.otherData.title = post.title;
+      this.otherData.content = post.content;
+      this.otherData.postIdentity = post.postIdentity;
     }
   },
   components: {
@@ -166,70 +192,39 @@ export default {
     }
   },
   methods: {
-    getFile(event) {
-      let file = event.target.files;
-      for (var i = 0; i < file.length; i++) {
-        //    上传类型判断
-        let imgName = file[i].name;
-        let idx = imgName.lastIndexOf(".");
-        if (idx != -1) {
-          let ext = imgName.substr(idx + 1).toUpperCase();
-          ext = ext.toLowerCase();
-          if (ext != "pdf" && ext != "doc" && ext != "docx") {
-          } else {
-            this.addArr.push(file[i]);
-          }
-        } else {
-        }
-      }
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
     },
-    submitAddFile() {
-      if (0 == this.addArr.length) {
-        this.$message({
-          type: "info",
-          message: "请选择要上传的文件"
-        });
-        return;
-      }
-
-      var formData = new FormData();
-      formData.append("num", this.addType);
-      formData.append("linkId", this.addId);
-      formData.append("rfilename", this.addFileName);
-      for (var i = 0; i < this.addArr.length; i++) {
-        formData.append("fileUpload", this.addArr[i]);
-      }
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: this.token
-        }
-      };
-      this.axios
-        .post(apidate.uploadEnclosure, formData, config)
-        .then(response => {
-          if (response.data.info == "success") {
-            this.$message({
-              type: "success",
-              message: "附件上传成功!"
-            });
-          }
-        });
+    handlePreview(file) {
+      console.log(file);
+    },
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`只能选择1个文件上传哦~`);
+    },
+    onSuccess(response, file, fileList) {
+      console.log("response", response);
+      console.log("file", file);
+      console.log("filelist", fileList);
+      // let postID = this.otherData
+      this.$message({
+        message: "帖子上传成功",
+        type: "success"
+      });
+      this.$router.push({
+        path: "/post",
+        query: { postID: response }
+      });
     },
     submitPost() {
       console.log(this.$store.state.user.userID);
-      console.log(this.title);
-      console.log(this.postLevel);
-      console.log(this.postIdentity);
-      console.log(this.content);
-      let userID = this.$store.state.user.userID;
-      let title = this.title;
-      let postLevel = this.postLevel;
-      let postIdentity = this.postIdentity;
-      let content = this.content;
-      let postID = this.postID;
-      // let formData = new window.FormData();
-      let formData = new FormData();
+      let title = this.otherData.title;
+      let postLevel = this.otherData.postLevel;
+      let postIdentity = this.otherData.postIdentity;
+      let content = this.otherData.content;
+      let postID = this.otherData.postID;
       if (title == "") {
         this.$message({
           message: "帖子标题不能为空~",
@@ -243,13 +238,6 @@ export default {
           type: "warning"
         });
         return;
-      } else if (postIdentity == 4) {
-        // 上传文件
-        formData.append(
-          "userfile"+ postID,
-          document.querySelector("input[type=file]").files[0]
-        ); // 'userfile' 这个名字要和后台获取文件的名字一样;
-        console.log(formData)
       }
       if (content == "") {
         this.$message({
@@ -258,36 +246,49 @@ export default {
         });
         return;
       }
-      console.log(formData)
-      uploadPost(
-        userID,
-        postID,
-        title,
-        postLevel,
-        postIdentity,
-        content,
-        formData
-      )
-        .then(res => {
-          console.log(res);
-          this.$message({
-            message: "帖子上传成功",
-            type: "success"
+      if (postIdentity == 4) this.$refs.upload.submit();
+      else {
+        uploadPost(
+          userID,
+          postID,
+          title,
+          postLevel,
+          postIdentity,
+          content,
+          formData
+        )
+          .then(res => {
+            console.log(res);
+            this.$message({
+              message: "帖子上传成功",
+              type: "success"
+            });
+            this.$router.push({
+              path: "/post",
+              query: { postID: res }
+            });
+          })
+          .catch(err => {
+            this.$message.error("上传失败了~请检查网络并再次尝试");
+            return;
           });
-          this.$router.push({
-            path: "/post",
-            query: { postID: res }
-          });
-        })
-        .catch(err => {
-          this.$message.error("上传失败了~请检查网络并再次尝试");
-          return;
-        });
+      }
     }
   }
 };
 </script>
 <style>
+.el-upload-list__item:first-child,
+.el-upload-list__item {
+  margin-top: 0;
+  margin-left: 10px;
+}
+.upload-demo {
+  display: flex;
+  align-items: center;
+  width: 430px;
+}
+
 .edit-uploadfile {
   align-items: center;
 }
@@ -313,7 +314,6 @@ export default {
   height: auto !important;
   width: auto !important;
   display: flex;
-  margin-left: -86px;
 }
 
 .editpost-header {

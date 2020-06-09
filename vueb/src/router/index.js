@@ -35,7 +35,6 @@ const ViewProfile = () => import('../views/Manage/ViewProfile.vue')
 
 const About = () => import('../views/About.vue');
 const Register = () => import('../views/Register.vue');
-const Login = () => import('../views/Login.vue');
 //1.安装插件
 Vue.use(VueRouter)
 
@@ -197,11 +196,6 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
   }
 ]
 

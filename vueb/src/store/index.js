@@ -8,7 +8,7 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-    token: true,
+    token: false,
     fullscreenLoading: false,
     user: {
         // userID: 10002,

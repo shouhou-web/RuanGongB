@@ -1,8 +1,8 @@
 import axios from 'axios'
 import store from '../store/index'
 
-axios.defaults.baseURL = '/api'
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.baseURL = '/api'
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
 export function request(config) {
@@ -10,10 +10,7 @@ export function request(config) {
   const instance = axios.create({
     // baseURL: '/api',
     baseURL:'http://39.99.154.244:8080',
-    timeout: 5000,
-    headers: {
-      'Content-Type': 'multipart/form-data;charse=UTF-8'
-    }
+    timeout: 5000
   })
 
   //2.axios拦截器

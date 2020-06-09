@@ -2,30 +2,30 @@
 import { request } from "./request";
 import qs from 'qs'
 
-//上传图片到数据库
-// export function upimg(imgdata) {
-//     console.log(imgdata)
-//     return request({
-//         url: "/upimg",
-//         // params: {
-//         //     imgdata : qs.stringify(imgdata)
-//         // },
-//         params: {
-//             imgdata
-//         },
-//         method: 'post',
+//下载文件
+export function downfile(fileName) {
+    return request({
+        url: "/downfile",
+        responseType: 'blob',
+        params: {
+            fileName
+        },
+        method: 'post',
 
-//     })
-// }
+    })
+}
 
 // 上传帖子
-export function uploadPost(userID, postID, title, postLevel, postIdentity, content,fileData) {
+export function uploadPost(userID, postID, title, postLevel, postIdentity, content, fileData) {
     return request({
         url: "/uploadPost",
         params: {
-            userID, postID, title,postLevel, postIdentity, content,fileData
+            userID, postID, title, postLevel, postIdentity, content, fileData
         },
-        method: 'post'
+        method: 'post',
+        headers: {
+            'Content-Type': 'multipart/form-data;charse=UTF-8'
+        }
     })
 }
 
@@ -90,11 +90,11 @@ export function stickPost(postID, adminID, stickstate) {
 }
 
 //删除帖子
-export function deletePost(postID,userID) {
+export function deletePost(postID, userID) {
     return request({
         url: "/deletePost",
         params: {
-            postID,userID
+            postID, userID
         },
         method: 'post'
     })

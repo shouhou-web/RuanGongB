@@ -19,7 +19,7 @@
           </a>
           <div class="head-msg" @click="toProfileMessage">消息</div>
           <div class="profile" v-if="token" @click="toProfile">
-            {{ $store.state.user.userName }}
+            {{ $store.state.user.userName }}的个人空间
           </div>
           <div class="head-register" v-if="!token" @click="openRegister">
             注册
@@ -131,12 +131,13 @@ export default {
     fullscreenLoading() {
       return this.$store.state.fullscreenLoading;
     },
-    token() {
+    token() {      
       if (sessionStorage.getItem("user") != null)
       {
         console.log('我执行了',sessionStorage.getItem("user"))
         this.$store.commit("login",JSON.parse(sessionStorage.getItem("user")))
       }
+      console.log(this.$store.state.token)
       return this.$store.state.token;
     },
     isAdmin() {
@@ -241,7 +242,9 @@ export default {
             return;
           } else {
             // 存储数据
+            console.log('传回数据',res)
             sessionStorage.setItem("user",JSON.stringify(res));
+            console.log('本地缓存',sessionStorage.getItem("user"))
             this.$store.commit("login", res);
             this.$message({
               message: "恭喜你，登录成功",

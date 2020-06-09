@@ -34,23 +34,32 @@
         <div class="content" v-html="post.content">
           {{ post.content }}
         </div>
+
         <!-- 分割线 -->
         <div class="div"></div>
         <!-- 点赞按钮 -->
-        <div class="likes-end">
-          <img
-            @click="likesClick"
-            v-if="!isLikes"
-            src="../../assets/Icon/Post/likes.png"
-            alt=""
-          />
-          <img
-            @click="unlikesClick"
-            v-else
-            src="../../assets/Icon/Post/likes_cur.png"
-            alt="图片无法加载QAQ"
-          />
-          {{ post.likesNum }}
+        <div class="post-footer">
+          <div v-if="post.postIdentity==4" class="downfile">
+            <img :src="fileImg" alt="" />
+            <a :href="post.accessoryPath" :download="post.fileName">
+              下载附件
+            </a>
+          </div>
+          <div class="likes-end">
+            <img
+              @click="likesClick"
+              v-if="!isLikes"
+              src="../../assets/Icon/Post/likes.png"
+              alt=""
+            />
+            <img
+              @click="unlikesClick"
+              v-else
+              src="../../assets/Icon/Post/likes_cur.png"
+              alt="图片无法加载QAQ"
+            />
+            {{ post.likesNum }}
+          </div>
         </div>
       </div>
       <!-- 评论框 -->
@@ -102,21 +111,6 @@
               <div class="date">
                 {{ item.createTime }}
               </div>
-              <!-- <div class="likes">
-                <img
-                  class="likes-img"
-                  v-if="!isLikes"
-                  src="../../assets/Icon/Post/likes.png"
-                  alt="QAQ"
-                />
-                <img
-                  class="likes-img"
-                  v-else
-                  src="../../assets/Icon/Post/likes_cur.png"
-                  alt="QAQ"
-                />
-                {{ post.likesNum }}
-              </div> -->
             </div>
           </div>
         </li>
@@ -198,8 +192,10 @@
         </div>
         <!-- <div class="login-div"></div> -->
         <div class="hover-radio-post">
-          <label v-if="isAdmin && post.stickState == 0" 
-          class="hover-radio-i-post">
+          <label
+            v-if="isAdmin && post.stickState == 0"
+            class="hover-radio-i-post"
+          >
             <input
               name="type"
               type="radio"
@@ -266,7 +262,7 @@ import {
   stickPost,
   deletePost
 } from "../../network/post";
-import {isNotNew} from '../../network/user'
+import { isNotNew } from "../../network/user";
 export default {
   name: "Post",
   data() {
@@ -300,67 +296,20 @@ export default {
         commentNum: 2,
         createTime: "05-24",
         editTime: "05-24",
-        listComment: [
-          {
-            commentID: 1,
-            userID: 233,
-            postID: 123,
-            level: 9,
-            createTime: "2020-05-21",
-            likesNum: 25,
-            content:
-              "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了",
-            userName: "用户名",
-            imagePath:
-              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
-            userLevel: 2
-          },
-          {
-            commentID: 1,
-            userID: 233,
-            postID: 123,
-            level: 9,
-            createTime: "2020-05-21",
-            likesNum: 25,
-            content: "评论内容",
-            userName: "用户名",
-            imagePath:
-              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
-            userLevel: 2
-          },
-          {
-            commentID: 1,
-            userID: 233,
-            postID: 123,
-            level: 9,
-            createTime: "2020-05-21",
-            likesNum: 25,
-            content: "评论内容",
-            userName: "用户名",
-            imagePath:
-              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
-            userLevel: 2
-          },
-          {
-            commentID: 1,
-            userID: 233,
-            postID: 123,
-            level: 9,
-            createTime: "2020-05-21",
-            likesNum: 25,
-            content: "评论内容",
-            userName: "用户名",
-            imagePath:
-              "https://img-static.mihoyo.com/communityweb/upload/b847b9027dc47246d1e2b11b172764b4.png",
-            userLevel: 2
-          }
-        ],
+        listComment: [],
         listLikes: [10000]
       }
     };
   },
   methods: {
     commentPush() {
+      if (this.$store.state.user.userState == 1) {
+        this.$message({
+          message: "禁言状态不能发表评论哦~",
+          type: "warning"
+        });
+        return;
+      }
       if (this.newcomment.length <= 5) {
         this.$message({
           message: "请书写至少五个字的评论~",
@@ -397,7 +346,7 @@ export default {
       let el = document.getElementById("new-comment");
       console.log(el);
       this.$nextTick(function() {
-        window.scrollTo({ behavior: "smooth", top: el.offsetTop-70 });
+        window.scrollTo({ behavior: "smooth", top: el.offsetTop - 70 });
       });
     },
     cancel() {
@@ -477,6 +426,13 @@ export default {
     }
   },
   computed: {
+    fileImg() {
+      return (
+        "//csdnimg.cn/release/download/static_files/pc/images/minetype/" +
+        this.post.fileType +
+        ".svg"
+      );
+    },
     isAdmin() {
       return this.$store.state.user.userIdentity == 1;
     },
@@ -532,9 +488,27 @@ export default {
 };
 </script>
 <style>
+.post-footer {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+.post-footer a {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.downfile {
+  display: flex;
+  width: 100%;
+}
+
 .xxx {
   margin-bottom: 35px;
 }
+
 /* 悬浮窗 */
 .hover-post {
   height: 247px;
@@ -720,6 +694,17 @@ export default {
 .post .main .article .content {
   margin: 20px 0;
   padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.post .main .article .content h1,
+.post .main .article .content h2,
+.post .main .article .content h3,
+.post .main .article .content h4,
+.post .main .article .content p,
+.post .main .article .content pre {
+  display: flex;
 }
 
 .post .main .article .div {

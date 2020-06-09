@@ -1,6 +1,6 @@
 /*富文本编辑图片上传配置*/
 const uploadConfig = {
-    action:  'http://localhost:8080/upimg',  // 必填参数 图片上传地址
+    action:  'http://39.99.154.244:8080/upimg',  // 必填参数 图片上传地址
     methods: 'POST',  // 必填参数 图片上传方式
     token: '',  // 可选参数 如果需要token验证，假设你的token有存放在sessionStorage
     name: 'img',  // 必填参数 文件的参数名
