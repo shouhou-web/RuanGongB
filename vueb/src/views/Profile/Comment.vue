@@ -38,24 +38,7 @@ export default {
   name: "Comment",
   data() {
     return {
-      comment: [
-        {
-          commentID: 1,
-          postID: 123,
-          level: 9,
-          date: "05-21",
-          title: "写大作业好开心啊啊啊",
-          content:
-            "这个大作业是今天写完还是明天写完，我永远也不知道，也许写不完了"
-        },
-        {
-          commentID: 2,
-          postID: 123,
-          date: "05-21",
-          title: "帖子标题",
-          content: "评论内容"
-        }
-      ]
+      comment: []
     };
   },
   methods:{
@@ -110,7 +93,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  width: 700px;
+  width: 770px;
 }
 
 .comment-title {

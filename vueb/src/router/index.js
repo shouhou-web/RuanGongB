@@ -32,9 +32,6 @@ const SearchPost = () => import('../views/Post/SearchPost.vue')
 //管理员相关组件
 const ManageProfile = () => import('../views/Manage/ManageProfile.vue') 
 const ViewProfile = () => import('../views/Manage/ViewProfile.vue')
-
-const About = () => import('../views/About.vue');
-const Register = () => import('../views/Register.vue');
 //1.安装插件
 Vue.use(VueRouter)
 
@@ -183,19 +180,6 @@ const routes = [
         component: ViewProfile
       },
     ]
-  },
-  {
-    path: '/about',
-    name: 'About',
-    meta: {
-      title: '关于'
-    },
-    component: About
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
   }
 ]
 

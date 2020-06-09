@@ -19,7 +19,11 @@
     </div>
     <!-- 帖子列表 -->
     <div v-for="(item, index) in post" :key="index">
-      <div class="discuss-post" v-if="canRead(item.postLevel)" @click="toPost(item.postID)">
+      <div
+        class="discuss-post"
+        v-if="canRead(item.postLevel)"
+        @click="toPost(item.postID)"
+      >
         <div class="discuss-post-header">
           <img class="left" :src="item.imagePath" alt="" />
           <div class="name">
@@ -122,9 +126,9 @@ export default {
   methods: {
     warn(postLevel) {
       this.$message({
-        type : 'warning',
-        message: '该帖子需要用户权限等级Lv.' + postLevel + '以上才可浏览~'
-      })
+        type: "warning",
+        message: "该帖子需要用户权限等级Lv." + postLevel + "以上才可浏览~"
+      });
     },
     canRead(postLevel) {
       return this.$store.state.user.userLevel >= postLevel;

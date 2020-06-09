@@ -169,11 +169,13 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .icon-signature {
   font-size: 14px;
   height: 15px;
   margin-right: 5px;
 }
+
 .profile-main {
   display: flex;
 }
@@ -247,10 +249,10 @@ export default {
   display: flex;
   align-items: center;
   line-height: 30px;
-  width: 1000px;
+  width: 1070px;
   height: 160px;
   margin: 20px 20px;
-  padding: 20px 50px;
+  padding: 20px 30px;
   background-color: #fff;
   border-radius: 4px;
 }

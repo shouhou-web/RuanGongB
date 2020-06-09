@@ -31,15 +31,17 @@
           文章发表：{{ post.createTime }} | 最后编辑：{{ post.editTime }}
         </div>
         <!-- 帖子内容 -->
-        <div class="content" v-html="post.content">
-          {{ post.content }}
+        <div class="content ql-snow">
+          <div class="ql-editor" v-html="post.content">
+            {{ post.content }}
+          </div>
         </div>
 
         <!-- 分割线 -->
         <div class="div"></div>
         <!-- 点赞按钮 -->
         <div class="post-footer">
-          <div v-if="post.postIdentity==4" class="downfile">
+          <div v-if="post.postIdentity == 4" class="downfile">
             <img :src="fileImg" alt="" />
             <a :href="post.accessoryPath" :download="post.fileName">
               下载附件
@@ -121,7 +123,7 @@
       <!-- 作者 -->
       <div class="author">
         <img class="head" :src="post.imagePath" alt="图片无法加载QAQ" />
-        <div class="xxx">
+        <div :class="isAdmin ? 'xxx' : ''">
           <div
             @click="manageProfile(post.userID)"
             style="margin-left: 5px;"
@@ -255,6 +257,7 @@
 </template>
 
 <script>
+import { quillEditor } from "vue-quill-editor";
 import {
   downPost,
   likePost,
@@ -488,6 +491,9 @@ export default {
 };
 </script>
 <style>
+.content .ql-editor {
+  height: auto;
+}
 .post-footer {
   display: flex;
   align-content: center;
@@ -703,8 +709,9 @@ export default {
 .post .main .article .content h3,
 .post .main .article .content h4,
 .post .main .article .content p,
-.post .main .article .content pre {
-  display: flex;
+.post .main .article .content pre,
+.post .main .article .content img {
+  width: 100%;
 }
 
 .post .main .article .div {

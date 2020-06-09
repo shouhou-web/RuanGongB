@@ -56,62 +56,7 @@ export default {
   name: "Viewed",
   data() {
     return {
-      viewdPost: [
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 3,
-          createTime: "05-24",
-          content: `<div>帖子内容</div>`,
-          imagePath: "https://img-static.mihoyo.com/avatar/avatar30060.png",
-          title: "vue动态绑定class的几种方式",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 3,
-          createTime: "05-24",
-          content: `<div>帖子内容</div>`,
-          imagePath: "https://img-static.mihoyo.com/avatar/avatar30060.png",
-          title: "vue动态绑定class的几种方式",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 3,
-          createTime: "05-24",
-          content: `<div>帖子内容</div>`,
-          imagePath: "https://img-static.mihoyo.com/avatar/avatar30060.png",
-          title: "vue动态绑定class的几种方式",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        }
-      ]
+      viewdPost: []
     };
   },
   computed: {},
@@ -155,7 +100,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  width: 700px;
+  width: 770px;
 }
 
 .viewd-title {

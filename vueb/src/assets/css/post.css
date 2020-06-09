@@ -80,7 +80,6 @@
   margin-top: 8px;
   color: #999;
   overflow: hidden;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

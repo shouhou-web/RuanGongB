@@ -21,12 +21,12 @@
           <tr v-for="(item, index) in level" :key="index">
             <td>
               <span class="icon">
-                <img :src="item.img" alt="">
+                <img :src="item.img" alt="" />
               </span>
             </td>
             <td>
               <span class="text">
-                {{item.level}}
+                {{ item.level }}
               </span>
             </td>
           </tr>
@@ -41,7 +41,7 @@ export default {
   name: "ProfileLevel",
   data() {
     return {
-      level:[]
+      level: []
     };
   },
   methods: {},
@@ -58,15 +58,32 @@ export default {
   },
   created() {
     let level = [];
-    let experience = [0,30,110,290,592,1168,2190,2190,2190,2920,3650,3650,3942,4818,5840,8030]
-    for (let i=1;i<=16;i++){
+    let experience = [
+      0,
+      30,
+      110,
+      290,
+      592,
+      1168,
+      2190,
+      2190,
+      2190,
+      2920,
+      3650,
+      3650,
+      3942,
+      4818,
+      5840,
+      8030
+    ];
+    for (let i = 1; i <= 16; i++) {
       let item = {
-        level : experience[i-1],
-        img : "https://img-static.mihoyo.com/level/level" + i + ".png"
-      }
-      level.push(item)
+        level: experience[i - 1],
+        img: "https://img-static.mihoyo.com/level/level" + i + ".png"
+      };
+      level.push(item);
     }
-    console.log(level)
+    console.log(level);
     this.level = level;
   }
 };
@@ -74,9 +91,9 @@ export default {
 <style>
 .pl-table .icon {
   display: inline-block;
-    width: 36px;
-    height: 16px;
-    text-align: left;
+  width: 36px;
+  height: 16px;
+  text-align: left;
 }
 
 .pl-table .text {
@@ -112,8 +129,8 @@ export default {
 
 .pl-table thead .head {
   color: #333;
-    font-size: 14px;
-    font-weight: 600;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .pl-table {
@@ -147,7 +164,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  width: 700px;
+  width: 770px;
 }
 
 .profilelevel-title {

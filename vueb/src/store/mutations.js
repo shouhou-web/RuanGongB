@@ -22,7 +22,7 @@ const mutations = {
     },
     hideLoading(state) {
         state.fullscreenLoading = false;
-    },
+    }
 }
 
 export default mutations

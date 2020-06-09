@@ -118,9 +118,6 @@
 import { uploadPost } from "../../network/post";
 import { quillEditor } from "vue-quill-editor";
 import quillConfig from "../../components/common/quill-config";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
 export default {
   name: "EditPost",
   data() {
@@ -220,6 +217,7 @@ export default {
     },
     submitPost() {
       console.log(this.$store.state.user.userID);
+      let userID = this.$store.state.user.userID;
       let title = this.otherData.title;
       let postLevel = this.otherData.postLevel;
       let postIdentity = this.otherData.postIdentity;
@@ -254,8 +252,7 @@ export default {
           title,
           postLevel,
           postIdentity,
-          content,
-          formData
+          content
         )
           .then(res => {
             console.log(res);

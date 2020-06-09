@@ -105,70 +105,8 @@ export default {
   name: "Course",
   data() {
     return {
-      top: [
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        }
-      ],
-      post: [
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 1,
-          postLevel : 3,
-          createTime: "05-24",
-          content: `<div>帖子内容啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</div>
-            </br>`,
-          imagePath:
-            "http://forum.loheagn.com/assets/avatars/MC8w4ARonPhlzlbb.png",
-          title: "写大作业好开心啊",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        },
-        {
-          postID: 123,
-          userID: 233,
-          userName: "用户名",
-          userLevel: 3,
-          postLevel : 12,
-          createTime: "05-24",
-          content: `<div>帖子内容</div>`,
-          imagePath: "https://img-static.mihoyo.com/avatar/avatar30060.png",
-          title: "vue动态绑定class的几种方式",
-          likesNum: 0,
-          browseNum: 1,
-          commentNum: 2
-        }
-      ]
+      top: [],
+      post: []
     };
   },
   computed: {

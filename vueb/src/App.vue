@@ -3,7 +3,9 @@
     <el-container class="main">
       <el-header class="top">
         <div class="container">
-          <router-link class="head-logo" to="/home" replace>Home</router-link>
+          <router-link class="head-logo" to="/home" replace>
+            <img src="./assets/img/logo.png" alt="" />
+          </router-link>
           <a
             class="head-href"
             href="https://cloud-beihangsoft-cn.e1.buaa.edu.cn/"
@@ -17,15 +19,20 @@
           >
             课程中心
           </a>
-          <div class="head-msg" @click="toProfileMessage">消息</div>
-          <div class="profile" v-if="token" @click="toProfile">
-            {{ $store.state.user.userName }}的个人空间
+          <!-- <div class="head-msg" @click="toProfileMessage">消息</div> -->
+          <div class="head-profile" v-if="token" @click="toProfile">
+            <img :src="$store.state.user.imagePath" alt="" />
+            <div class="head-profile-text">
+              {{ $store.state.user.userName }}的个人空间
+            </div>
           </div>
-          <div class="head-register" v-if="!token" @click="openRegister">
-            注册
-          </div>
-          <div class="head-login" v-if="!token" @click="openLogin">
-            登录
+          <div v-if="!token" class="unToken">
+            <div class="head-register" @click="openRegister">
+              注册
+            </div>
+            <div class="head-login" @click="openLogin">
+              登录
+            </div>
           </div>
         </div>
       </el-header>
@@ -131,13 +138,12 @@ export default {
     fullscreenLoading() {
       return this.$store.state.fullscreenLoading;
     },
-    token() {      
-      if (sessionStorage.getItem("user") != null)
-      {
-        console.log('我执行了',sessionStorage.getItem("user"))
-        this.$store.commit("login",JSON.parse(sessionStorage.getItem("user")))
+    token() {
+      if (sessionStorage.getItem("user") != null) {
+        console.log("我执行了", sessionStorage.getItem("user"));
+        this.$store.commit("login", JSON.parse(sessionStorage.getItem("user")));
       }
-      console.log(this.$store.state.token)
+      console.log(this.$store.state.token);
       return this.$store.state.token;
     },
     isAdmin() {
@@ -242,9 +248,9 @@ export default {
             return;
           } else {
             // 存储数据
-            console.log('传回数据',res)
-            sessionStorage.setItem("user",JSON.stringify(res));
-            console.log('本地缓存',sessionStorage.getItem("user"))
+            console.log("传回数据", res);
+            sessionStorage.setItem("user", JSON.stringify(res));
+            console.log("本地缓存", sessionStorage.getItem("user"));
             this.$store.commit("login", res);
             this.$message({
               message: "恭喜你，登录成功",
@@ -310,6 +316,9 @@ export default {
   width: 1100px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 
 .top {
@@ -328,9 +337,15 @@ export default {
 }
 
 .head-logo {
-  width: 50px;
+  width: 111px;
   float: left;
   margin-left: 10px;
+  height: 37px;
+}
+
+.head-logo img {
+  width: 100%;
+  height: 100%;
 }
 
 .head-href {
@@ -339,26 +354,51 @@ export default {
   margin-left: 30px;
 }
 
+.unToken {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-end;
+  margin-right: 30px;
+}
+
 .head-msg {
   width: 50px;
   height: 40px;
-  float: left;
   margin-left: 570px;
+  display: flex;
+  align-items: center;
 }
 
 .head-profile {
-  float: left;
   margin-left: 60px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 30px;
+  height: 100%;
+}
+
+.head-profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.head-profile-text {
+  display: flex;
+  align-items: center;
+  line-height: 40px;
 }
 
 .head-register {
-  float: left;
   margin-left: 50px;
 }
 
 .head-login {
-  float: left;
-  margin-left: 20px;
+  margin-left: 40px;
 }
 
 /* 悬浮窗登陆注册 */

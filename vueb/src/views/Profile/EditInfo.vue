@@ -123,7 +123,6 @@ export default {
         }
       ],
       image: [
-        
         "https://img-static.mihoyo.com/communityweb/upload/2adac6e4e0195c39d90696955f9a7902.png",
         "https://img-static.mihoyo.com/avatar/avatar30003.png",
         "https://img-static.mihoyo.com/avatar/avatar30044.png",
@@ -199,10 +198,7 @@ export default {
         .then(res => {
           console.log(res);
           if (res != null) {
-            this.$store.commit(
-              "editInfo",
-              res
-            );
+            this.$store.commit("editInfo", res);
             this.$message({
               message: "修改信息成功~",
               type: "success"
@@ -220,7 +216,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.user)
+    console.log(this.$store.state.user);
     this.userID = this.$store.state.user.userID;
     this.imagePath = this.$store.state.user.imagePath;
     this.currentImagePath = this.imagePath;
@@ -236,8 +232,7 @@ export default {
   flex-direction: column;
   width: 480px;
   position: fixed;
-  left: 85%;
-  margin-left: -50%;
+  left: 40%;
   top: 20%;
 }
 
@@ -430,7 +425,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  width: 700px;
+  width: 770px;
 }
 
 .editinfo-title {
