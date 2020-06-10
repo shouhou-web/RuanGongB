@@ -83,7 +83,7 @@
         >
       </div>
       <!-- 评论区 -->
-      <ul class="comment">
+      <ul class="comment-p">
         <li
           class="comment-item"
           v-for="(item, index) in post.listComment"
@@ -326,7 +326,14 @@ export default {
       pushComment(userID, postID, content)
         .then(res => {
           if (res == null) this.$message.error("评论失败了~请检查您的网络");
-          else this.post.listComment.push(res);
+          else {
+            this.post.listComment.push(res);
+            this.$message({
+              type: "success",
+              message: "评论成功~"
+            });
+            this.newcomment = "";
+          }
         })
         .catch(err => {
           this.$message.error("评论失败了~请检查您的网络");
@@ -494,6 +501,7 @@ export default {
 .content .ql-editor {
   height: auto;
 }
+
 .post-footer {
   display: flex;
   align-content: center;
@@ -620,7 +628,7 @@ export default {
   line-height: 30px;
   flex-direction: column;
   align-items: center;
-  width: 700px;
+  width: 770px;
   border-radius: 5px;
   margin: 5px;
   padding: 40px 50px;
@@ -698,8 +706,6 @@ export default {
 }
 
 .post .main .article .content {
-  margin: 20px 0;
-  padding: 20px;
   width: 100%;
   height: 100%;
 }
@@ -717,7 +723,8 @@ export default {
 .post .main .article .div {
   height: 2px;
   background-color: lightgrey;
-  width: 80%;
+  width: 90%;
+  margin-top: 20px;
 }
 
 .post .main .article .likes-end {
@@ -760,10 +767,12 @@ export default {
 
 .post .aside .author .author-content {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   line-height: 30px;
   line-height: 50px;
   align-items: center;
+  flex-direction: column;
+  margin-left: 5px;
 }
 
 .post .aside .author .author-content .author-name {
@@ -771,12 +780,12 @@ export default {
   line-height: 22px;
   font-weight: 600;
   font-size: 16px;
-  margin-right: 6px;
-  margin-left: 15px;
+  margin: 0 6px 5px 15px;
   white-space: normal;
   display: inline;
   max-width: 180px;
 }
+
 .main .main-top .main-top-title .level,
 .post .aside .author .author-content .level {
   height: 16px;
@@ -828,7 +837,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 700px;
+  width: 770px;
   height: 245px;
   padding: 30px 50px;
   background-color: #fff;
@@ -866,13 +875,13 @@ export default {
 }
 
 /* 评论样式 */
-.post .main .comment {
+.post .main .comment-p {
   margin-bottom: 30px;
 }
 
-.post .main .comment .comment-item {
+.post .main .comment-p .comment-item {
   background-color: #fff;
-  width: 700px;
+  width: 770px;
   height: 148px;
   padding: 24px 50px;
   line-height: 22px;
@@ -884,13 +893,13 @@ export default {
   border-bottom: 1px solid #ebebeb;
 }
 
-.post .main .comment .img {
+.post .main .comment-p .img {
   width: 44px;
   height: 44px;
   border-radius: 50%;
 }
 
-.post .main .comment .main {
+.post .main .comment-p .main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -898,7 +907,7 @@ export default {
   padding: 0 10px;
 }
 
-.post .main .comment .main .main-top {
+.post .main .comment-p .main .main-top {
   display: flex;
   justify-content: flex-start;
   width: 500px;
@@ -906,7 +915,7 @@ export default {
   line-height: 22px;
 }
 
-.post .main .comment .main .main-top-title {
+.post .main .comment-p .main .main-top-title {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -922,25 +931,31 @@ export default {
   margin-bottom: 15px;
 }
 
-.post .main .comment .main .main-top-manage {
+.post .main .comment-p .main .main-top-manage {
   color: #fff;
   font-size: 14px;
   width: 60px;
-  margin-left: 400px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0;
 }
 
 .aside .author .profile-manage:hover,
-.post .main .comment .main .main-top-manage:hover {
+.post .main .comment-p .main .main-top-manage:hover {
   color: #ccc;
+  font-weight: 600;
+  font-size: 16px;
 }
 
-.post .main .comment .main .bottom {
+.post .main .comment-p .main .bottom {
   display: flex;
   flex-direction: row;
   margin-top: 5px;
 }
 
-.post .main .comment .main .bottom .date {
+.post .main .comment-p .main .bottom .date {
   color: #ccc;
   font-size: 14px;
   line-height: 30px;
@@ -950,7 +965,7 @@ export default {
   margin-top: -10px;
 }
 
-.post .main .comment .main .bottom .likes {
+.post .main .comment-p .main .bottom .likes {
   margin-left: 400px;
   display: flex;
   width: 30px;
@@ -958,7 +973,7 @@ export default {
   align-items: center;
 }
 
-.post .main .comment .main .bottom .likes-img {
+.post .main .comment-p .main .bottom .likes-img {
   width: 15.33px;
   height: 15.33px;
 }

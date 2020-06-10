@@ -214,7 +214,7 @@ export default {
             this.$message.error("两次密码不等");
             return;
           } else if (res == 3) {
-            this.$message.error("密码不合法");
+            this.$message.error("密码应至少由两种形式的字符组成，长度在6-18位之间");
             return;
           } else {
             this.$message({
@@ -324,7 +324,7 @@ export default {
 .top {
   background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
   min-width: 100%;
-  width: 100%;
+  width: 100vw;
   padding: 0px !important;
   color: white;
   position: fixed;
@@ -398,7 +398,8 @@ export default {
 }
 
 .head-login {
-  margin-left: 40px;
+  margin-left: 50px;
+  margin-right: 20px;
 }
 
 /* 悬浮窗登陆注册 */

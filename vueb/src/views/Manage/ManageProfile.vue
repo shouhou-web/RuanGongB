@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import {getUser, upManage} from '../../network/manage'
+import { getUser, upManage } from "../../network/manage";
 export default {
   name: "ManageProfile",
   data() {
@@ -105,32 +105,32 @@ export default {
     submitManage() {
       console.log(this.$route.query.userID);
       console.log(this.content);
-      console.log(this.duration)
-      console.log(this.user.userState)
+      console.log(this.duration);
+      console.log(this.user.userState);
       let userID = this.$route.query.userID;
       let adminID = this.$store.state.user.userID;
       let content = this.content;
       let duration = this.duration;
-      let userState = this.user.userState
+      let userState = this.user.userState;
       if (duration == 0) {
         userState = 0;
-        content = ""
-      }else 
-        userState = 1;
-      upManage(userID,adminID,userState,duration,content).then(res => {
-        if (res == 0) {
-          this.$message({
-            type:'success',
-            message:'保存成功~'
-          })
-          this.$router.go(-1);
-        }
-        else {
-          this.$message.error('保存信息失败，清检查您的网络~')
-        }
-      }).catch(err => {
-        this.$message.error('获取信息失败，清检查您的网络~')
-      })
+        content = "";
+      } else userState = 1;
+      upManage(userID, adminID, userState, duration, content)
+        .then(res => {
+          if (res == 0) {
+            this.$message({
+              type: "success",
+              message: "保存成功~"
+            });
+            this.$router.go(-1);
+          } else {
+            this.$message.error("保存信息失败，清检查您的网络~");
+          }
+        })
+        .catch(err => {
+          this.$message.error("获取信息失败，清检查您的网络~");
+        });
     },
     back() {
       this.$router.go(-1);
@@ -139,20 +139,28 @@ export default {
   created() {
     console.log(this.$route.query.userID);
     let userID = this.$route.query.userID;
-    getUser(userID).then(res => {
-      if (res == null) {
-        this.$message.error('获取信息失败，清检查您的网络~')
-      }else {
-        console.log('userData',res)
-        this.user = res;
-      }
-    }).catch(err => {
-      this.$message.error('获取信息失败，清检查您的网络~')
-    })
+    getUser(userID)
+      .then(res => {
+        if (res == null) {
+          this.$message.error("获取信息失败，清检查您的网络~");
+        } else {
+          console.log("userData", res);
+          this.user = res;
+          this.content = res.content;
+          this.duration = res.duration;
+        }
+      })
+      .catch(err => {
+        this.$message.error("获取信息失败，清检查您的网络~");
+      });
   }
 };
 </script>
 <style>
+.mp-reason,
+.mp-time {
+  padding: 10px 0;
+}
 .mp-reason-i,
 .mp-name-r,
 .mp-state-r {
@@ -162,10 +170,15 @@ export default {
 }
 
 .mp-reason-i {
-  border: 1px solid #ebebeb;
+  border: 0;
   padding: 13px;
   font-size: 15px;
   line-height: 10px;
+  width: 80%;
+}
+
+.mp-reason-i:focus {
+  border: 1px solid #ebebeb;
 }
 
 .mp-name,
@@ -175,11 +188,11 @@ export default {
   display: flex;
 }
 
-.el-input__inner{
+.el-input__inner {
   height: 50px;
 }
 
-.el-select{
+.el-select {
   display: flex;
   align-items: center;
   line-height: 50px;
@@ -190,7 +203,6 @@ export default {
   height: auto !important;
   width: auto !important;
   display: flex;
-  margin-left: -86px;
 }
 
 .mp-footer {

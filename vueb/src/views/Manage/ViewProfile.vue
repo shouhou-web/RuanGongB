@@ -27,7 +27,8 @@
         </div>
 
         <!-- 评论内容 -->
-        <div class="vp-content">封禁时间：{{ item.duration }}天</div>
+        <div v-if="item.duration==100" class="vp-content">封禁时间：永久</div>
+        <div v-else class="vp-content">封禁时间：{{ item.duration }}天</div>
         <!-- 标题 -->
         <div class="vp-title">封禁原因：{{ item.content }}</div>
       </div>
@@ -41,32 +42,7 @@ export default {
   name: "ViewProfile",
   data() {
     return {
-      userList: [
-        {
-          userID: 10001,
-          userName: "用户名",
-          adminName: "管理员名",
-          createTime: "05-24",
-          duration: 7,
-          content: "这个人不好好写大作业"
-        },
-        {
-          userID: 10001,
-          userName: "用户名",
-          adminName: "管理员名",
-          createTime: "05-24",
-          duration: 3,
-          content: "封禁原因"
-        },
-        {
-          userID: 10001,
-          userName: "用户名",
-          adminName: "管理员名",
-          createTime: "05-24",
-          duration: 100,
-          content: "封禁原因"
-        }
-      ]
+      userList: []
     };
   },
   created() {
@@ -114,7 +90,8 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  width: 700px;
+  width: 770px;
+  border-radius: 4px;
 }
 
 .viewprofile-title {
