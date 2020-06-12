@@ -3,9 +3,9 @@
     <el-container class="main">
       <el-header class="top">
         <div class="container">
-          <router-link class="head-logo" to="/home" replace>
+          <div class="head-logo" @click="toHome" replace>
             <img src="./assets/img/logo.png" alt="" />
-          </router-link>
+          </div>
           <a
             class="head-href"
             href="https://cloud-beihangsoft-cn.e1.buaa.edu.cn/"
@@ -162,6 +162,12 @@ export default {
       setTimeout(() => {
         this.fullscreenLoading = false;
       }, 2000);
+    },
+    toHome() {
+      this.$store.commit('setHomeClick',1);
+      this.$router.push({
+        path: "/home"
+      });
     },
     toProfile() {
       this.$router.push({

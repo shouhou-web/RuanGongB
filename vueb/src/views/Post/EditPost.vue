@@ -74,7 +74,7 @@
           ref="upload"
           :data="otherData"
           name="userfile"
-          limit="1"
+          :limit="1"
           action="http://39.99.154.244:8080/uploadPost"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -244,6 +244,7 @@ export default {
         });
         return;
       }
+      console.log(this.fileList)
       if (postIdentity == 4) this.$refs.upload.submit();
       else {
         uploadPost(

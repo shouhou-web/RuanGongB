@@ -30,6 +30,20 @@
         <div class="time">
           文章发表：{{ post.createTime }} | 最后编辑：{{ post.editTime }}
         </div>
+        <!-- 下载附件 -->
+        <div v-if="post.postIdentity == 4" class="downfile">
+          <div class="downfile-main">
+            <img :src="fileImg" alt="" />
+            <a :href="post.accessoryPath" download="">
+              {{ post.fileName }}
+            </a>
+            <a :href="post.accessoryPath" :download="post.fileName" class="button">
+              <i class="el-icon-download"></i>
+              下载
+            </a>
+          </div>
+        </div>
+
         <!-- 帖子内容 -->
         <div class="content ql-snow">
           <div class="ql-editor" v-html="post.content">
@@ -41,12 +55,6 @@
         <div class="div"></div>
         <!-- 点赞按钮 -->
         <div class="post-footer">
-          <div v-if="post.postIdentity == 4" class="downfile">
-            <img :src="fileImg" alt="" />
-            <a :href="post.accessoryPath" :download="post.fileName">
-              下载附件
-            </a>
-          </div>
           <div class="likes-end">
             <img
               @click="likesClick"
@@ -220,7 +228,7 @@
             />
             取消置顶
           </label>
-          <label v-else class="hover-radio-i-post">
+          <label class="hover-radio-i-post">
             <input
               name="type"
               type="radio"
@@ -271,6 +279,7 @@ export default {
   data() {
     return {
       userID: 0,
+      postStatus: 0,
       type: [
         "新手上路",
         "讨论区",
@@ -327,6 +336,7 @@ export default {
         .then(res => {
           if (res == null) this.$message.error("评论失败了~请检查您的网络");
           else {
+            res.createTime = "刚刚";
             this.post.listComment.push(res);
             this.$message({
               type: "success",
@@ -374,6 +384,7 @@ export default {
                 message: "删除成功",
                 type: "success"
               });
+              this.postStatus = 1;
               this.$router.push({ path: "/home" });
             } else this.$message.error("删除失败，请检查您的网络~");
           })
@@ -415,6 +426,7 @@ export default {
             this.$message.error("取消置顶失败，请检查您的网络~");
           });
       }
+      this.manage = false;
     },
     toEdit() {
       let post = this.post;
@@ -437,11 +449,12 @@ export default {
   },
   computed: {
     fileImg() {
-      return (
-        "//csdnimg.cn/release/download/static_files/pc/images/minetype/" +
-        this.post.fileType +
-        ".svg"
-      );
+      // return (
+      //   "//csdnimg.cn/release/download/static_files/pc/images/minetype/" +
+      //   this.post.fileType +
+      //   ".svg"
+      // );
+      return require("../../assets/Icon/File/" + this.post.fileType + ".png");
     },
     isAdmin() {
       return this.$store.state.user.userIdentity == 1;
@@ -477,22 +490,24 @@ export default {
   },
   beforeDestroy() {
     console.log("destroy");
-    let userID = this.userID;
-    let postID = this.post.postID;
-    let state = this.post.listLikes.filter(item => {
-      return item == userID;
-    }).length;
-    likePost(userID, postID, state)
-      .then(res => {
-        if (res == 1) {
-          this.$message.error("点赞数据保存失败了~请检查您的网络");
-        }
-      })
-      .catch(err => {
-        this.$message.error("加载失败了~请检查您的网络");
-      });
-    if (this.post.postID == 9999) {
-      isNotNew(userID);
+    if (this.postStatus == 0) {
+      let userID = this.userID;
+      let postID = this.post.postID;
+      let state = this.post.listLikes.filter(item => {
+        return item == userID;
+      }).length;
+      likePost(userID, postID, state)
+        .then(res => {
+          if (res == 1) {
+            this.$message.error("点赞数据保存失败了~请检查您的网络");
+          }
+        })
+        .catch(err => {
+          this.$message.error("加载失败了~请检查您的网络");
+        });
+      if (this.post.postID == 9999) {
+        isNotNew(userID);
+      }
     }
   }
 };
@@ -508,15 +523,30 @@ export default {
   align-items: center;
 }
 
-.post-footer a {
+.downfile a {
   display: flex;
   align-items: center;
   margin-left: 10px;
 }
 
+.downfile .button {
+  display: flex;
+  align-items: center;
+  color: #4cc3ff;
+  margin-left: 10px;
+}
+
+.downfile .downfile-main {
+  display: flex;
+  border: 1px solid #ebebeb;
+  align-items: center;
+  padding: 5px 10px;
+}
+
 .downfile {
   display: flex;
   width: 100%;
+  padding: 10px 0;
 }
 
 .xxx {
@@ -525,7 +555,7 @@ export default {
 
 /* 悬浮窗 */
 .hover-post {
-  height: 247px;
+  height: auto;
   width: 480px;
   position: fixed;
   background-color: #fff;
@@ -546,7 +576,7 @@ export default {
   flex-direction: column;
   width: 480px;
   padding: 0px 30px;
-  height: 112px;
+  height: auto;
   line-height: 50px;
   align-content: center;
   justify-content: space-between;
@@ -601,8 +631,7 @@ export default {
 .post-option {
   position: fixed;
   top: 95px;
-  left: 68%;
-  margin-left: -50%;
+  left: 19%;
   width: 46px;
   background-color: #fff;
   border-radius: 4px;
@@ -666,7 +695,6 @@ export default {
 .p-identify2 {
   color: #fa0;
   font-size: 14px;
-  margin-right: 280px;
 }
 
 .discuss-post-bottom {
@@ -674,6 +702,7 @@ export default {
   line-height: 20px;
   align-items: center;
   justify-content: flex-end;
+  flex-grow: 1;
 }
 
 .discuss-post-bottom-item {
@@ -691,7 +720,7 @@ export default {
   display: flex;
   color: #ccc;
   display: inline-block;
-  width: 10px;
+  width: auto;
   margin-left: 5px;
 }
 
@@ -858,7 +887,7 @@ export default {
   border: 1px solid #f0f1f5;
   border-radius: 5px;
   background-color: #fff;
-  width: 600px;
+  width: 660px;
   height: 100px;
   padding: 10px;
   resize: none;
@@ -882,7 +911,7 @@ export default {
 .post .main .comment-p .comment-item {
   background-color: #fff;
   width: 770px;
-  height: 148px;
+  height: auto;
   padding: 24px 50px;
   line-height: 22px;
   font-size: 14px;
@@ -913,6 +942,14 @@ export default {
   width: 500px;
   font-size: 14px;
   line-height: 22px;
+}
+
+.post .main .comment-p .main .content {
+  text-align: left;
+  display: inline-block;
+  overflow: hidden;
+  height: auto;
+  text-overflow: ellipsis;
 }
 
 .post .main .comment-p .main .main-top-title {
@@ -981,5 +1018,6 @@ export default {
 .el-main {
   background-color: #f0f1f5 !important;
   height: auto;
+  overflow-y: hidden;
 }
 </style>

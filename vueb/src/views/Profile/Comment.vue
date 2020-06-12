@@ -6,6 +6,7 @@
     <div class="comment-main">
       <div
         class="discuss-post"
+        style="justify-content:space-between;"
         @click="toPost(item.postID)"
         v-for="(item, index) in comment"
         :key="index"
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import {getComment} from "../../network/user"
+import { getComment } from "../../network/user";
 export default {
   name: "Comment",
   data() {
@@ -41,7 +42,7 @@ export default {
       comment: []
     };
   },
-  methods:{
+  methods: {
     toPost(PostID) {
       if (!this.$store.state.token) {
         this.$message({
@@ -71,12 +72,15 @@ export default {
 </script>
 <style>
 .cp-content {
-  display: flex;
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
+  text-align: left;
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
   overflow: hidden;
-  margin-top: 10px;
+  text-overflow: ellipsis;
 }
 
 .cp-title {
@@ -86,7 +90,7 @@ export default {
   border-radius: 4px;
   color: #999;
   line-height: 18px;
-  margin: 12px 12px 0 0;
+  margin: 0 12px 0 0;
 }
 
 .comment {

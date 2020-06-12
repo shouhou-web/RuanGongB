@@ -10,6 +10,7 @@ Vue.use(Vuex)
 const state = {
     token: false,
     fullscreenLoading: false,
+    key: '',
     user: {
         // userID: 10002,
         // userName: '守候',
@@ -23,7 +24,10 @@ const state = {
         // userIdentity: 1,//0普通，1管理员
         // userState: 0, //0正常，1被禁
         // isNew: 0 //0正常，1还没看新手上路
-    }
+    },
+    searchPost: [],
+    profileClick: 0,
+    homeClick : 1
 }
 
 const store = new Vuex.Store({

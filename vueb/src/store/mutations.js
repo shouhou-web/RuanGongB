@@ -22,7 +22,25 @@ const mutations = {
     },
     hideLoading(state) {
         state.fullscreenLoading = false;
+    },
+    setSearchKey(state,key) {
+        sessionStorage.setItem('key',key)
+        state.key = key;
+    },
+    setSearchPost(state,searchPost) {
+        sessionStorage.setItem('searchPost',searchPost)
+        state.searchPost = searchPost;
+    },
+    setProfileClick(state,profileClick) {
+        console.log('setprofileclick')
+        sessionStorage.setItem('profileClick',profileClick)
+        state.profileClick = profileClick;
+    },
+    setHomeClick(state,homeClick) {
+        sessionStorage.setItem('homeClick',homeClick)
+        state.homeClick = homeClick;
     }
+
 }
 
 export default mutations

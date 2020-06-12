@@ -16,18 +16,18 @@
         </div>
         <div class="ptm-word">
           <svg class="icon-signature" viewBox="0 0 1024 1024">
-          <path
-            d="M599.771429 0H248.685714C151.698286 0 73.142857 76.361143 73.142857 170.642286v682.642285C73.142857 947.565714 151.698286 1024 248.685714 1024h526.628572c96.914286 0 175.542857-76.434286 175.542857-170.642286v-512C950.857143 152.795429 793.673143 0 599.771429 0z"
-            fill="#FB7199"
-          ></path>
-          <path
-            d="M658.285714 292.571429H365.714286a73.142857 73.142857 0 0 0 0 146.285714h292.571428a73.142857 73.142857 0 0 0 0-146.285714zM731.428571 585.142857H292.571429a73.142857 73.142857 0 0 0 0 146.285714h438.857142a73.142857 73.142857 0 0 0 0-146.285714z"
-            fill="#FFFFFF"
-          ></path>
-        </svg>
-        <div class="ptm-word-text">
-          {{$store.state.user.userWord}}
-        </div>
+            <path
+              d="M599.771429 0H248.685714C151.698286 0 73.142857 76.361143 73.142857 170.642286v682.642285C73.142857 947.565714 151.698286 1024 248.685714 1024h526.628572c96.914286 0 175.542857-76.434286 175.542857-170.642286v-512C950.857143 152.795429 793.673143 0 599.771429 0z"
+              fill="#FB7199"
+            ></path>
+            <path
+              d="M658.285714 292.571429H365.714286a73.142857 73.142857 0 0 0 0 146.285714h292.571428a73.142857 73.142857 0 0 0 0-146.285714zM731.428571 585.142857H292.571429a73.142857 73.142857 0 0 0 0 146.285714h438.857142a73.142857 73.142857 0 0 0 0-146.285714z"
+              fill="#FFFFFF"
+            ></path>
+          </svg>
+          <div class="ptm-word-text">
+            {{ $store.state.user.userWord }}
+          </div>
         </div>
         <router-link to="/profile/editInfo" class="ptm-button"
           >编辑资料</router-link
@@ -126,6 +126,7 @@ export default {
       console.log(id, to);
       for (let i = 0; i < this.paList.length; i++)
         this.paList[i].current = false;
+      this.$store.commit("setProfileClick", id);
       this.paList[id].current = true;
       this.$router.push(to);
     },
@@ -139,7 +140,8 @@ export default {
       this.$router.push({ path: "/home" });
     }
   },
-  mounted() {
+  created() {
+    console.log('profile.vue')
     let common = {
       name: "我的等级",
       img: require("../../assets/Icon/Profile/5.png"),
@@ -161,6 +163,10 @@ export default {
     if (this.$store.state.user.userIdentity == 1) this.paList.push(admin);
     else this.paList.push(common);
     this.paList.push(end);
+    if (sessionStorage.getItem("profileClick") != null) {
+      console.log(sessionStorage.getItem("profileClick"))
+      this.paList[sessionStorage.getItem("profileClick")].current = true;
+    }
   }
 };
 </script>
@@ -187,7 +193,7 @@ export default {
   border-radius: 4px;
   width: 280px;
   margin: 0 20px;
-  height: 400px;
+  height: 410px;
 }
 
 .pa-list {

@@ -48,6 +48,12 @@
 <script>
 export default {
   name: "Home",
+  created() {
+    console.log('app.vue')
+    if (sessionStorage.getItem('homeClick') != null) {
+      this.current = sessionStorage.getItem('homeClick');
+    }
+  },
   methods: {
     homeClick() {
       this.$router.push({ path: "/home" });
@@ -75,11 +81,14 @@ export default {
       });
     },
     navigateClick(index, path) {
-      this.current = index;
+      this.$store.commit('setHomeClick',index)
       this.$router.push(path);
     },
   },
   computed: {
+    current() {
+      return this.$store.state.homeClick;
+    },
     HIcon() {
       return this.navigateList[this.current].img;
     },
@@ -92,7 +101,6 @@ export default {
   },
   data() {
     return {
-      current: 1,
       navigateList: [
         {
           title: "搜索帖子",

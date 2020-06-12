@@ -8,52 +8,95 @@
     </div>
     <div v-if="searchPost.length > 0" class="discuss">
       <!-- 帖子列表 -->
-      <div
-        class="discuss-post"
-        @click="toPost(item.postID)"
-        v-for="(item, index) in searchPost"
-        :key="index"
-      >
-        <div class="discuss-post-header">
-          <img class="left" :src="item.imagePath" alt="" />
-          <div class="name">
-            {{ item.userName }}
+      <div v-for="(item, index) in searchPost" :key="index">
+        <div
+          class="discuss-post"
+          v-if="canRead(item.postLevel)"
+          @click="toPost(item.postID)"
+        >
+          <div class="discuss-post-header">
+            <img class="left" :src="item.imagePath" alt="" />
+            <div class="name">
+              {{ item.userName }}
+            </div>
+            <img
+              class="level"
+              :src="getLevel(item.userLevel)"
+              alt="图片无法加载QAQ"
+            />
+            <div class="time">
+              {{ item.createTime }}
+            </div>
           </div>
-          <img
-            class="level"
-            :src="getLevel(item.userLevel)"
-            alt="图片无法加载QAQ"
-          />
-          <div class="time">
-            {{ item.createTime }}
+          <!-- 中部 -->
+          <div class="discuss-post-middle">
+            <div class="title navigation">
+              {{ item.title }}
+            </div>
+            <div class="preview" v-html="item.content"></div>
+          </div>
+          <div class="discuss-post-bottom">
+            <div class="discuss-likes discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/preview.png" alt="" />
+              <div class="num">{{ item.browseNum }}</div>
+            </div>
+            <div class="discuss-comment discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/likes.png" alt="" />
+              <div class="num">{{ item.likesNum }}</div>
+            </div>
+            <div class="discuss-likes discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/comment.png" alt="" />
+              <div class="num">{{ item.commentNum }}</div>
+            </div>
           </div>
         </div>
-        <!-- 中部 -->
-        <div class="discuss-post-middle">
-          <div class="title">
-            {{ item.title }}
+        <div class="discuss-post" v-else @click="warn(item.postLevel)">
+          <div class="discuss-post-header">
+            <img class="left" :src="item.imagePath" alt="" />
+            <div class="name">
+              {{ item.userName }}
+            </div>
+            <img
+              class="level"
+              :src="getLevel(item.userLevel)"
+              alt="图片无法加载QAQ"
+            />
+            <div class="time">
+              {{ item.createTime }}
+            </div>
+            <div class="postLevel">
+              <div class="postLevel-content">
+                等级Lv.{{ item.postLevel }}以上可浏览
+              </div>
+            </div>
           </div>
-          <div class="preview" v-html="item.content"></div>
-        </div>
-        <div class="discuss-post-bottom">
-          <div class="discuss-likes discuss-post-bottom-item">
-            <img src="../../assets/Icon/Post/preview.png" alt="" />
-            <div class="num">{{ item.browseNum }}</div>
+          <!-- 中部 -->
+          <div class="discuss-post-middle">
+            <div class="title">
+              {{ item.title }}
+            </div>
+            <div class="preview" v-html="item.content"></div>
           </div>
-          <div class="discuss-comment discuss-post-bottom-item">
-            <img src="../../assets/Icon/Post/likes.png" alt="" />
-            <div class="num">{{ item.likesNum }}</div>
-          </div>
-          <div class="discuss-likes discuss-post-bottom-item">
-            <img src="../../assets/Icon/Post/comment.png" alt="" />
-            <div class="num">{{ item.commentNum }}</div>
+          <div class="discuss-post-bottom">
+            <div class="discuss-likes discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/preview.png" alt="" />
+              <div class="num">{{ item.browseNum }}</div>
+            </div>
+            <div class="discuss-comment discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/likes.png" alt="" />
+              <div class="num">{{ item.likesNum }}</div>
+            </div>
+            <div class="discuss-likes discuss-post-bottom-item">
+              <img src="../../assets/Icon/Post/comment.png" alt="" />
+              <div class="num">{{ item.commentNum }}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div v-else class="search-no-data">
       <div class="content">
-        <img src="../../assets/img/no-data.png" alt="">
+        <img src="../../assets/img/no-data.png" alt="" />
         <p>搜索不到您要的结果，换个关键词试试呗~</p>
       </div>
     </div>
@@ -61,32 +104,54 @@
 </template>
 
 <script>
-import { searchPost } from '../../network/post'
+import { searchPost } from "../../network/post";
 export default {
   name: "SearchPost",
   data() {
     return {
       keyword: "",
-      searchPost: [
-      ]
+      searchPost: []
     };
   },
-  computed: {},
+  created() {
+    this.keyword = this.$store.state.key;
+    this.searchPost = this.$store.state.searchPost;
+  },
   methods: {
+    warn(postLevel) {
+      this.$message({
+        type: "warning",
+        message: "该帖子需要用户权限等级Lv." + postLevel + "以上才可浏览~"
+      });
+    },
+    canRead(postLevel) {
+      return this.$store.state.user.userLevel >= postLevel;
+    },
     search() {
       let keyword = this.keyword;
+      this.$store.commit("setSearchKey", keyword);
       if (keyword == "") {
         this.$message({
-          type : 'warning',
-          message : '搜索关键字不能为空哦~'
-        })
+          type: "warning",
+          message: "搜索关键字不能为空哦~"
+        });
         return;
       }
-      searchPost(keyword).then(res => {
-        this.searchPost = res;
-      }).catch(err => {
-        this.$message.error('搜索信息失败了~请检查您的网络')
-      })
+      searchPost(keyword)
+        .then(res => {
+          this.searchPost = res;
+          if (res.length == 0) {
+            this.$message({
+              type: "warning",
+              message: "搜索不到您要的结果，换个关键词试试呗~"
+            });
+          } else {
+            this.$store.commit("setSearchPost", res);
+          }
+        })
+        .catch(err => {
+          this.$message.error("搜索信息失败了~请检查您的网络");
+        });
     },
     toPost(PostID) {
       if (!this.$store.state.token) {
@@ -115,18 +180,17 @@ export default {
   padding: 150px 0;
   width: 790px;
   height: 530px;
-
 }
 
 .search-no-data .content {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center;
 }
 
-.search-no-data .content img{
+.search-no-data .content img {
   width: 200px;
 }
 

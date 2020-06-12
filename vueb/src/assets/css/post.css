@@ -1,5 +1,5 @@
 .discuss-post {
-  height: 169px;
+  height: auto;
   padding: 24px 0px 24px 30px;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,6 @@
 }
 
 .discuss-post-middle .preview {
-  display: flex;
   width: 640px;
   height: 18px;
   line-height: 18px;
@@ -82,6 +81,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: left;
 }
 
 .discuss-post-bottom {
@@ -89,6 +89,7 @@
   line-height: 20px;
   align-items: center;
   justify-content: flex-end;
+  margin-right: 23px;
 }
 
 .discuss-post-bottom-item {
@@ -105,8 +106,9 @@
   margin-left: 8px;
   color: #ccc;
   display: inline-block;
-  width: 50px;
+  width: auto;
   display: flex;
+  margin-right: 15px;
 }
 
 .discuss-post-header .postLevel {
