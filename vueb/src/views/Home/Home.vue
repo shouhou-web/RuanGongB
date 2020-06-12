@@ -31,7 +31,7 @@
               v-for="(item, index) in navigateList"
               :key="index"
               :class="[current == index ? 'blue' : '']"
-              @click="navigateClick(index,item.path)"
+              @click="navigateClick(index, item.path)"
             >
               <img :src="item.img" alt="" />
               <p>
@@ -49,9 +49,9 @@
 export default {
   name: "Home",
   created() {
-    console.log('app.vue')
-    if (sessionStorage.getItem('homeClick') != null) {
-      this.current = sessionStorage.getItem('homeClick');
+    console.log("app.vue");
+    if (sessionStorage.getItem("homeClick") != null) {
+      this.$store.commit("setHomeClick", sessionStorage.getItem("homeClick"));
     }
   },
   methods: {
@@ -81,9 +81,9 @@ export default {
       });
     },
     navigateClick(index, path) {
-      this.$store.commit('setHomeClick',index)
+      this.$store.commit("setHomeClick", index);
       this.$router.push(path);
-    },
+    }
   },
   computed: {
     current() {
@@ -104,37 +104,37 @@ export default {
       navigateList: [
         {
           title: "搜索帖子",
-          describe:'',
+          describe: "",
           img: require("../../assets/Icon/Home/search.png"),
           path: "/home/searchPost"
         },
         {
           title: "讨论区",
-          describe:'你的ddl肝完了吗？就来讨论',
+          describe: "你的ddl肝完了吗？就来讨论",
           img: require("../../assets/Icon/Home/discuss.png"),
           path: "/home/discuss"
         },
         {
           title: "课程推荐",
-          describe:'哪门课程的ddl最让你头秃？',
+          describe: "哪门课程的ddl最让你头秃？",
           img: require("../../assets/Icon/Home/course.png"),
           path: "/home/course"
         },
         {
           title: "校园周边",
-          describe:'只要我在咖啡店里，ddl就找不到我',
+          describe: "只要我在咖啡店里，ddl就找不到我",
           img: require("../../assets/Icon/Home/school.png"),
           path: "/home/school"
         },
         {
           title: "资源共享",
-          describe:'我有独特的肝ddl技巧',
+          describe: "我有独特的肝ddl技巧",
           img: require("../../assets/Icon/Home/resource.png"),
           path: "/home/resource"
         },
         {
           title: "刷题板块",
-          describe:'这里是不满于ddl的勇者们的战场',
+          describe: "这里是不满于ddl的勇者们的战场",
           img: require("../../assets/Icon/Home/exercise.png"),
           path: "/home/exercise"
         }

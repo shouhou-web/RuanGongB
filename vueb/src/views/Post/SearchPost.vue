@@ -6,7 +6,7 @@
         <button @click="search">搜索</button>
       </div>
     </div>
-    <div v-if="searchPost.length > 0" class="discuss">
+    <div v-if="searchPost.length > 0" class="searchpost-discuss">
       <!-- 帖子列表 -->
       <div v-for="(item, index) in searchPost" :key="index">
         <div
@@ -114,8 +114,12 @@ export default {
     };
   },
   created() {
-    this.keyword = this.$store.state.key;
-    this.searchPost = this.$store.state.searchPost;
+    if (sessionStorage.getItem("key") != null) {
+      this.keyword = sessionStorage.getItem("key");
+    }
+    if (sessionStorage.getItem("searchPost") != null) {
+      this.searchPost = JSON.parse(sessionStorage.getItem("searchPost"))
+    }
   },
   methods: {
     warn(postLevel) {
@@ -173,6 +177,14 @@ export default {
 };
 </script>
 <style>
+.searchpost-discuss {
+  background-color: #fff;
+  margin: 20px 20px 20px 0;
+  line-height: 50px;
+  width: 790px;
+  border-radius: 4px;
+}
+
 .search-no-data {
   margin-top: 20px;
   background-color: #fff;

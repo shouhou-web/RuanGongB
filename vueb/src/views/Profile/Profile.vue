@@ -85,7 +85,7 @@ export default {
           name: "我的发帖",
           img: require("../../assets/Icon/Profile/1.png"),
           to: "/profile/myPost",
-          current: true
+          current: false
         },
         {
           name: "我的浏览",
@@ -166,6 +166,8 @@ export default {
     if (sessionStorage.getItem("profileClick") != null) {
       console.log(sessionStorage.getItem("profileClick"))
       this.paList[sessionStorage.getItem("profileClick")].current = true;
+    } else {
+      this.paList[0].current = true;
     }
   }
 };

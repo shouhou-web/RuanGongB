@@ -28,17 +28,19 @@ const mutations = {
         state.key = key;
     },
     setSearchPost(state,searchPost) {
-        sessionStorage.setItem('searchPost',searchPost)
+        sessionStorage.setItem('searchPost',JSON.stringify(searchPost))
         state.searchPost = searchPost;
     },
+    //首页导航栏
+    setHomeClick(state,homeClick) {
+        sessionStorage.setItem('homeClick',homeClick)
+        state.homeClick = homeClick;
+    },
+    //个人空间导航栏
     setProfileClick(state,profileClick) {
         console.log('setprofileclick')
         sessionStorage.setItem('profileClick',profileClick)
         state.profileClick = profileClick;
-    },
-    setHomeClick(state,homeClick) {
-        sessionStorage.setItem('homeClick',homeClick)
-        state.homeClick = homeClick;
     }
 
 }

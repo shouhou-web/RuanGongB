@@ -385,7 +385,7 @@ export default {
                 type: "success"
               });
               this.postStatus = 1;
-              this.$router.push({ path: "/home" });
+              this.$router.go(-1);
             } else this.$message.error("删除失败，请检查您的网络~");
           })
           .catch(err => {
