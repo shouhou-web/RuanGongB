@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forum.mapper.ForumUserMapper">
+
+    <insert id="addForumUser" parameterType="ForumUser">
+        insert into ForumUser(UserID,UserName,UserPassword,Sex,ImagePath,Experience,UserLevel,UserIdentity,UserWord,UserState,isNew)
+            values(#{UserID},#{UserName},#{UserPassword},#{Sex},#{ImagePath},#{Experience},#{UserLevel},#{UserIdentity},#{UserWord},#{UserState},#{isNew})
+    </insert>
+
+    <select id="getForumUserByID" parameterType="int" resultType="ForumUser">
+        select * from ForumUser
+        where UserID=#{UserID}
+    </select>
+
+    <select id="getForumUserByUserName" parameterType="String" resultType="ForumUser">
+        select * from ForumUser
+        where UserName=#{UserName}
+    </select>
+
+    <update id="updateForumUser" parameterType="ForumUser">
+        update ForumUser
+        set UserName=#{UserName},UserPassword=#{UserPassword},Sex=#{Sex},ImagePath=#{ImagePath},UserWord=#{UserWord}
+        where UserID=#{UserID}
+    </update>
+
+    <update id="updateForumUserState">
+        update ForumUser
+        set UserState=#{UserState}
+        where UserID=#{UserID}
+    </update>
+
+    <select id="getBannedUserList" resultType="int">
+        select distinct UserID from ForumUser
+        where userState=1
+    </select>
+
+    <update id="updateForumUserExperience">
+        update ForumUser
+        set Experience = Experience + #{dExperience}
+        where UserID=#{UserID}
+    </update>
+
+    <update id="updateForumUserLevel">
+        update ForumUser
+        set UserLevel=#{UserLevel}
+        where UserID=#{UserID}
+    </update>
+
+    <update id="updateNewForumUser" parameterType="int">
+        update ForumUser
+        set isNew=0
+        where UserID=#{UserID}
+    </update>
+
+    <select id="getMaxUserID" resultType="int">
+        select MAX(UserID) from ForumUser
+    </select>
+
+</mapper>

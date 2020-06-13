@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forum.mapper.MessageMapper">
+
+<insert id="addMessage" parameterType="Message">
+    insert into Message(UserID,User2ID,MessageType,Duration,CreateTime,Content)
+    values(#{UserID},#{User2ID},#{MessageType},#{Duration},GETDATE(),#{Content})
+</insert>
+
+<select id="getRecentBanMessageByUserID" parameterType="int" resultType="Message">
+    select top 1 * from Message
+    where UserID=#{UserID} and MessageType=3
+    order by CreateTime desc
+</select>
+
+</mapper>

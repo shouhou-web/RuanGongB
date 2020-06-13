@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/mvc
+   https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--主要配置：动态扫描-->
+    <!--主要组件：视图解析器（不需要）-->
+
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+    <mvc:resources mapping="/image/**" location="/upload/"/>
+    <mvc:resources mapping="/files/**" location="/uploadfiles/"/>
+
+    <!--动态扫描Controller并注入容器-->
+    <context:component-scan base-package="com.forum.controller" />
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+
+    <mvc:cors>
+        <!--实现跨域的配置代码 -->
+        <mvc:mapping path="/**"
+                     allowed-origins="*"
+                     allowed-methods="POST,GET, OPTIONS,DELETE,PUT"
+                     allowed-headers="Content-Type,ContentType,Access-Control-Allow-Headers, Authorization, X-Requested-With"
+                     allow-credentials="true" />
+    </mvc:cors>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="20000000"/>
+        <property name="maxInMemorySize" value="4096"/>
+    </bean>
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+                <prop key="cn.edu.cqut.interceptors.SessionTimeoutException">redirect:/login.do</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

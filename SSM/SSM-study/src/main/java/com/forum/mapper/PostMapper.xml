@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forum.mapper.PostMapper">
+
+    <select id="getPostByPostIdentity" parameterType="int" resultType="Post">
+        select * from Post where PostIdentity=#{PostIdentity} order by EditTime desc
+    </select>
+
+    <select id="getPostByUserID" parameterType="int" resultType="Post">
+        select * from Post where UserID=#{UserID} order by EditTime desc
+    </select>
+    
+    <select id="getPostByPostID" parameterType="int" resultType="Post">
+        select * from Post where PostID=#{PostID}
+    </select>
+    
+    <insert id="addPost" parameterType="Post">
+        insert into Post (PostID, UserID, Title, Content, AccessoryPath, StickState, PostIdentity, PostLevel, CreateTime, EditTime)
+        values (#{PostID}, #{UserID}, #{Title}, #{Content}, #{AccessoryPath}, 0, #{PostIdentity}, #{PostLevel}, GETDATE(), GETDATE());
+    </insert>
+
+    <update id="updatePost" parameterType="Post">
+        update Post set Title = #{Title}, Content = #{Content}, PostIdentity = #{PostIdentity}, PostLevel=#{PostLevel}, EditTime = GETDATE(), StickState = #{StickState}, AccessoryPath = #{AccessoryPath} where PostID = #{PostID}
+    </update>
+
+    <update id="updateStickState" parameterType="int">
+        update Post set StickState=#{StickState} where PostID=#{PostID}
+    </update>
+
+    <delete id="deletePost" parameterType="int">
+        delete from Post where PostID=#{PostID}
+    </delete>
+
+    <select id="getPostByLikes" parameterType="int" resultType="Post">
+        select * from Post where exists(select * from Likes where Likes.PostID = Post.PostID and Likes.UserID = #{UserID}) order by EditTime desc
+    </select>
+
+    <select id="getPostByBrowses" parameterType="int" resultType="Post">
+        select * from Post where exists(select * from Browses where Browses.PostID = Post.PostID and Browses.UserID = #{UserID}) order by EditTime desc
+    </select>
+
+    <select id="getPostByKeyword" parameterType="String" resultType="Post">
+        select * from Post where title like #{keyword} or content like #{keyword} order by EditTime desc
+    </select>
+
+    <select id="getMaxPostID" resultType="int">
+        select MAX(PostID) from Post
+    </select>
+
+    <select id="getListLikesByPostID" resultType="int">
+        select UserID from Likes where PostID=#{PostID}
+    </select>
+
+    <select id="getBrowseNumByPostID" resultType="int">
+        select count(*) from Browses where PostID=#{PostID}
+    </select>
+
+    <insert id="likePost" parameterType="int">
+        insert into Likes(UserID, PostID)
+        values(#{UserID}, #{PostID})
+    </insert>
+
+    <delete id="cancelLikePost">
+        delete from Likes
+        where PostID=#{PostID} and UserID=#{UserID}
+    </delete>
+
+    <insert id="browsePost" parameterType="int">
+        insert into Browses(UserID, PostID)
+        values(#{UserID}, #{PostID})
+    </insert>
+
+</mapper>
